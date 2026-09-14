@@ -88,6 +88,12 @@ Every link was checked against the upstream repository or official site. These a
 used or recommended by EasyWGS, organized by analysis stage. The current upstream release of
 each tool and the check date are kept on the
 [Software versions](https://easywgs.readthedocs.io/en/latest/versions/) page of the guidebook.
+Beyond the defaults below, the
+[Tool encyclopedia](https://easywgs.readthedocs.io/en/latest/alternative-tools/) lists actively
+maintained alternatives and older but still usable legacy tools for every stage, with the
+successor of each legacy tool marked (for example Trimmomatic to fastp, CheckM to CheckM2,
+Prokka to Bakta, Roary to Panaroo, SEER to pyseer). The machine-readable table is
+`reference/tool_catalog.tsv`.
 
 ### Quality control and read processing
 

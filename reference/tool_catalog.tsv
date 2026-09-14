@@ -1,0 +1,231 @@
+order	stage_en	stage_zh	tool	status	lineage	platform	role_en	role_zh	repo
+1	Data acquisition	数据获取	SRA Toolkit (fasterq-dump)	R	-	shared	download public SRA/ENA reads	下载 SRA/ENA 公共 reads	ncbi/sra-tools
+1	Data acquisition	数据获取	NCBI datasets / ENA filer	A	-	shared	download genomes, assemblies and reads	下载基因组/组装与 reads	
+1	Data acquisition	数据获取	EDirect (esearch/efetch)	A	-	shared	scripted NCBI queries	命令行检索 NCBI	
+1	Data acquisition	数据获取	fastq-dump	L	-> fasterq-dump	shared	older SRA extraction, slower single-thread	旧版 SRA 转换，速度慢	
+1	Data acquisition	碱基识别	Dorado	R	replaces Guppy/Albacore	ONT	current ONT basecaller (upstream of FASTQ)	ONT 现行 basecaller（FASTQ 上游）	nanoporetech/dorado
+1	Data acquisition	碱基识别	Guppy	L	-> Dorado	ONT	previous ONT basecaller	上一代 ONT basecaller	
+1	Data acquisition	碱基识别	Albacore	L	-> Guppy -> Dorado	ONT	early ONT basecaller	早期 ONT basecaller	
+1	Data acquisition	碱基识别	SMRT Link / ccs (HiFi)	A	replaces Quiver pipeline	PacBio	PacBio HiFi consensus generation	PacBio HiFi 一致性生成	
+2	Short-read QC	二代质控	fastp	R	replaces Trimmomatic/Sickle in role	short	one-pass adapter/quality/length trim plus HTML report	单遍接头质量修剪与 HTML 报告	OpenGene/fastp
+2	Short-read QC	二代质控	FastQC + MultiQC	R	-	shared	per-sample QC plots and aggregate report	单样本质控图与汇总报告	s-andrews/FastQC
+2	Short-read QC	二代质控	Cutadapt	A	-	short	precise adapter/primer trimming, still widely used	精确接头/引物修剪，仍常用	marcelm/cutadapt
+2	Short-read QC	二代质控	AdapterRemoval v2	A	-	short	adapter trim and paired-read overlap merging	接头修剪与配对重叠合并	MikkelSchubert/adapterremoval
+2	Short-read QC	二代质控	BBDuk (BBTools)	A	-	short	k-mer trim/filter, also used for decontam	k-mer 修剪/过滤，也可去污染	
+2	Short-read QC	二代质控	Trimmomatic	L	-> fastp	short	classic sliding-window adapter/quality trim	经典滑窗接头质量修剪	usadellab/Trimmomatic
+2	Short-read QC	二代质控	Sickle	L	-> fastp	short	simple sliding-window quality trim	简易滑窗质量修剪	najoshi/sickle
+2	Short-read QC	二代质控	FASTX-Toolkit	L	-> fastp/Cutadapt	short	older read manipulation and QC	旧版 reads 处理工具包	agordon/fastx_toolkit
+2	Short-read QC	二代质控	PRINSEQ(-lite)	L	-> fastp	short	older QC, filtering and complexity	旧版质控过滤与复杂度评估	
+2	Short-read QC	二代质控	AfterQC / NGS QC Toolkit	L	-> fastp	short	early QC/filtering suites	早期质控过滤套件	
+3	Long-read QC	三代质控	NanoPlot / NanoComp	R	-	long	read length/quality/yield plots	读长/质量/产量绘图	wdecoster/NanoPlot
+3	Long-read QC	三代质控	chopper	R	replaces NanoFilt/NanoLyse in role	long	fast quality/length filtering (Rust)	快速质量长度过滤（Rust）	wdecoster/chopper
+3	Long-read QC	三代质控	Filtlong	R	-	long	quality-weighted long-read filtering	按质量权重过滤长读	rrwick/Filtlong
+3	Long-read QC	三代质控	Porechop_ABI	A	-	long	ab-initio adapter/barcode trimming fork	从头识别接头修剪的活跃分支	bonjourlouie/Porechop_ABI
+3	Long-read QC	三代质控	Porechop	A	maintenance limited	long	classic ONT adapter/barcode trimmer	经典 ONT 接头/Barcode 修剪	rrwick/Porechop
+3	Long-read QC	三代质控	NanoFilt / NanoLyse	L	-> chopper/Filtlong	long	streaming filter and contaminant removal	流式过滤与污染剔除	wdecoster/nanofilt
+3	Long-read QC	三代质控	NanoQC	A	-	long	quick per-run quality comparison	快速批次质量对比	wdecoster/NanoQC
+4	Read-level decontamination	读长层去污染	CLEAN	R	-	short/long/FASTA	keep-by-target contamination removal	保留目标、剔除污染的去污染	
+4	Read-level decontamination	读长层去污染	Kraken2 + Bracken	R	Kraken2 replaces Kraken1	mainly short	taxonomic composition scouting before cleaning	清洗前核查物种构成	DerrickWood/kraken2
+4	Read-level decontamination	读长层去污染	BBDuk / BBsplit	A	-	short	remove or bin reads against references	按参考剔除或分箱 reads	
+4	Read-level decontamination	读长层去污染	HoCoRT / deacon	A	-	short	host-read removal	宿主 reads 剔除	
+4	Read-level decontamination	读长层去污染	KneadData	A	-	short	integrated QC plus host removal pipeline	质控+去宿主一体化流程	biobakery/kneaddata
+4	Read-level decontamination	读长层去污染	FastQ Screen	A	-	short	check whether reads match multiple genomes	检查 reads 是否匹配多个基因组	StevenWingett/FastQ-Screen
+4	Read-level decontamination	读长层去污染	Kraken 1	L	-> Kraken2	short	first-generation exact k-mer classifier	一代精确 k-mer 分类器	
+4	Read-level decontamination	读长层去污染	DeconSeq	L	-> BBDuk/CLEAN	short	early host/contaminant read remover	早期去宿主/污染工具	
+5	Short/hybrid assembly	二代与混合组装	SPAdes	R	replaces Velvet/IDBA in role	short/hybrid	de Bruijn isolate assembler (--isolate)	de Bruijn 分离株组装器	ablab/spades
+5	Short/hybrid assembly	二代与混合组装	Unicycler	R	-	short/hybrid	bold hybrid assembly, tends to circularize	混合组装并倾向成环	rrwick/Unicycler
+5	Short/hybrid assembly	二代与混合组装	Shovill	A	-	short	faster SPAdes wrapper with normalized options	SPAdes 加速封装	tseemann/shovill
+5	Short/hybrid assembly	二代与混合组装	SKESA	A	-	short	NCBI conservative strategic-k-mer assembler	NCBI 保守策略 k-mer 组装	ncbi/skesa
+5	Short/hybrid assembly	二代与混合组装	MEGAHIT	A	-	short/meta	very memory-efficient de Bruijn assembler	极省内存的组装器	voutcn/megahit
+5	Short/hybrid assembly	二代与混合组装	MaSuRCA	A	-	hybrid	hybrid OLC/de Bruijn assembler	混合 OLC/de Bruijn 组装	alekseyzimin/masurca
+5	Short/hybrid assembly	二代与混合组装	ABySS	A	-	short	scalable paired-end assembler	可扩展双端组装	bcgsc/abyss
+5	Short/hybrid assembly	二代与混合组装	A5-miseq	L	-> SPAdes/Unicycler	short	turnkey MiSeq assembler	开箱即用 MiSeq 组装	
+5	Short/hybrid assembly	二代与混合组装	IDBA / IDBA-UD	L	-> SPAdes/MEGAHIT	short/meta	iterative k-mer assembler	迭代 k-mer 组装器	
+5	Short/hybrid assembly	二代与混合组装	Velvet (+VelvetOptimiser)	L	-> SPAdes	short	original de Bruijn assembler	最早的 de Bruijn 组装器	
+5	Short/hybrid assembly	二代与混合组装	SOAPdenovo2	L	-> SPAdes	short	large-genome short-read assembler	大基因组二代组装器	
+5	Short/hybrid assembly	二代与混合组装	MIRA / Edena / CISA	L	-> SPAdes/Unicycler	short	early overlap/consensus and merge tools	早期重叠一致与合并工具	
+6	Long-read assembly	三代组装	Flye	R	-	long	repeat-aware long-read/metagenome assembler	感知重复的长读组装器	fenderglass/Flye
+6	Long-read assembly	三代组装	Trycycler	R	-	long	consensus across multiple assemblies, finished standard	多组装一致性，完成图金标准	rrwick/Trycycler
+6	Long-read assembly	三代组装	Canu	A	replaces Celera Assembler	long	conservative OLC long-read assembler	保守 OLC 长读组装器	marbl/canu
+6	Long-read assembly	三代组装	hifiasm	A	-	PacBio HiFi	fast HiFi assembler with phasing	快速 HiFi 组装并可分型	chhylp123/hifiasm
+6	Long-read assembly	三代组装	wtdbg2	A	-	long	fast fuzzy de Bruijn long-read assembler	快速模糊 de Bruijn 组装	ruanjue/wtdbg2
+6	Long-read assembly	三代组装	Raven	A	-	long	fast OLC assembler derived from miniasm	miniasm 衍生快速组装	lbcb-sci/raven
+6	Long-read assembly	三代组装	dragonflye	A	-	long	SPAdes-style pipeline wrapping Flye/Raven	类 SPAdes 的长读流程封装	rpetit3/dragonflye
+6	Long-read assembly	三代组装	NextDenovo / NECAT	A	-	long	efficient correction-then-assemble pipelines	高效纠错后组装	Nextomics/NextDenovo
+6	Long-read assembly	三代组装	miniasm	L	-> Flye/Trycycler	long	ultrafast raw layout, needs Racon polishing	超快原始布局，需 Racon 打磨	lh3/miniasm
+6	Long-read assembly	三代组装	SMARTdenovo	L	-> Flye/Canu	long	early OLC long-read assembler	早期 OLC 长读组装	
+6	Long-read assembly	三代组装	Celera Assembler	L	-> Canu	long	original Sanger/long-read assembler	最早的长读组装器	
+6	Long-read assembly	三代组装	HGAP / FALCON	L	-> Canu/hifiasm (HiFi)	PacBio CLR	old PacBio SMRT assembly pipelines	旧 PacBio 组装流程	
+7	Polishing	组装打磨	Medaka	R	replaces Nanopolish in convenience	ONT	neural consensus polish, no FAST5 needed	神经网络一致性打磨，无需 FAST5	nanoporetech/medaka
+7	Polishing	组装打磨	Racon	R	-	long	partial-order long-read self-correction (2-3 rounds)	偏序长读自纠错（2-3 轮）	isovic/racon
+7	Polishing	组装打磨	Pilon	R	-	short/hybrid	short-read error correction and gap filling	短读纠错与补洞	broadinstitute/pilon
+7	Polishing	组装打磨	NextPolish	A	-	short/long	two-mode short/long polisher	双模式短/长读打磨	Nextomics/NextPolish
+7	Polishing	组装打磨	Polypolish / POLCA	A	-	short	short-read polishers limiting error introduction	减少引入新错误的短读打磨	rrwick/Polypolish
+7	Polishing	组装打磨	ntEdit / Sealer	A	-	short	bloom-filter correction and gap closing	布隆过滤纠错与补洞	bcgsc/ntEdit
+7	Polishing	组装打磨	Apollo	A	-	shared	large-genome assembly polishing	大基因组组装打磨	
+7	Polishing	组装打磨	Nanopolish	L	-> Medaka	ONT	signal-level polish requiring FAST5	需电信号 FAST5 的打磨	jts/nanopolish
+7	Polishing	组装打磨	Quiver / Arrow (GCpp)	L	-> ccs/DeepVariant (HiFi)	PacBio	old PacBio consensus polishers	旧 PacBio 一致性打磨	
+8	Assembly QC and contamination	组装质检与去污染	QUAST	R	-	shared	N50, contiguity and misassembly metrics	N50、连续性与错装指标	ablab/quast
+8	Assembly QC and contamination	组装质检与去污染	seqkit / assembly-stats	R	-	shared	sequence statistics and manipulation	序列统计与处理	shenwei356/seqkit
+8	Assembly QC and contamination	组装质检与去污染	CheckM2	R	replaces CheckM1	assembly	ML completeness/contamination, fast and lineage-robust	机器学习完整度/污染，快速稳健	chklovski/CheckM2
+8	Assembly QC and contamination	组装质检与去污染	GUNC	R	-	assembly	chimeric-genome / taxonomic inconsistency detection	嵌合基因组/谱系不一致检测	grimmlab/gunc
+8	Assembly QC and contamination	组装质检与去污染	FCS-GX	R	-	assembly	NCBI foreign-fragment contamination screener	NCBI 外源片段污染筛查	ncbi/fcs
+8	Assembly QC and contamination	组装质检与去污染	BlobToolKit (BlobTools2)	A	-	assembly	coverage/taxonomy/GC interactive contamination view	覆盖度/分类/GC 交互排查	blobtoolkit/blobtoolkit
+8	Assembly QC and contamination	组装质检与去污染	BUSCO	A	-	shared	single-copy ortholog completeness (mainly eukaryotes)	单拷贝直系同源完整度	
+8	Assembly QC and contamination	组装质检与去污染	Merqury	A	-	assembly	k-mer based consensus QV	基于 k-mer 的一致性 Q 值	
+8	Assembly QC and contamination	组装质检与去污染	CheckM (v1)	A	succeeded by CheckM2	assembly	lineage-marker quality, still accepted and interpretable	谱系 marker 质检，仍可用可解释	Ecogenomics/CheckM
+8	Assembly QC and contamination	组装质检与去污染	RefineM	L	-> CheckM2/GUNC	assembly	older bin/contamination refinement	旧版 bin/污染精炼	
+8	Assembly QC and contamination	组装质检与去污染	proDeGe	L	-> FCS-GX/CheckM2	assembly	early contamination removal for genomes/MAGs	早期污染剔除工具	
+9	Structural/functional annotation	结构与功能注释	Bakta	R	modern successor in role to Prokka	shared	standardized annotation with stable RefSeq/UniRef IDs	标准化注释，稳定 RefSeq/UniRef ID	oschwengers/bakta
+9	Structural/functional annotation	结构与功能注释	Prodigal	R	replaces Glimmer in role	shared	prokaryotic gene/CDS caller	原核基因/CDS 预测	hyattpd/Prodigal
+9	Structural/functional annotation	结构与功能注释	eggNOG-mapper	R	-	shared	COG/GO/KEGG functional assignment	COG/GO/KEGG 功能注释	eggnogdb/eggnog-mapper
+9	Structural/functional annotation	结构与功能注释	DIAMOND	R	-	shared	fast BLAST-like protein search	快速类 BLAST 蛋白比对	bbuchfink/diamond
+9	Structural/functional annotation	结构与功能注释	Prokka	A	succeeded in role by Bakta	shared	rapid classic annotation, CLI-compatible with Bakta	快速经典注释，与 Bakta 命令兼容	tseemann/prokka
+9	Structural/functional annotation	结构与功能注释	PGAP (NCBI)	A	-	shared	NCBI submission-grade annotation pipeline	NCBI 提交级注释流程	ncbi/pgap
+9	Structural/functional annotation	结构与功能注释	DFAST	A	-	shared	web/CLI annotation with DDBJ support	DDBJ 支持的注释工具	nigyta/dfast_core
+9	Structural/functional annotation	结构与功能注释	InterProScan	A	-	shared	protein domain and GO mapping	蛋白结构域与 GO 注释	ebi-pf-team/interproscan
+9	Structural/functional annotation	结构与功能注释	BLAST+	A	-	shared	reference sequence similarity search	参考序列相似性搜索	
+9	Structural/functional annotation	结构与功能注释	barrnap	R	replaces RNAmmer in role	shared	fast rRNA gene prediction	快速 rRNA 预测	tseemann/barrnap
+9	Structural/functional annotation	结构与功能注释	tRNAscan-SE	R	-	shared	tRNA gene prediction	tRNA 预测	UCSC-LoweLab/tRNAscan-SE
+9	Structural/functional annotation	结构与功能注释	Aragorn / Infernal+Rfam	A	-	shared	tmRNA/tRNA and ncRNA annotation	tmRNA/tRNA 与 ncRNA 注释	
+9	Structural/functional annotation	结构与功能注释	RAST / RASTtk	L	-> Bakta/PGAP	shared	older web annotation server	早期网页注释服务	
+9	Structural/functional annotation	结构与功能注释	Glimmer3 / GeneMarkS	L	-> Prodigal	shared	older gene callers (GeneMark license restricted)	旧基因预测（GeneMark 许可受限）	
+9	Structural/functional annotation	结构与功能注释	RNAmmer	L	-> barrnap	shared	older HMM rRNA predictor	旧 HMM rRNA 预测	
+9	Structural/functional annotation	结构与功能注释	KAAS / GhostKOALA	L	-> eggNOG-mapper	shared	older KEGG orthology web assignment	旧 KEGG 在线注释	
+10	MLST	多位点序列分型	mlst (tseemann)	R	-	shared	seven-gene ST from assemblies	从组装做七基因 ST	tseemann/mlst
+10	MLST	多位点序列分型	PubMLST / BIGSdb	A	-	shared	curated scheme database and platform	权威 scheme 数据库平台	
+10	MLST	多位点序列分型	StringMLST / MentaLiST	A	-	shared	k-mer MLST directly from reads	直接从 reads 的 k-mer MLST	
+10	MLST	多位点序列分型	CGE MLST finder (web)	A	-	shared	web-based MLST caller	在线 MLST 分型	
+10	MLST	多位点序列分型	SRST2	L	-> mlst/ARIBA in role	short	read-based MLST/AMR typing	基于 reads 的 MLST/耐药分型	katholt/srst2
+11	Serotyping	血清型分型	Kleborate (+Kaptive)	R	-	shared	Klebsiella ST, K/O, AMR and virulence score	肺克 ST、K/O、耐药与毒力评分	klebgenomics/Kleborate
+11	Serotyping	血清型分型	ECTyper	R	-	shared	E. coli O:H / phylogroup typing	大肠 O:H 与系统群分型	phac-nml/ecoli_serotyping
+11	Serotyping	血清型分型	ShigEiFinder	R	-	shared	Shigella/EIEC discrimination and serotype	志贺/EIEC 鉴别与血清型	LanLab/ShigEiFinder
+11	Serotyping	血清型分型	SeqSero2	R	replaces SeqSero	shared	Salmonella O/H antigen prediction	沙门 O/H 抗原预测	denglab/SeqSero2
+11	Serotyping	血清型分型	SISTR	R	-	shared	Salmonella in silico serovar prediction	沙门血清型预测	phac-nml/sistr_cmd
+11	Serotyping	血清型分型	SerotypeFinder (CGE)	A	-	shared	E. coli O/H from genes	基于基因的大肠 O/H	
+11	Serotyping	血清型分型	Kaptive (standalone)	A	-	shared	surface polysaccharide locus typing	表面多糖位点分型	kelwyres/Kaptive-2
+11	Serotyping	血清型分型	LisSero / emm typer	A	-	shared	Listeria serogroup and Streptococcus emm	李斯特血清群与链球菌 emm	
+11	Serotyping	血清型分型	SeqSero	L	-> SeqSero2	shared	first-generation Salmonella serotyper	一代沙门血清型工具	
+12	cg/wgMLST	核心/全基因组 MLST	chewBBACA	R	-	shared	allele calling and cg/wgMLST workflow	等位调用与 cg/wgMLST 流程	B-UMMI/chewBBACA
+12	cg/wgMLST	核心/全基因组 MLST	PubMLST/BIGSdb	A	-	shared	curated cgMLST schemes and comparison	权威 cgMLST scheme 与比较	
+12	cg/wgMLST	核心/全基因组 MLST	MentaLiST	A	-	shared	scalable k-mer cgMLST caller	可扩展 k-mer cgMLST	
+12	cg/wgMLST	核心/全基因组 MLST	Ridom SeqSphere+	A	commercial	shared	commercial cgMLST suite used in surveillance	监测常用商业 cgMLST 套件	
+13	AMR and virulence	耐药与毒力	abricate	R	-	shared	screen against ResFinder/CARD/VFDB/PlasmidFinder	多数据库耐药毒力筛查	tseemann/abricate
+13	AMR and virulence	耐药与毒力	NCBI AMRFinderPlus	R	-	shared	curated AMR plus hidden-hit adjustment	权威 AMR 注释与隐藏命中校正	ncbi/amr
+13	AMR and virulence	耐药与毒力	CARD / RGI	R	-	shared	resistance ontology and gene/allele matching	耐药本体与基因/等位匹配	arpcard/rgi
+13	AMR and virulence	耐药与毒力	ResFinder + PointFinder	R	-	shared	acquired genes and chromosomal point mutations	获得性基因与染色体点突变	
+13	AMR and virulence	耐药与毒力	Mykrobe	A	-	short	rapid k-mer AMR (Mtb, S. aureus etc.)	快速 k-mer 耐药预测	Mykrobe-tools/mykrobe
+13	AMR and virulence	耐药与毒力	TB-Profiler	A	-	shared	M. tuberculosis lineage and resistance	结核谱系与耐药预测	jodyphelan/TBProfiler
+13	AMR and virulence	耐药与毒力	VirulenceFinder / VFDB	A	-	shared	virulence gene databases and callers	毒力基因库与检测	
+13	AMR and virulence	耐药与毒力	KMA	A	-	short	k-mer alignment used by newer CGE services	新版 CGE 服务所用 k-mer 比对	mawe2/KMA
+13	AMR and virulence	耐药与毒力	DeepARG	A	-	shared	ML-based ARG prediction	机器学习耐药基因预测	
+13	AMR and virulence	耐药与毒力	ARIBA	L	-> abricate/ResFinder	short	local-cluster read-based AMR	局部聚类的 reads 耐药分析	sanger-pathogens/ariba
+13	AMR and virulence	耐药与毒力	ARG-ANNOT	L	-> ResFinder/CARD	shared	older resistance database, no longer updated	旧耐药数据库，已停止更新	
+13	AMR and virulence	耐药与毒力	KmerResistance	L	-> ResFinder (KMA)	short	older k-mer AMR caller	旧 k-mer 耐药检测	
+14	Plasmids and MGE	质粒与可移动元件	mob-suite	R	-	assembly	plasmid reconstruction, typing and mobility	质粒重建、分型与可迁移性	phac-nml/mob-suite
+14	Plasmids and MGE	质粒与可移动元件	PlasmidFinder	R	-	shared	replicon incompatibility typing	复制子不相容群分型	
+14	Plasmids and MGE	质粒与可移动元件	PLSDB	A	-	shared	curated plasmid database and search	质粒数据库与检索	
+14	Plasmids and MGE	质粒与可移动元件	IntegronFinder	R	-	shared	integron and attC detection	整合子与 attC 检测	gem-pasteur/Integron_Finder
+14	Plasmids and MGE	质粒与可移动元件	ISEScan	R	-	shared	insertion sequence annotation	插入序列注释	xiezhq/ISEScan
+14	Plasmids and MGE	质粒与可移动元件	MGEfinder / mobileOG-db	A	-	shared	MGE insertion and functional annotation	MGE 插入与功能注释	bhattlab/MGEfinder
+14	Plasmids and MGE	质粒与可移动元件	ICEberg / oriTfinder	A	-	shared	ICE and origin-of-transfer resources	整合接合元件与转移起点资源	
+14	Plasmids and MGE	质粒与可移动元件	mlplasmids / PlasFlow	A	-	shared	classify chromosome versus plasmid contigs	区分染色体与质粒 contig	
+14	Plasmids and MGE	质粒与可移动元件	PLACNETw	A	-	shared	graph-based plasmid reconstruction web tool	图论质粒重建网页工具	
+14	Plasmids and MGE	质粒与可移动元件	cBar / Recycler	L	-> mob-suite	assembly	older plasmid binning from assemblies	旧版质粒分箱	
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	geNomad	R	-	shared	virus/plasmid element classifier	病毒/质粒元件分类器	apcamargo/genomad
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	PhiSpy	R	-	shared	prophage region caller	前噬菌体区域预测	linsalrob/PhiSpy
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	VirSorter2	R	replaces VirSorter1	shared	viral/prophage sequence identification	病毒/前噬菌体序列识别	jiarong/VirSorter2
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	CRISPRCasFinder	R	-	shared	CRISPR array and cas typing	CRISPR 阵列与 cas 分型	
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	IslandViewer4 / IslandPath-DIMOB	A	-	shared	genomic island prediction	基因岛预测	
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	MinCED	A	-	shared	CRISPR repeat mining (CRT-derived)	CRISPR 重复挖掘	ctSkennerton/minced
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	PHASTER (web)	A	replaces PHAST	shared	interactive prophage annotation web server	交互式前噬菌体网页注释	
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	VirSorter 1	L	-> VirSorter2	shared	first-generation viral classifier	一代病毒序列分类器	
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	PHAST	L	-> PHASTER	shared	older prophage web server	旧版前噬菌体网页服务	
+15	Prophage, GI, CRISPR	前噬菌体/基因岛/CRISPR	CRT / PILER-CR	L	-> CRISPRCasFinder/MinCED	shared	early CRISPR repeat finders	早期 CRISPR 重复发现工具	
+16	Pangenome	泛基因组	Panaroo	R	addresses Roary fragmentation	shared	error-correcting graph pangenome for draft assemblies	纠错型图泛基因组，适合草稿组装	gtonkinhill/panaroo
+16	Pangenome	泛基因组	PPanGGOLiN	A	-	shared	core/shell/cloud partition and partitions	核心/外壳/云基因组划分	labgem/PPanGGOLiN
+16	Pangenome	泛基因组	PEPPAN / ggCaller	A	-	shared	fragmentation-robust and graph gene-calling pangenomes	抗片段化与图基因调用泛基因组	
+16	Pangenome	泛基因组	PIRATE / panX	A	-	shared	pangenome clustering and interactive exploration	泛基因组聚类与交互探索	SionBayliss/PIRATE
+16	Pangenome	泛基因组	Roary	A	still a fast baseline	shared	rapid classic pangenome pipeline	快速经典泛基因组流程	sanger-pathogens/Roary
+16	Pangenome	泛基因组	GET_HOMOLOGUES	A	-	shared	multi-algorithm ortholog clustering	多算法直系同源聚类	
+16	Pangenome	泛基因组	OrthoFinder / SonicParanoid	A	-	shared	orthogroup inference (broadly used)	直系同源群推断	davidemms/OrthoFinder
+16	Pangenome	泛基因组	anvi'o pangenome	A	-	shared	interactive pangenome workbench	交互式泛基因组平台	merenlab/anvio
+16	Pangenome	泛基因组	Panstripe	A	companion to Panaroo	shared	gene gain/loss rate comparison	基因获得/丢失速率比较	gtonkinhill/panstripe
+16	Pangenome	泛基因组	PGAP (pangenome) / BPGA	L	-> Panaroo/PPanGGOLiN	shared	older pangenome pipelines	旧版泛基因组流程	
+16	Pangenome	泛基因组	OrthoMCL	L	-> OrthoFinder/PPanGGOLiN	shared	early MCL ortholog clustering	早期 MCL 直系同源聚类	
+17	Read mapping	reads 比对	BWA-MEM (BWA 0.7.x)	R	-	short	standard short-read aligner	标准短读比对器	lh3/bwa
+17	Read mapping	reads 比对	minimap2	R	replaces BWA-SW/minimap/BLASR in role	long/short	fast aligner for long and noisy reads	长读/噪声读快速比对	lh3/minimap2
+17	Read mapping	reads 比对	samtools	R	-	shared	sort/index/mpileup and BAM handling	排序索引与 BAM 处理	samtools/samtools
+17	Read mapping	reads 比对	BWA-MEM2	A	-	short	SIMD-accelerated BWA-MEM, same output	SIMD 加速、结果等价	bwa-mem2/bwa-mem2
+17	Read mapping	reads 比对	Bowtie2	A	-	short	fast gapped short-read aligner	快速带空隙短读比对	BenLangmead/bowtie2
+17	Read mapping	reads 比对	pbmm2 / ngmlr	A	-	PacBio/long	PacBio minimap2 wrapper and SV-oriented aligner	PacBio 封装与面向 SV 比对	PacificBiosciences/pbmm2
+17	Read mapping	reads 比对	Novoalign	A	-	short	high-accuracy commercial aligner	高精度商业比对器	
+17	Read mapping	reads 比对	NextGenMap	A	-	short	flexible short-read aligner	灵活短读比对	
+17	Read mapping	reads 比对	Bowtie 1	L	-> Bowtie2	short	ungapped first-generation aligner	一代无空隙比对器	
+17	Read mapping	reads 比对	SMALT / Stampy	L	-> BWA-MEM/minimap2	short	older sensitive hybrid aligners	旧版高敏混合比对器	
+17	Read mapping	reads 比对	BLASR / GraphMap	L	-> minimap2/pbmm2	long	early long-read aligners	早期长读比对器	
+18	Variants, core SNP, recombination	变异/核心SNP/重组	bcftools (mpileup/call)	R	-	shared	variant calling, filtering and VCF maths	变异检测、过滤与 VCF 处理	samtools/bcftools
+18	Variants, core SNP, recombination	变异/核心SNP/重组	Snippy (+snippy-core)	R	-	short/assembly	rapid core-SNP pipeline	快速核心 SNP 流程	tseemann/snippy
+18	Variants, core SNP, recombination	变异/核心SNP/重组	snp-sites	R	-	shared	extract SNP sites from a multi-FASTA alignment	从多 FASTA 比对提取 SNP	sanger-pathogens/snp-sites
+18	Variants, core SNP, recombination	变异/核心SNP/重组	Gubbins	R	-	shared	detect and mask recombinant regions	检测并屏蔽重组区	nickjcroucher/gubbins
+18	Variants, core SNP, recombination	变异/核心SNP/重组	vcf2phylip	R	-	shared	convert filtered VCF to alignment	过滤 VCF 转比对矩阵	edgardomortiz/vcf2phylip
+18	Variants, core SNP, recombination	变异/核心SNP/重组	FreeBayes	A	-	short	haplotype-aware Bayesian caller	单倍型感知贝叶斯检测	freebayes/freebayes
+18	Variants, core SNP, recombination	变异/核心SNP/重组	GATK (HaplotypeCaller)	A	-	short	broadly used variant caller (best practices workflow)	广泛使用的变异检测	broadinstitute/gatk
+18	Variants, core SNP, recombination	变异/核心SNP/重组	ClonalFrameML	A	-	shared	clonal genealogy with recombination	克隆谱系与重组估计	didelot/ClonalFrameML
+18	Variants, core SNP, recombination	变异/核心SNP/重组	Parsnp (Harvest)	A	-	shared	rapid core-genome alignment/SNP	快速核心基因组比对/SNP	marbl/harvest-tools
+18	Variants, core SNP, recombination	变异/核心SNP/重组	kSNP3 / kSNP4	A	-	shared	reference-free SNP discovery	无参考 SNP 发现	
+18	Variants, core SNP, recombination	变异/核心SNP/重组	VarScan2	L	-> bcftools/GATK	short	older pileup-based caller	旧版基于 pileup 的检测	
+18	Variants, core SNP, recombination	变异/核心SNP/重组	Lyve-SET / CFSAN-SNP / NASP / RedDog	L	-> Snippy/Parsnp	short	older outbreak core-SNP pipelines	旧疫情核心 SNP 流程	
+19	Sequence alignment	序列比对	MAFFT	R	-	shared	fast accurate multiple sequence alignment	快速准确多序列比对	
+19	Sequence alignment	序列比对	MUMmer4 (nucmer/dnadiff)	R	-	shared	whole-genome pairwise alignment and SNPs	全基因组两两比对与 SNP	mummer4/mummer
+19	Sequence alignment	序列比对	MUSCLE (v5)	A	-	shared	accurate MSA, modern v5 rewrite	高精度多序列比对（v5 重写）	rcedgar/muscle
+19	Sequence alignment	序列比对	Clustal Omega	A	-	shared	progressive profile MSA	渐进式多序列比对	
+19	Sequence alignment	序列比对	LAST	A	-	shared	sensitive large-scale aligner	高敏大规模比对	
+19	Sequence alignment	序列比对	progressiveMauve / Mauve	A	maintenance limited	shared	whole-genome alignment and synteny view	全基因组比对与共线性查看	
+19	Sequence alignment	序列比对	T-Coffee	A	-	shared	high-accuracy but slower MSA	高精度但较慢	
+19	Sequence alignment	序列比对	ClustalW	L	-> MAFFT/Clustal Omega	shared	classic early progressive aligner	经典早期渐进比对	
+20	Distance, ANI, dereplication	距离/ANI/去冗余	FastANI	R	-	shared	fast whole-genome ANI	快速全基因组 ANI	ParBLiSS/FastANI
+20	Distance, ANI, dereplication	距离/ANI/去冗余	Mash	R	-	shared	MinHash genome/reads distance	MinHash 基因组距离	marbl/Mash
+20	Distance, ANI, dereplication	距离/ANI/去冗余	snp-dists	R	-	shared	pairwise SNP distance matrix	两两 SNP 距离矩阵	tseemann/snp-dists
+20	Distance, ANI, dereplication	距离/ANI/去冗余	dRep	R	-	shared	genome/MAG dereplication and selection	基因组去冗余与代表挑选	MrOlm/drep
+20	Distance, ANI, dereplication	距离/ANI/去冗余	skani	A	-	shared	sensitive fast ANI on draft genomes	草稿基因组敏感快速 ANI	bluenote-1577/skani
+20	Distance, ANI, dereplication	距离/ANI/去冗余	pyani (ANIm/ANIb)	A	-	shared	ANI with alignment and plots	ANI 计算与作图	widdowquinn/pyani
+20	Distance, ANI, dereplication	距离/ANI/去冗余	CD-HIT	A	-	shared	cluster proteins/reads/sequences	蛋白/序列聚类	weizhongli/cdhit
+20	Distance, ANI, dereplication	距离/ANI/去冗余	JSpeciesWS / OrthoANI	L	-> FastANI/skani	shared	older/web ANI calculators	旧版/在线 ANI 计算	
+21	Phylogenetic inference	系统发育树	IQ-TREE 3 (iqtree3/2/1)	R	major versions iqtree -> iqtree2 -> iqtree3	shared	ML phylogeny with ModelFinder/UFBoot2	极大似然建树，含选模与超快自展	iqtree/iqtree3
+21	Phylogenetic inference	系统发育树	RAxML-NG	A	replaces RAxML 8	shared	next-generation ML phylogenetics	新一代极大似然建树	amkozlov/raxml-ng
+21	Phylogenetic inference	系统发育树	FastTree 2	A	-	shared	very fast approximate ML for large sets	快速近似 ML，适合大树	
+21	Phylogenetic inference	系统发育树	PhyML	A	-	shared	ML phylogeny with model selection	极大似然建树与选模	
+21	Phylogenetic inference	系统发育树	MEGA (11)	A	-	shared	GUI phylogenetics and alignment	图形界面建树比对	
+21	Phylogenetic inference	系统发育树	MrBayes	A	-	shared	Bayesian phylogenetic inference	贝叶斯系统发育推断	
+21	Phylogenetic inference	系统发育树	RAxML 8	L	-> RAxML-NG	shared	prior-generation ML tree builder	上一代 ML 建树	stamatak/standard-RAxML
+22	Molecular dating	分子定年	TreeTime	R	-	shared	fast clock dating, ancestral states, mugration	快速分子钟定年与祖先重建	neherlab/treetime
+22	Molecular dating	分子定年	BactDating	A	-	shared	ML/Bayesian ancestor-dated trees for bacteria	细菌 ML/贝叶斯祖先定年	xavierdidelot/BactDating
+22	Molecular dating	分子定年	BEAST 2	A	-	shared	full Bayesian phylodynamics (complementary, heavy)	完整贝叶斯系统动力学，较重	
+22	Molecular dating	分子定年	LSD / LSD2	A	-	shared	least-squares tip dating	最小二乘末端定年	
+22	Molecular dating	分子定年	TempEst	A	-	shared	clock-like signal/temporal structure check	分子钟信号检查	
+22	Molecular dating	分子定年	BEAST 1	L	-> BEAST 2 / TreeTime	shared	first-generation Bayesian dating platform	一代贝叶斯定年平台	
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	Scoary	R	-	shared	gene presence/absence pan-GWAS with population correction	基因存在缺失泛基因组关联	essejelli/Scoary
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	pyseer	R	Python reimplementation/extension of SEER	shared	mixed-model k-mer/SNP/gene GWAS	混合模型 k-mer/SNP/基因 GWAS	mgalardini/pyseer
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	PLINK 1.9	R	PLINK 2 available	shared	SNP GWAS, IBS/MDS covariates and QC	SNP GWAS、IBS/MDS 协变量	
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	DBGWAS	A	-	short	unitig/graph k-mer bacterial GWAS	unitig/图 k-mer 细菌 GWAS	
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	treeWAS / hogwash	A	-	shared	phylogeny-aware association tests	系统发育感知关联检验	sahlab/treeWAS
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	bugwas	A	-	shared	lineage-effect bacterial GWAS	谱系效应细菌 GWAS	
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	PLINK 2	A	replaces PLINK 1.9 in role	shared	rewritten scalable GWAS engine	重写的可扩展 GWAS 引擎	chrchang/plink-ng
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	GEMMA / FaST-LMM	A	-	shared	linear mixed model engines	线性混合模型引擎	
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	fsm-lite / dsk / panfeed	A	-	shared	informative k-mer counting for pyseer	为 pyseer 统计信息 k-mer	
+23	Microbial GWAS and post-GWAS	微生物 GWAS 与后分析	SEER	L	-> pyseer	shared	original C++ sequence-element GWAS	初代 C++ 序列元件 GWAS	johnlees/seer
+24	Visualization	可视化	ggtree / treeio (R)	R	-	shared	programmatic tree annotation and layer plots	编程式系统树注释图层	YuLab-SMU/ggtree
+24	Visualization	可视化	iTOL	R	-	shared	web tree annotation with datasets	在线系统树注释与数据图层	
+24	Visualization	可视化	GrapeTree	R	-	shared	MST/network trees from cgMLST or SNPs	cgMLST/SNP 最小生成树	achtman-lab/GrapeTree
+24	Visualization	可视化	ComplexHeatmap (R)	R	-	shared	annotated heatmaps for matrices	矩阵注释热图	jokergoo/ComplexHeatmap
+24	Visualization	可视化	Microreact	A	-	shared	web geographic/time/tree viewer	在线地图/时间/系统树	
+24	Visualization	可视化	Phandango	A	-	shared	interactive tree plus pangenome/metadata	交互树+泛基因组/元数据	jameshadfield/phandango
+24	Visualization	可视化	Nextstrain / Auspice	A	-	shared	phylodynamic interactive visualization	系统动力学交互可视化	nextstrain/auspice
+24	Visualization	可视化	Dendroscope	A	-	shared	large-tree desktop viewer	大系统树桌面查看	
+24	Visualization	可视化	FigTree	L	-> iTOL/ggtree	shared	older desktop tree viewer, maintenance limited	旧桌面系统树查看，维护少	
+25	Workflow engines and reporting	流程引擎与报告	MultiQC	R	-	shared	aggregate QC reports across samples	跨样本汇总质控报告	ewels/MultiQC
+25	Workflow engines and reporting	流程引擎与报告	Snakemake	A	-	shared	reproducible workflow language	可复现流程语言	snakemake/snakemake
+25	Workflow engines and reporting	流程引擎与报告	Nextflow	A	-	shared	portable workflow language with containers	可移植容器化流程语言	nextflow-io/nextflow
+25	Workflow engines and reporting	流程引擎与报告	Conda / Mamba (Bioconda)	R	-	shared	package and environment management	包与环境管理	bioconda/bioconda-recipes
+25	Workflow engines and reporting	流程引擎与报告	GNU parallel	A	-	shared	simple per-sample parallelization	简单的多样本并行	

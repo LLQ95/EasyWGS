@@ -1,0 +1,19 @@
+key	en	zh
+title	# Tool encyclopedia: recommended, alternative and legacy tools	# 工具百科：推荐、备选与经典旧代（替代关系）
+p_intro	This page is the tool-lineage catalog of EasyWGS. It lists, for every analysis stage, the tools commonly encountered in bacterial isolate whole-genome sequencing and marks the status and lineage of each. It complements the short/long-read Tool map, which lists only the software used by default in EasyWGS. This catalog aims to cover the choices still seen in the literature and in practice, so that older papers remain readable, legacy pipelines can be reproduced, and a substitute can be chosen when the default does not fit.	本页是 EasyWGS 的“工具谱系”总表，按分析阶段收录细菌分离株全基因组测序中常见的工具，并标注每个工具的状态与替代关系。它与《工具地图（二代/三代对照）》互补：后者只列出 EasyWGS 默认使用的软件，本页则尽量覆盖该阶段在文献与实际工作中仍可能遇到的全部常见选择，方便阅读旧文献、复现历史流程，或在默认工具不适用时挑选替代品。
+h_legend	## How to read the status	## 如何阅读状态
+l_rec	- Recommended default is what the numbered EasyWGS modules use; these tools currently balance accuracy, speed and active maintenance.	- 推荐默认（Recommended default）：EasyWGS 主流程当前采用的工具，通常在准确性、速度和维护活跃度之间较均衡。
+l_alt	- Alternative marks actively maintained tools that can replace the default and may be preferable for particular data or constraints.	- 活跃备选（Alternative）：仍在维护、可直接替换默认工具的选择，在特定数据或场景下可能更合适。
+l_leg	- Legacy (still usable) marks older tools that usually have a named successor but still install and run; they appear in older papers and in reproducibility work. A lineage arrow indicates the currently favored direction, not that the old tool is invalid; several legacy tools remain accepted, for example both CheckM and CheckM2 are accepted for public genome submission.	- 经典旧代（Legacy, still usable）：出现较早、如今多有继任者，但仍可安装运行；阅读旧文献或复现旧项目时会遇到。“替代/继任”只表示当前更推荐的方向，并不表示旧工具失效，很多旧工具至今仍被接受（例如提交公共数据库时 CheckM 与 CheckM2 均被认可）。
+l_lineage	In the lineage column an arrow runs from the older generation toward its successor; a dash means there is no single successor or that distinct approaches coexist. The platform column gives the data type each tool mainly serves.	“替代关系（Lineage）”一列用箭头表示旧代到继任者的方向；若为 “-” 表示该工具没有单一继任者，或属于长期并存的不同路线。平台列标注其主要适用的数据类型。
+th1	Tool	工具
+th2	Status	状态
+th3	Lineage	替代/继任关系
+th4	Platform	平台
+th5	Role	作用
+stR	Recommended default	推荐默认
+stA	Alternative	活跃备选
+stL	Legacy (still usable)	经典旧代（仍可运行）
+h_select	## Selection notes	## 选择原则
+p_select	For new projects, start from the recommended defaults to limit maintenance and compatibility cost. To reproduce a published study or a legacy pipeline, keep its original tools and versions instead of swapping them, since silent substitutions can create differences that are hard to trace. For highly fragmented short-read drafts, Panaroo and PPanGGOLiN are more robust to fragmentation while Roary remains a fast baseline; for completeness and contamination, CheckM2 is a practical default and keeping CheckM output aids comparison with historical data. Long reads are usually self-corrected for a limited number of Racon rounds and then consensus-polished with Medaka, with short-read finishing added for hybrid data, and the less accurate polisher should not be placed last. Choices for alignment, variant calling and tree building follow the assembly-versus-mapping design and depend on reference availability and sample size.	新项目优先使用“推荐默认”，以减少维护和兼容性成本；需要复现某篇文献或某个历史流程时，应沿用其原始工具与版本，而不是直接替换，以免引入难以追溯的结果差异。遇到高度片段化的二代草稿组装，泛基因组优先考虑 Panaroo、PPanGGOLiN 等对片段化更稳健的工具，Roary 适合作为快速基线；组装完整度与污染评估可用 CheckM2 为主，并保留 CheckM 结果以便与历史数据对比。长读数据通常先以 Racon 做有限轮次自纠错，再用 Medaka 做一致性打磨，混合数据再以短读工具收尾，顺序上避免把精度更低的工具放在最后。比对、变异检测和建树的选择，则取决于是否已有可靠参考基因组以及样本规模，这与“组装路线与比对路线并行”的总体设计一致。
+p_data	The machine-readable master data live in `reference/tool_catalog.tsv`; after adding or correcting a tool, rerun `python reference/render_alternative_tools.py` to regenerate this page and its Chinese counterpart.	机读主数据维护在 `reference/tool_catalog.tsv`，新增或修订工具后，可运行 `python reference/render_alternative_tools.py` 重新生成本页与英文页面。

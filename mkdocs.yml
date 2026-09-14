@@ -63,6 +63,7 @@ plugins:
             "GWAS and post-GWAS": "GWAS 与 post-GWAS"
             Visualization: 可视化
             Tool map: 工具地图(二代/三代对照)
+            "Tool encyclopedia (alternatives & legacy)": 工具百科(备选与旧代工具)
             Software versions: 软件版本与时效性
             FAQ: 常见问题
             Contributing: 贡献指南
@@ -88,6 +89,7 @@ nav:
       - GWAS and post-GWAS: gwas-postgwas.md
       - Visualization: visualization.md
   - Tool map: toolmap.md
+  - "Tool encyclopedia (alternatives & legacy)": alternative-tools.md
   - Software versions: versions.md
   - FAQ: faq.md
   - Contributing: contributing.md

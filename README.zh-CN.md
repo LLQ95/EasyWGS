@@ -76,6 +76,10 @@ kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一
 平台列：S 以二代短读为主，L 以三代长读为主，A 对二者或组装结果通用。每条链接均已对照上游
 仓库或官方网站核验，按分析阶段分类，即本流程使用或推荐的工具。各工具当前上游版本与核验
 日期见 guidebook 的[软件版本](https://easywgs.readthedocs.io/zh/latest/versions/)页。
+除下列默认工具外，[工具百科](https://easywgs.readthedocs.io/zh/latest/alternative-tools/)按阶段补充仍在活跃维护的
+备选工具，以及出现较早、如今多有继任者但仍可运行的经典旧代工具，并标注被谁替代
+（如 Trimmomatic→fastp、CheckM→CheckM2、Prokka→Bakta、Roary→Panaroo、SEER→pyseer）；
+机读主数据表为 `reference/tool_catalog.tsv`。
 
 ### 质控与读段处理
 
