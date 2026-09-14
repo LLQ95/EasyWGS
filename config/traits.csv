@@ -1,0 +1,11 @@
+# Phenotype table for microbial GWAS (module 13).
+# First column Name MUST match the samplesheet id (and the isolate columns of the
+# Panaroo/Roary gene_presence_absence.csv used by Scoary).
+# Binary traits use 0/1 (Scoary, PLINK case/control); continuous traits are numeric
+# (PLINK --linear, pyseer). Use NA for unknown. Do not use spaces in trait names.
+Name,MDR,ESBL,source_human,log_MIC
+ST001,0,0,1,0.5
+ST002,1,1,1,3.2
+EC001,1,0,0,4.1
+SE001,0,0,0,0.2
+ON001,NA,NA,1,NA

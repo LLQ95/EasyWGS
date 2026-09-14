@@ -16,6 +16,13 @@ Simplified Chinese).
 
 ## Workflow by sequencing platform
 
+Two parallel main routes share the same QC and reporting layers. The assembly
+route (`run_assembly.sh`) reconstructs genomes de novo and derives gene content,
+pangenome and core-SNP phylogeny from contigs; the reference route
+(`run_mapping.sh`) maps reads to one close FASTA reference into BAM/VCF and then
+runs microbial GWAS. `run_all.sh` runs both. See the guidebook page
+[Two parallel strategies](https://easywgs.readthedocs.io/en/latest/pipelines-strategies/).
+
 ```text
 Illumina short reads
   01 QC(fastp) -> 02 read decontamination(CLEAN) -> 03 Unicycler (SPAdes alt) -> 04 QC gate -> ...
@@ -31,6 +38,9 @@ Hybrid
 08  Panaroo (Roary alternative) pangenome
 09  snippy -> Gubbins -> IQ-TREE -> snp-dists core-SNP phylogeny
 10  TreeTime clock filtering, time tree, ancestral reconstruction, homoplasy, migration
+12  parallel reference route: BWA/minimap2 -> sorted indexed BAM -> bcftools VCF and SNP matrix
+13  microbial GWAS: Scoary (pangenome genes), PLINK (SNPs), pyseer (distance-kernel LMM),
+    then R post-GWAS with BH/Bonferroni correction, QQ and Manhattan plots
 11  visualization: merged metadata, ggtree trees, GrapeTree MST, iTOL datasets, heatmaps, web bundles
 99  merged master table (consumed by module 11)
 ```
@@ -41,7 +51,9 @@ Hybrid
 bash 00_install/install_env.sh      # create conda environments (incl. the longread one)
 bash 00_install/download_db.sh      # download databases once
 cp config/samplesheet.csv config/my_samples.csv   # edit paths, platform and species
-bash run_all.sh config/my_samples.csv             # run everything
+bash run_all.sh config/my_samples.csv             # run both routes and every module
+bash run_assembly.sh config/my_samples.csv        # assembly-based route only
+TRAIT=MDR bash run_mapping.sh config/my_samples.csv   # reference mapping + GWAS only
 bash run_all.sh config/my_samples.csv 06          # or resume from a given step
 ```
 
@@ -159,6 +171,25 @@ each tool and the check date are kept on the
 | PhiSpy | A | prophage boundary prediction | [GitHub](https://github.com/linsalrob/PhiSpy) |
 | CRISPRCasFinder | A | CRISPR arrays and cas systems | [official site](https://crisprcas.i2bc.paris-saclay.fr) |
 
+### Read mapping and variant calling (reference route, module 12)
+
+| Tool | P | Purpose | Source |
+| --- | --- | --- | --- |
+| BWA | S | BWA-MEM short-read alignment to a shared reference | [GitHub](https://github.com/lh3/bwa) |
+| samtools | A | BAM sorting/indexing, flagstat, depth and pileup | [GitHub](https://github.com/samtools/samtools) |
+| bcftools | A | joint variant calling, normalization, filtering, VCF/genotype export | [GitHub](https://github.com/samtools/bcftools) |
+| htslib (tabix/bgzip) | A | compressed-VCF indexing | [GitHub](https://github.com/samtools/htslib) |
+| Qualimap | A | per-BAM alignment and coverage QC | [GitHub](https://github.com/kokonech/QualiMap) |
+| vcf2phylip | A | turn a SNP VCF into FASTA/Phylip for a reference-route tree | [GitHub](https://github.com/edgardomortiz/vcf2phylip) |
+
+### Microbial GWAS and post-GWAS (module 13)
+
+| Tool | P | Purpose | Source |
+| --- | --- | --- | --- |
+| Scoary | A | gene-based pan-GWAS on the Panaroo/Roary matrix (Fisher, pairwise, BH) | [GitHub](https://github.com/AdmiralenOla/Scoary) |
+| PLINK | A | SNP association with IBS/MDS population-structure control | [website](https://www.cog-genomics.org/plink/) |
+| pyseer | A | microbial gene/SNP/k-mer GWAS with a distance-kernel mixed model | [GitHub](https://github.com/mgalardini/pyseer) |
+
 ### Pangenome, phylogeny and molecular dating
 
 | Tool | P | Purpose | Source |
@@ -213,12 +244,17 @@ to avoid dependency conflicts.
 
 ## Repository layout
 
-Numbered folders hold the runnable scripts; module `11_visualization` renders the static R
-figures and assembles the iTOL/Microreact/Phandango/GrapeTree upload bundles; `docs/` holds the
-bilingual MkDocs Material guidebook; `.github/workflows/` builds the documentation. The workflow
-consolidates hands-on practice from LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis and
-adds a two-layer decontamination gate, pathogen-specific serotyping, a complete long-read
-polishing chain, a closed TreeTime loop and a unified downstream visualization layer.
+Numbered folders hold the runnable scripts; `run_assembly.sh` and `run_mapping.sh`
+are the two parallel route drivers (de novo assembly and reference BAM/VCF mapping,
+the latter extended by module 13 microbial GWAS); module `11_visualization` renders
+the static R figures and assembles the iTOL/Microreact/Phandango/GrapeTree upload
+bundles; `docs/` holds the bilingual MkDocs Material guidebook;
+`.github/workflows/` builds the documentation. The workflow consolidates hands-on
+practice from LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis and adds a
+two-layer decontamination gate, pathogen-specific serotyping, a complete long-read
+polishing chain, a closed TreeTime loop, a transparent reference mapping/variant
+route, microbial GWAS with post-GWAS plotting, and a unified downstream
+visualization layer.
 
 ## Contributing, license, citation
 

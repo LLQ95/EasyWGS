@@ -12,6 +12,11 @@ SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、Eas
 
 ## 按测序平台划分的分析主线
 
+流程提供两条并行主路线，共用同一套质控与汇总层：组装路线（`run_assembly.sh`）
+de novo 重建基因组，并从 contig 得到基因内容、泛基因组与核心 SNP 系统发育；参考比对
+路线（`run_mapping.sh`）把 reads 比对到一株近缘完整参考，生成 BAM/VCF，再做微生物 GWAS。
+`run_all.sh` 会同时运行两条路线，详见指南页“两条并行策略”。
+
 ```text
 二代 Illumina 双端
   01 质控(fastp) -> 02 reads去污染(CLEAN) -> 03 Unicycler(SPAdes备选) -> 04 质检门控 -> …
@@ -27,6 +32,9 @@ SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、Eas
 08  Panaroo(备选 Roary)泛基因组
 09  snippy -> Gubbins -> IQ-TREE -> snp-dists 核心SNP系统发育
 10  TreeTime 时钟筛选、时间树、祖先重建、同源突变、状态迁移
+12  并行参考比对路线：BWA/minimap2 -> 排序建索引 BAM -> bcftools VCF 与 SNP 矩阵
+13  微生物 GWAS：Scoary(泛基因组基因)、PLINK(SNP)、pyseer(距离核混合模型)，
+    再由 R 完成 BH/Bonferroni 校正、QQ 图与曼哈顿图
 11  可视化：合并元数据、ggtree 树图、GrapeTree 最小生成树、iTOL 注释、热图与在线交互包
 99  汇总主表（供 11 可视化调用）
 ```
@@ -37,7 +45,9 @@ SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、Eas
 bash 00_install/install_env.sh      # 创建 conda 环境（含独立 longread 长读环境）
 bash 00_install/download_db.sh      # 数据库仅下载一次
 cp config/samplesheet.csv config/my_samples.csv   # 改路径、platform 与 species
-bash run_all.sh config/my_samples.csv             # 一键运行
+bash run_all.sh config/my_samples.csv             # 两条路线与全部模块一起运行
+bash run_assembly.sh config/my_samples.csv        # 只跑组装路线
+TRAIT=MDR bash run_mapping.sh config/my_samples.csv   # 只跑参考比对与 GWAS
 bash run_all.sh config/my_samples.csv 06          # 或从指定步骤恢复
 ```
 
@@ -152,6 +162,25 @@ kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一
 | PhiSpy | A | 前噬菌体边界预测 | [GitHub](https://github.com/linsalrob/PhiSpy) |
 | CRISPRCasFinder | A | CRISPR 阵列与 cas 系统 | [官方网站](https://crisprcas.i2bc.paris-saclay.fr) |
 
+### 参考比对与变异检测（参考路线，模块 12）
+
+| 工具 | 平台 | 说明 | 来源 |
+| --- | --- | --- | --- |
+| BWA | S | BWA-MEM 短读比对到共用参考 | [GitHub](https://github.com/lh3/bwa) |
+| samtools | A | BAM 排序/建索引、flagstat、深度与 pileup | [GitHub](https://github.com/samtools/samtools) |
+| bcftools | A | 联合变异检测、归一化、过滤、VCF/基因型导出 | [GitHub](https://github.com/samtools/bcftools) |
+| htslib（tabix/bgzip） | A | 压缩 VCF 建索引 | [GitHub](https://github.com/samtools/htslib) |
+| Qualimap | A | 单 BAM 比对与覆盖度质控 | [GitHub](https://github.com/kokonech/QualiMap) |
+| vcf2phylip | A | SNP VCF 转 FASTA/Phylip，构建参考路线 SNP 树 | [GitHub](https://github.com/edgardomortiz/vcf2phylip) |
+
+### 微生物 GWAS 与 post-GWAS（模块 13）
+
+| 工具 | 平台 | 说明 | 来源 |
+| --- | --- | --- | --- |
+| Scoary | A | 基于 Panaroo/Roary 矩阵的基因层 pan-GWAS（Fisher、成对比较、BH） | [GitHub](https://github.com/AdmiralenOla/Scoary) |
+| PLINK | A | SNP 关联，IBS/MDS 控制群体结构 | [官网](https://www.cog-genomics.org/plink/) |
+| pyseer | A | 微生物基因/SNP/k-mer GWAS，距离核混合模型 | [GitHub](https://github.com/mgalardini/pyseer) |
+
 ### 泛基因组、系统发育与分子定年
 
 | 工具 | 平台 | 说明 | 来源 |
@@ -204,10 +233,13 @@ longread conda 环境，避免依赖冲突。
 
 ## 仓库结构
 
-编号目录存放可执行脚本，其中 `11_visualization` 负责生成 R 静态图并打包 iTOL/Microreact/Phandango/GrapeTree
-的上传文件；`docs/` 为中英双语 MkDocs Material 教程源，`.github/workflows/` 负责文档自动构建。本流程整合
-LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis 的实操经验，补入双层去污染门控、分物种血清型、
-完整三代打磨链、TreeTime 闭环，以及统一的下游可视化层。
+编号目录存放可执行脚本，其中 `run_assembly.sh` 与 `run_mapping.sh` 是两条并行主路线的
+驱动脚本（分别为 de novo 组装路线、参考 BAM/VCF 比对路线，后者再由模块 13 拓展微生物 GWAS），
+`11_visualization` 负责生成 R 静态图并打包 iTOL/Microreact/Phandango/GrapeTree 的上传文件；
+`docs/` 为中英双语 MkDocs Material 教程源，`.github/workflows/` 负责文档自动构建。本流程整合
+LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis 的实操经验，补入双层去污染门控、分物种
+血清型、完整三代打磨链、TreeTime 闭环、透明的参考比对与变异检测路线、带 post-GWAS 作图的微生物
+GWAS，以及统一的下游可视化层。
 
 ## 贡献、许可与引用
 

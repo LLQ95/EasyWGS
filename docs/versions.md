@@ -88,6 +88,25 @@ Use this page to audit an existing installation. To reproduce the check, `git ls
 | PhiSpy | 5.0.10 | linsalrob/PhiSpy |
 | VirSorter2 | 2.2.3 (Bioconda; GitHub tag 2.0.alpha) | simroux/VirSorter2 |
 
+## Reference mapping and variant calling (module 12)
+
+| Tool | Current release | Upstream |
+|---|---|---|
+| BWA | 0.7.19 | lh3/bwa |
+| samtools | 1.24 | samtools/samtools |
+| bcftools | 1.24 | samtools/bcftools |
+| htslib (tabix/bgzip) | 1.24 (tracks the samtools release) | samtools/htslib |
+| Qualimap | 2.3 (Bioconda; no GitHub release tag) | kokonech/QualiMap |
+| vcf2phylip | 2.8 | edgardomortiz/vcf2phylip |
+
+## Microbial GWAS and post-GWAS (module 13)
+
+| Tool | Current release | Upstream |
+|---|---|---|
+| Scoary | 1.6.9 | AdmiralenOla/Scoary |
+| PLINK | 1.9 (plink-ng; PLINK 2.0 remains an alpha line) | chrchang/plink-ng |
+| pyseer | 1.4.2 | mgalardini/pyseer |
+
 ## Pangenome, phylogeny and molecular clock
 
 | Tool | Current release | Upstream |

@@ -88,6 +88,25 @@ easyWGS 不把工具锁死在单一版本：安装脚本从 Bioconda 解析当�
 | PhiSpy | 5.0.10 | linsalrob/PhiSpy |
 | VirSorter2 | 2.2.3（Bioconda；GitHub 标签为 2.0.alpha） | simroux/VirSorter2 |
 
+## 参考比对与变异检测（模块 12）
+
+| 工具 | 现行版本 | 上游 |
+|---|---|---|
+| BWA | 0.7.19 | lh3/bwa |
+| samtools | 1.24 | samtools/samtools |
+| bcftools | 1.24 | samtools/bcftools |
+| htslib（tabix/bgzip） | 1.24（随 samtools 发布） | samtools/htslib |
+| Qualimap | 2.3（Bioconda；无 GitHub release 标签） | kokonech/QualiMap |
+| vcf2phylip | 2.8 | edgardomortiz/vcf2phylip |
+
+## 微生物 GWAS 与 post-GWAS（模块 13）
+
+| 工具 | 现行版本 | 上游 |
+|---|---|---|
+| Scoary | 1.6.9 | AdmiralenOla/Scoary |
+| PLINK | 1.9（plink-ng；PLINK 2.0 仍为 alpha 线） | chrchang/plink-ng |
+| pyseer | 1.4.2 | mgalardini/pyseer |
+
 ## 泛基因组、系统发育与分子钟
 
 | 工具 | 当前版本 | 上游仓库 |

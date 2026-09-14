@@ -2,6 +2,27 @@
 
 This project follows semantic versioning; dates use ISO format.
 
+## [0.3.0] - 2026-09-14
+
+### Added
+
+- Two parallel main routes with dedicated drivers: `run_assembly.sh`
+  (de novo assembly route) and `run_mapping.sh` (reference-based BAM/VCF
+  route), and a guidebook page comparing when each applies.
+- Module 12_mapping_pipeline: BWA-MEM (Illumina) and minimap2 (ONT/PacBio)
+  alignment to sorted/indexed BAM with coverage statistics (12.1), and joint
+  bcftools calling into raw/filtered/bi-allelic VCF and a genotype matrix
+  (12.2), plus an optional reference-only SNP tree path through vcf2phylip.
+- Module 13_gwas microbial GWAS: Scoary gene-based pan-GWAS (13.1), PLINK SNP
+  association with IBS/MDS structure control (13.2), pyseer gene/SNP tests
+  with a distance-kernel mixed model (13.3), and a shared R post-GWAS step
+  for BH/Bonferroni correction, QQ and Manhattan plots and ranked hit tables
+  (13.4); a `config/traits.csv` phenotype template is provided.
+- conda packages scoary, plink, pyseer, tabix, qualimap and vcf2phylip in the
+  main environment; bilingual guidebook pages for the two strategies, the
+  mapping route and GWAS/post-GWAS, plus matching README catalog sections and
+  software-version rows.
+
 ## [0.2.0] - 2026-09-14
 
 ### Added

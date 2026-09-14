@@ -8,18 +8,21 @@ set -euo pipefail
 conda config --add channels conda-forge
 conda config --add channels bioconda
 
-# 1) Main env: QC (short+long) / assembly / assessment / typing / comparison / phylogeny
+# 1) Main env: QC (short+long) / assembly / mapping & calling / typing / phylogeny / GWAS
 #    grapetree builds the cgMLST/core-SNP minimum spanning tree used by module 11
+#    module 12 (reference mapping) uses bwa/minimap2 + samtools + bcftools; module 13
+#    (microbial GWAS) uses scoary, plink and pyseer
 #    The bioconda "iqtree" package now ships IQ-TREE 3 (binary iqtree3); version 2 used iqtree2
 mamba create -y -n easywgs -c bioconda -c conda-forge \
   fastp fastqc multiqc seqkit \
   porechop chopper nanoplot filtlong \
   spades unicycler flye canu dragonflye racon circlator assembly-stats \
-  quast mash mummer minimap2 bowtie2 bwa samtools bcftools \
+  quast mash mummer minimap2 bowtie2 bwa samtools bcftools tabix qualimap vcf2phylip \
   prokka prodigal panaroo roary mafft iqtree fasttree snp-sites snp-dists \
   snippy gubbins treetime \
   mlst abricate ncbi-amrfinderplus rgi mob-suite genomad \
   kleborate ectyper shigeifinder seqsero2 sistr chewbbaca \
+  scoary plink pyseer \
   grapetree csvtk r-base nextflow
 
 # 2) Dedicated long-read polishing env: Medaka (heavy deps) and Trycycler (multi-assembly consensus, finished-grade)

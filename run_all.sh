@@ -34,6 +34,16 @@ run_step 08 bash "$PROJECT/08_pangenome/08.panaroo.sh"
 run_step 09 bash "$PROJECT/09_phylogeny/09.snp_tree.sh"
 run_step 10 bash "$PROJECT/10_treetime/10.treetime.sh"
 
+# Parallel reference-based route (module 12): map cleaned reads to a shared FASTA
+# reference into BAM files and call variants with bcftools. It does not need
+# assemblies and runs alongside modules 03-10. To run ONLY this route use run_mapping.sh.
+run_step 12 bash "$PROJECT/12_mapping_pipeline/12.run_mapping.sh"
+
+# Microbial GWAS / post-GWAS (module 13): Scoary (pangenome genes, needs module 08),
+# PLINK (module-12 SNPs) and pyseer (genes/SNPs with a distance kernel), then the
+# shared R correction/plotting step. Select the phenotype column with TRAIT=<name>.
+run_step 13 bash "$PROJECT/13_gwas/13.run_gwas.sh"
+
 # Merge per-module results into one master table consumed by module 11
 python3 "$PROJECT/99_report/merge_results.py" "$PROJECT"
 
