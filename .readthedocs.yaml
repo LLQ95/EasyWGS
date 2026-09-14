@@ -1,4 +1,4 @@
-# Read the Docs 配置（v2），文档源为 MkDocs Material
+# Read the Docs configuration (v2); documentation source is MkDocs Material
 version: 2
 
 build:

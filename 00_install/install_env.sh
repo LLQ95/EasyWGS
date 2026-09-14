@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # =============================================================================
-# 00_install/install_env.sh —— EasyIsolate 环境安装（分环境，避免依赖冲突）
-# Linux / WSL2 / HPC；优先 mamba，没有则把 mamba 换成 conda
-# 覆盖：二代(Illumina)、三代(ONT/PacBio)、混合(hybrid)三类场景
+# 00_install/install_env.sh - EasyIsolate environments (split envs avoid conflicts)
+# Linux / WSL2 / HPC; prefer mamba, replace mamba with conda if unavailable
+# Covers Illumina short reads, ONT/PacBio long reads and hybrid assembly
 # =============================================================================
 set -euo pipefail
 conda config --add channels conda-forge
 conda config --add channels bioconda
 
-# 1) 主环境：质控(二代+三代) / 组装 / 评估 / 分型 / 比较 / 系统发育
+# 1) Main env: QC (short+long) / assembly / assessment / typing / comparison / phylogeny
+#    grapetree builds the cgMLST/core-SNP minimum spanning tree used by module 11
 mamba create -y -n easyisolate -c bioconda -c conda-forge \
   fastp fastqc multiqc seqkit \
   porechop chopper nanoplot filtlong \
@@ -18,25 +19,29 @@ mamba create -y -n easyisolate -c bioconda -c conda-forge \
   snippy gubbins treetime \
   mlst abricate ncbi-amrfinderplus rgi mob-suite genomad \
   kleborate ectyper shigeifinder seqsero2 sistr chewbbaca \
-  csvtk r-base nextflow
+  grapetree csvtk r-base nextflow
 
-# 2) 长读抛光独立环境：Medaka(依赖重) 与 Trycycler(多组装一致,完成图金标准)
+# 2) Dedicated long-read polishing env: Medaka (heavy deps) and Trycycler (multi-assembly consensus, finished-grade)
 mamba create -y -n longread -c bioconda -c conda-forge medaka trycycler racon minimap2
 
-# 3) CheckM2 独立环境（组装污染/完整度）
+# 3) CheckM2 dedicated env (assembly contamination/completeness)
 mamba create -y -n checkm2 -c bioconda -c conda-forge checkm2
 
-# 4) GUNC 独立环境（嵌合检测，锁定 diamond 版本）
+# 4) GUNC dedicated env (chimerism, pins the diamond version)
 mamba create -y -n gunc -c bioconda -c conda-forge gunc
 
-# 5) Bakta 独立环境（注释，数据库大、依赖独立）
+# 5) Bakta dedicated env (annotation, large and independent database)
 mamba create -y -n bakta -c bioconda -c conda-forge bakta
 
-# 6) eggNOG 独立环境（GO/KEGG/COG）
+# 6) eggNOG dedicated env (GO/KEGG/COG)
 mamba create -y -n eggnog -c bioconda -c conda-forge eggnog-mapper diamond
 
-# 7) CLEAN reads 去污染（Nextflow 流程，无需本地装，装 nextflow 即可调用）
+# 7) R packages for module-11 static figures (ggtree/treeio/pheatmap/ComplexHeatmap).
+#    Works with the conda r-base above or a system R; run once:
+Rscript 00_install/install_R_packages.R
+
+# 8) CLEAN read decontamination is a Nextflow workflow; pulling it needs no local install
 nextflow pull rki-mf1/clean
 
-echo "[OK] 环境：easyisolate(主) / longread(三代抛光) / checkm2 / gunc / bakta / eggnog"
-echo "    随后运行 bash 00_install/download_db.sh 下载数据库"
+echo "[OK] envs: easyisolate (main) / longread (long polishing) / checkm2 / gunc / bakta / eggnog"
+echo "     Next run: bash 00_install/download_db.sh to fetch databases"

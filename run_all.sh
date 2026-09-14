@@ -1,27 +1,26 @@
 #!/usr/bin/env bash
 # =============================================================================
-# run_all.sh —— EasyIsolate 总控：按编号顺序执行整条流程
-# 用法：bash run_all.sh config/my_samples.csv [起始步骤]
-# 可从指定步骤恢复，如 bash run_all.sh config/my_samples.csv 06
+# run_all.sh - EasyIsolate master runner: execute the whole pipeline in order
+# Usage: bash run_all.sh config/my_samples.csv [start step]
+# Resume from a given step, e.g. bash run_all.sh config/my_samples.csv 06
 # =============================================================================
 set -euo pipefail
 PROJECT=$(cd "$(dirname "$0")" && pwd); export PROJECT
 SHEET=${1:-$PROJECT/config/my_samples.csv}
 START=${2:-00}
-[[ -f "$SHEET" ]] || { echo "找不到样本表 $SHEET"; exit 1; }
-export -f true 2>/dev/null || true
-echo "项目目录=$PROJECT 样本表=$SHEET 起始步骤=$START"
+[[ -f "$SHEET" ]] || { echo "Samplesheet not found: $SHEET"; exit 1; }
+echo "PROJECT=$PROJECT SAMPLESHEET=$SHEET START=$START"
 
-run_step () {  # $1=步骤号(用于与START比较) $2..=命令
+run_step () {  # $1=step id compared with START, $2..=command
   local num=$1; shift
   if [[ "$num" > "$START" || "$num" == "$START" || "$START" == "00" ]]; then
-    echo "==================== 步骤 $num: $* ===================="
+    echo "==================== Step $num: $* ===================="
     "$@"
   fi
 }
 
 run_step 01 bash "$PROJECT/01_qc/01.fastp.sh"
-# 三代(ONT/PacBio)/混合样本的长读质控；纯二代无长读时脚本会自动跳过
+# Long-read QC for ONT/PacBio/hybrid samples; auto-skipped for pure Illumina runs
 run_step 01 bash "$PROJECT/01_qc/01b.long_qc.sh"
 run_step 02 bash "$PROJECT/02_decontam_reads/02.clean_reads.sh"
 run_step 03 bash "$PROJECT/03_assembly/03.assemble.sh"
@@ -34,6 +33,17 @@ run_step 07 bash "$PROJECT/07_amr_vf_mge/07.amr_vf_mge.sh"
 run_step 08 bash "$PROJECT/08_pangenome/08.panaroo.sh"
 run_step 09 bash "$PROJECT/09_phylogeny/09.snp_tree.sh"
 run_step 10 bash "$PROJECT/10_treetime/10.treetime.sh"
+
+# Merge per-module results into one master table consumed by module 11
 python3 "$PROJECT/99_report/merge_results.py" "$PROJECT"
 
-echo "全部完成。总表：99_report/master_table.tsv；时间树：10_timetree/02_timetree/timetree.nexus"
+# Downstream visualization (merged metadata, static R plots, GrapeTree MST,
+# iTOL datasets, heatmaps and bundles for interactive web viewers)
+run_step 11 bash "$PROJECT/11_visualization/11.1.build_metadata.sh"
+run_step 11 bash "$PROJECT/11_visualization/11.2.plot_trees.sh"
+run_step 11 bash "$PROJECT/11_visualization/11.3.grapetree.sh"
+run_step 11 bash "$PROJECT/11_visualization/11.4.itol_datasets.sh"
+run_step 11 bash "$PROJECT/11_visualization/11.5.heatmaps.sh"
+run_step 11 bash "$PROJECT/11_visualization/11.6.online_bundle.sh"
+
+echo "All done. Master table: 99_report/master_table.tsv; time tree: 10_treetime/02_timetree/timetree.nexus; figures and bundles: 11_visualization/"

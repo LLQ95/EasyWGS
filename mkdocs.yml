@@ -57,6 +57,7 @@ plugins:
             Annotation, AMR and MGE: 注释、耐药、毒力与可移动元件
             Pangenome: 泛基因组
             Phylogeny and time tree: 系统发育与时间树
+            Visualization: 可视化
             Tool map: 工具地图(二代/三代对照)
             FAQ: 常见问题
             Contributing: 贡献指南
@@ -76,6 +77,7 @@ nav:
       - Annotation, AMR and MGE: annotation-amr-mge.md
       - Pangenome: pangenome.md
       - Phylogeny and time tree: phylogeny-timetree.md
+      - Visualization: visualization.md
   - Tool map: toolmap.md
   - FAQ: faq.md
   - Contributing: contributing.md

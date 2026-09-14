@@ -31,7 +31,8 @@ Hybrid
 08  Panaroo (Roary alternative) pangenome
 09  snippy -> Gubbins -> IQ-TREE -> snp-dists core-SNP phylogeny
 10  TreeTime clock filtering, time tree, ancestral reconstruction, homoplasy, migration
-99  merged master table and figures
+11  visualization: merged metadata, ggtree trees, GrapeTree MST, iTOL datasets, heatmaps, web bundles
+99  merged master table (consumed by module 11)
 ```
 
 ## Quick start
@@ -171,6 +172,28 @@ used or recommended by EasyIsolate, organized by analysis stage.
 | MAFFT | A | multiple sequence alignment | [official site](https://mafft.cbrc.jp/alignment/software/) |
 | TreeTime | A | molecular clock, time tree, ancestors and migration | [GitHub](https://github.com/neherlab/treetime) |
 
+### Visualization and interactive exploration
+
+Module 11 produces static figures locally and packages files for interactive web viewers.
+Platform column: A = applies to any tree, alignment or matrix.
+
+| Tool | P | Purpose | Source |
+| --- | --- | --- | --- |
+| ggtree | A | grammar-of-graphics phylogenetic tree rendering in R | [GitHub](https://github.com/YuLab-SMU/ggtree) |
+| ggtreeExtra | A | aligned annotation layers (strips, bars, boxes) beside a tree | [GitHub](https://github.com/YuLab-SMU/ggtreeExtra) |
+| treeio | A | read and write many tree formats (Newick, Nexus, BEAST) | [GitHub](https://github.com/YuLab-SMU/treeio) |
+| ape | A | core R phylogenetics: tree I/O, handling and statistics | [GitHub](https://github.com/emmanuelparadis/ape) |
+| phangorn | A | R phylogenetic estimation and tree manipulation | [GitHub](https://github.com/KlausVigo/phangorn) |
+| GrapeTree | A | minimum spanning tree of cgMLST profiles or core alignments | [GitHub](https://github.com/achtman-lab/GrapeTree) |
+| pheatmap | A | clustered heatmaps for SNP distance and gene matrices | [GitHub](https://github.com/raivokolde/pheatmap) |
+| ComplexHeatmap | A | advanced heatmaps aligned with tree annotations | [GitHub](https://github.com/jokergoo/ComplexHeatmap) |
+| ggplot2 | A | plotting grammar underlying the ggtree figures | [GitHub](https://github.com/tidyverse/ggplot2) |
+| FigTree | A | desktop GUI tree viewer and exporter | [GitHub](https://github.com/rambaut/figtree) |
+| iTOL | A | web tree annotation with color strips and binary tracks | [website](https://itol.embl.de) |
+| Microreact | A | interactive tree with map and timeline on the web | [website](https://microreact.org) |
+| Phandango | A | interactive tree against pangenome and metadata | [website](https://phandango.net) |
+| icytree | A | fast browser-only tree viewer, no account needed | [website](https://icytree.org) |
+
 ### Data retrieval and workflow engine
 
 | Tool | P | Purpose | Source |
@@ -188,11 +211,12 @@ to avoid dependency conflicts.
 
 ## Repository layout
 
-Numbered folders hold the runnable scripts; `docs/` holds the bilingual MkDocs Material
-guidebook; `.github/workflows/` builds the documentation. The workflow consolidates hands-on
-practice from LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis and adds a two-layer
-decontamination gate, pathogen-specific serotyping, a complete long-read polishing chain and a
-closed TreeTime loop.
+Numbered folders hold the runnable scripts; module `11_visualization` renders the static R
+figures and assembles the iTOL/Microreact/Phandango/GrapeTree upload bundles; `docs/` holds the
+bilingual MkDocs Material guidebook; `.github/workflows/` builds the documentation. The workflow
+consolidates hands-on practice from LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis and
+adds a two-layer decontamination gate, pathogen-specific serotyping, a complete long-read
+polishing chain, a closed TreeTime loop and a unified downstream visualization layer.
 
 ## Contributing, license, citation
 

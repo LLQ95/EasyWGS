@@ -27,7 +27,8 @@ SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、Eas
 08  Panaroo(备选 Roary)泛基因组
 09  snippy -> Gubbins -> IQ-TREE -> snp-dists 核心SNP系统发育
 10  TreeTime 时钟筛选、时间树、祖先重建、同源突变、状态迁移
-99  汇总主表与出图
+11  可视化：合并元数据、ggtree 树图、GrapeTree 最小生成树、iTOL 注释、热图与在线交互包
+99  汇总主表（供 11 可视化调用）
 ```
 
 ## 快速开始
@@ -165,6 +166,27 @@ kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一
 | MAFFT | A | 多序列比对 | [官方网站](https://mafft.cbrc.jp/alignment/software/) |
 | TreeTime | A | 分子钟、时间树、祖先与状态迁移 | [GitHub](https://github.com/neherlab/treetime) |
 
+### 可视化与交互探索
+
+模块 11 在本地生成静态图，并为在线交互工具打包文件。平台列：A 表示对任意树、比对或矩阵通用。
+
+| 工具 | 平台 | 说明 | 来源 |
+| --- | --- | --- | --- |
+| ggtree | A | R 中基于图形语法的系统发育树绘制 | [GitHub](https://github.com/YuLab-SMU/ggtree) |
+| ggtreeExtra | A | 在树旁对齐注释层（色条、柱、分组框） | [GitHub](https://github.com/YuLab-SMU/ggtreeExtra) |
+| treeio | A | 读写多种树格式（Newick、Nexus、BEAST） | [GitHub](https://github.com/YuLab-SMU/treeio) |
+| ape | A | R 系统发育基础包，树读写、处理与统计 | [GitHub](https://github.com/emmanuelparadis/ape) |
+| phangorn | A | R 系统发育估计与树操作 | [GitHub](https://github.com/KlausVigo/phangorn) |
+| GrapeTree | A | 由 cgMLST 谱或核心比对构建最小生成树 | [GitHub](https://github.com/achtman-lab/GrapeTree) |
+| pheatmap | A | SNP 距离与基因矩阵的聚类热图 | [GitHub](https://github.com/raivokolde/pheatmap) |
+| ComplexHeatmap | A | 与树注释对齐的高级热图 | [GitHub](https://github.com/jokergoo/ComplexHeatmap) |
+| ggplot2 | A | ggtree 底层使用的绘图语法 | [GitHub](https://github.com/tidyverse/ggplot2) |
+| FigTree | A | 桌面端图形界面树查看与导出 | [GitHub](https://github.com/rambaut/figtree) |
+| iTOL | A | 在线给树加色条与二元注释轨 | [官方网站](https://itol.embl.de) |
+| Microreact | A | 在线交互式树+地图+时间轴 | [官方网站](https://microreact.org) |
+| Phandango | A | 树与泛基因组、元数据的在线联动 | [官方网站](https://phandango.net) |
+| icytree | A | 纯浏览器快速看树，无需账号 | [官方网站](https://icytree.org) |
+
 ### 数据获取与流程引擎
 
 | 工具 | 平台 | 说明 | 来源 |
@@ -181,9 +203,10 @@ longread conda 环境，避免依赖冲突。
 
 ## 仓库结构
 
-编号目录存放可执行脚本，`docs/` 为中英双语 MkDocs Material 教程源，`.github/workflows/` 负责
-文档自动构建。本流程整合 LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis 的实操经验，
-补入双层去污染门控、分物种血清型、完整三代打磨链与 TreeTime 闭环。
+编号目录存放可执行脚本，其中 `11_visualization` 负责生成 R 静态图并打包 iTOL/Microreact/Phandango/GrapeTree
+的上传文件；`docs/` 为中英双语 MkDocs Material 教程源，`.github/workflows/` 负责文档自动构建。本流程整合
+LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis 的实操经验，补入双层去污染门控、分物种血清型、
+完整三代打磨链、TreeTime 闭环，以及统一的下游可视化层。
 
 ## 贡献、许可与引用
 

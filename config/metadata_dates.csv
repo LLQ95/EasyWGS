@@ -1,5 +1,5 @@
-# TreeTime 必需的采样时间表（09 建树 + 10 分子钟使用）
-# name 必须与树/比对中的序列ID(=samplesheet的id)一致；date 支持 YYYY-MM-DD 或小数年
+# Sampling-date table required by TreeTime (used by module 09 tree and module 10 molecular clock)
+# name must match the sequence ID (= samplesheet id) in the tree/alignment; date accepts YYYY-MM-DD or decimal year
 name,date
 ST001,2021.19
 ST002,2021.58

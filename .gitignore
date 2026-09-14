@@ -1,4 +1,4 @@
-# ---- 环境与数据 ----
+# ---- Environment and data ----
 00_rawdata/
 ref/
 results/
@@ -20,7 +20,7 @@ results/
 *.k2i *.k2d *.map
 *.tar.gz *.zip
 *.log
-# ---- Python/系统 ----
+# ---- Python / system ----
 __pycache__/
 *.pyc
 .venv/
@@ -30,5 +30,11 @@ site/
 .vscode/
 .idea/
 .DS_Store
-# ---- 用户样本表不提交（含私有路径），保留模板 ----
+# ---- User samplesheet is not committed (private paths); keep the template ----
 config/my_samples.csv
+# ---- Module 11 generated outputs (scripts are tracked, results are not) ----
+11_visualization/merged_metadata.csv
+11_visualization/figures/
+11_visualization/grapetree/
+11_visualization/itol/
+11_visualization/online_bundle/

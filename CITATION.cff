@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "EasyIsolate: a reproducible short-/long-read bacterial isolate WGS pipeline"
 type: software
-# TODO: 投稿前可补全共同作者；当前维护者为 LLQ95
+# TODO: add co-authors before submission; current maintainer is LLQ95
 authors:
   - family-names: "Li"
     given-names: "Lanqi"

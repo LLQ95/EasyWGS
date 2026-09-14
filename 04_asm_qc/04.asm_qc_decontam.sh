@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # =============================================================================
-# 04_asm_qc/04.asm_qc_decontam.sh —— 组装评估 + assembly 层去污染门控
-# QUAST 组装指标 / CheckM2 完整度污染度 / GUNC 嵌合 / (可选)FCS-GX 切除外源污染
-# 门控规则：CheckM2 Contamination>5% 或 GUNC pass=False 列入 04_asm_qc/recheck.list
+# 04_asm_qc/04.asm_qc_decontam.sh - assembly QC + assembly-level decontam gate
+# QUAST metrics / CheckM2 completeness+contamination / GUNC chimerism /
+#   (optional) FCS-GX to excise foreign contaminants
+# Gate rule: CheckM2 Contamination > 5% or GUNC pass=False -> list in recheck_*.tsv
 # =============================================================================
 set -euo pipefail
 THREADS=8
@@ -30,12 +31,13 @@ for f in "$GEN"/*.fasta; do
   gunc run --input_fasta "$f" -r "$GUNC_DB" --out_dir "$OUT/gunc/$id" \
            --threads "$THREADS" --detailed_output --contig_taxonomy_output
 done
-# 汇总所有样本 maxCSS
+# Merge per-sample maxCSS tables
 find "$OUT/gunc" -name "GUNC.*maxCSS_level.tsv" -exec cat {} \; | awk '!a[$1]++' > "$OUT/gunc_all.tsv"
 conda deactivate
 
-# ---- (可选) FCS-GX 切除跨物种污染；需大内存机器与 taxid 表 ----
-# samplesheet 增加 taxid 列后在此循环；无环境则把组装传 https://usegalaxy.org 在线跑：
+# ---- (optional) FCS-GX to excise cross-species contaminants; needs large RAM and a taxid column
+# Add a taxid column to the samplesheet and loop here; without the setup, upload assemblies to
+# https://usegalaxy.org and run FCS-GX online:
 FCS_PY=${FCS_PY:-$HOME/fcsgx/fcs.py}; GXDB=${GXDB:-$DBROOT/fcs_gx_db}
 if [[ -f "$FCS_PY" && -d "$GXDB" ]]; then
   mkdir -p "$OUT/fcsgx"
@@ -50,8 +52,8 @@ if [[ -f "$FCS_PY" && -d "$GXDB" ]]; then
   done < "$PROJECT/config/my_samples.csv"
 fi
 
-# ---- 门控：挑出需要复检/剔除的样本 ----
+# ---- Gate: flag samples that need recheck/removal ----
 conda activate easyisolate
 awk -F'\t' 'NR==1 || $3>5 {print $1, $2, $3}' "$OUT/checkm2/quality_report.tsv" > "$OUT/recheck_checkm2.tsv"
 awk -F'\t' 'NR==1 || $NF=="False" {print}' "$OUT/gunc_all.tsv" > "$OUT/recheck_gunc.tsv"
-echo "[完成] QUAST/CheckM2/GUNC 结果在 $OUT；复检清单 recheck_*.tsv"
+echo "[done] QUAST/CheckM2/GUNC results in $OUT; recheck lists: recheck_*.tsv"

@@ -1,19 +1,49 @@
 # Changelog
 
-本项目遵循语义化版本，日期使用 ISO 格式。
+This project follows semantic versioning; dates use ISO format.
+
+## [0.2.0] - 2026-09-14
+
+### Added
+
+- Module 11_visualization for downstream figures: a merged annotation table
+  (11.1), ggtree static trees in rectangular and circular layout (11.2),
+  GrapeTree minimum spanning trees from cgMLST profiles and the core alignment
+  (11.3), iTOL color-strip and binary datasets (11.4), pheatmap distance and
+  gene-presence heatmaps (11.5), and offline upload bundles for iTOL,
+  Microreact, Phandango, GrapeTree and icytree (11.6).
+- R package installer 00_install/install_R_packages.R (ape, ggtree, treeio,
+  ggtreeExtra, pheatmap, ComplexHeatmap and dependencies); grapetree added to
+  the main conda environment.
+- Bilingual guidebook page on visualization and a categorized visualization
+  tool catalog in both README files.
+
+### Changed
+
+- All runnable scripts and configs are English-only by default; comments and
+  console messages were translated without changing command behavior.
+- merge_results.py master-table columns switched to English names
+  (sample_id, length_bp, gc_percent, completeness_pct, contamination_pct,
+  hits_<database>) consumed directly by module 11.
+- run_all.sh runs 99_report merge before module 11 and then executes the six
+  visualization steps.
 
 ## [0.1.0] - 2026-09-14
 
 ### Added
 
-- 编号化主流程 00–10、99，覆盖质控、双层去污染、组装、组装评估、注释、
-  MLST、分物种血清型、cgMLST、耐药/毒力/可移动元件、泛基因组、核心 SNP
-  系统发育与 TreeTime 时间树。
-- 同时支持二代 Illumina、三代 ONT/PacBio 与 hybrid 混合组装：长读质控
-  （porechop/NanoPlot/Filtlong）、Flye/Canu 组装、Racon 有限轮数校正、
-  Medaka 抛光、Unicycler bold/SPAdes 混合与 Pilon 回填。
-- MkDocs Material guidebook 框架与 Read the Docs 配置，含二代/三代工具对照。
+- Numbered main workflow 00 through 10 and 99, covering QC, two-layer
+  decontamination, assembly, assembly assessment, annotation, MLST,
+  species-specific serotyping, cgMLST, resistance/virulence/mobile elements,
+  the pangenome, the core-SNP phylogeny and the TreeTime time tree.
+- Support for Illumina short reads, ONT/PacBio long reads and hybrid assembly:
+  long-read QC (porechop/NanoPlot/Filtlong), Flye/Canu assembly, capped Racon
+  correction, Medaka polishing, Unicycler bold/SPAdes hybrid assembly and
+  Pilon filling.
+- MkDocs Material guidebook scaffold and Read the Docs configuration, with a
+  short-read/long-read tool comparison.
 
 ### Notes
 
-- 首个公开框架版本；数据库下载脚本与各模块参数仍在持续校验中。
+- First public framework release; database download scripts and per-module
+  parameters continue to be validated.
