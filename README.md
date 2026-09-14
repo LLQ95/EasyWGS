@@ -2,7 +2,7 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-easyWGS is a reproducible, numbered-directory workflow for bacterial isolate
+EasyWGS is a reproducible, numbered-directory workflow for bacterial isolate
 whole-genome sequencing (WGS). It covers Illumina short reads, Oxford Nanopore and
 PacBio long reads, and hybrid assembly, and it chains quality control, two-layer
 decontamination, assembly and polishing, assembly QC, annotation, MLST, species-specific
