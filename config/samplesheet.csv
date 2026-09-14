@@ -1,0 +1,13 @@
+id,platform,species,R1,R2,longreads,reference,date,country,phenotype
+ST001,illumina,kpsc,00_rawdata/ST001_R1.fastq.gz,00_rawdata/ST001_R2.fastq.gz,,ref/Kp_ref.gbk,2021-03-12,China,Sensitive
+ST002,hybrid,kpsc,00_rawdata/ST002_R1.fastq.gz,00_rawdata/ST002_R2.fastq.gz,00_rawdata/ST002_ONT.fastq.gz,ref/Kp_ref.gbk,2021-08-01,China,MDR
+EC001,illumina,ecoli,00_rawdata/EC001_R1.fastq.gz,00_rawdata/EC001_R2.fastq.gz,,ref/Ec_ref.gbk,2022-01-15,China,STEC
+SE001,illumina,salm,00_rawdata/SE001_R1.fastq.gz,00_rawdata/SE001_R2.fastq.gz,,ref/Se_ref.gbk,2020-11-20,Thailand,NA
+ON001,nanopore,kpsc,,,,00_rawdata/ON001_ONT.fastq.gz,ref/Kp_ref.gbk,2023-05-09,France,NA
+LM001,illumina,listeria,00_rawdata/LM001_R1.fastq.gz,00_rawdata/LM001_R2.fastq.gz,,ref/Lm_ref.gbk,2023-05-09,France,NA
+# 字段说明：
+# id=样本ID(唯一,勿含空格/多余点号)
+# platform=illumina(二代双端) / nanopore(ONT三代) / pacbio(PacBio三代) / hybrid(短读+长读混合)
+# species=kpsc/ecoli/salm/listeria/other（决定06血清型与cgMLST）
+# R1,R2=二代双端；longreads=三代长读(hybrid/nanopore/pacbio 需填)
+# reference=09系统发育统一参考(GenBank)  date=采样日期(10_treetime必需)  country/phenotype=可选

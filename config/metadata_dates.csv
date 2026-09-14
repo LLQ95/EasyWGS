@@ -1,0 +1,8 @@
+# TreeTime 必需的采样时间表（09 建树 + 10 分子钟使用）
+# name 必须与树/比对中的序列ID(=samplesheet的id)一致；date 支持 YYYY-MM-DD 或小数年
+name,date
+ST001,2021.19
+ST002,2021.58
+EC001,2022.04
+SE001,2020.89
+LM001,2023.35

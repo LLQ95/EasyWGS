@@ -1,0 +1,8 @@
+# 保证 shell/Python 脚本在任何系统检出时都是 LF，避免 Windows 上 clone 后 Linux 运行报 \r 错
+*.sh text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.csv text eol=lf
+*.md text
+*.cff text eol=lf

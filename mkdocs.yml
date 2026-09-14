@@ -1,0 +1,91 @@
+site_name: EasyIsolate Guidebook
+site_description: Reproducible bacterial isolate WGS workflow: short/long/hybrid assembly, decontamination, typing, comparison and time-scaled trees
+site_author: EasyIsolate contributors
+repo_url: https://github.com/LLQ95/EasyIsolate
+repo_name: EasyIsolate
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - content.code.annotate
+  palette:
+    - scheme: default
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+          nav_translations:
+            Home: Home
+        - locale: zh
+          name: 简体中文
+          build: true
+          nav_translations:
+            Home: 首页
+            Installation: 安装
+            Quick start: 快速开始
+            Inputs and samplesheet: 输入与样本表
+            Workflows: 分析流程
+            Short-read (Illumina): 二代 Illumina 流程
+            Long-read and hybrid: 三代与混合组装流程
+            Decontamination and gates: 双层去污染与质量门控
+            Modules: 分析模块
+            "MLST, serotyping, cgMLST": "MLST、血清型与 cgMLST"
+            Annotation, AMR and MGE: 注释、耐药、毒力与可移动元件
+            Pangenome: 泛基因组
+            Phylogeny and time tree: 系统发育与时间树
+            Tool map: 工具地图(二代/三代对照)
+            FAQ: 常见问题
+            Contributing: 贡献指南
+            Changelog: 更新日志
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Quick start: quickstart.md
+  - Inputs and samplesheet: samplesheet.md
+  - Workflows:
+      - Short-read (Illumina): workflow-shortread.md
+      - Long-read and hybrid: workflow-longread.md
+      - Decontamination and gates: decontamination.md
+  - Modules:
+      - MLST, serotyping, cgMLST: typing.md
+      - Annotation, AMR and MGE: annotation-amr-mge.md
+      - Pangenome: pangenome.md
+      - Phylogeny and time tree: phylogeny-timetree.md
+  - Tool map: toolmap.md
+  - FAQ: faq.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - toc:
+      permalink: true

@@ -1,0 +1,28 @@
+name: docs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install MkDocs
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-doc.txt
+      - name: Build
+        run: mkdocs build --strict
+      # 推送到 main 时发布到 GitHub Pages（仓库 Settings→Pages 选 GitHub Actions）
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site

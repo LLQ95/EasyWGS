@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "EasyIsolate: a reproducible short-/long-read bacterial isolate WGS pipeline"
+type: software
+# TODO: 投稿前可补全共同作者；当前维护者为 LLQ95
+authors:
+  - family-names: "Li"
+    given-names: "Lanqi"
+    alias: "LLQ95"
+    affiliation: "CAMS & PUMC"
+version: 0.1.0
+date-released: 2026-09-14
+licenses:
+  - MIT
+repository-code: "https://github.com/LLQ95/EasyIsolate"
+url: "https://easyisolate.readthedocs.io"
+keywords:
+  - bacterial genomics
+  - whole-genome sequencing
+  - long-read assembly
+  - decontamination
+  - typing
+  - phylogenetics
