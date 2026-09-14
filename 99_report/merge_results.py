@@ -4,7 +4,7 @@
 99_report/merge_results.py
 Merge per-module, per-isolate results into one master table master_table.tsv:
 MLST / serotype (Kleborate/ECTyper/SISTR) / CheckM2 / GUNC / assembly stats / abricate hit counts
-Usage: python3 merge_results.py [EasyIsolate root], default = parent directory of this script
+Usage: python3 merge_results.py [easyWGS root], default = parent directory of this script
 """
 import csv, glob, os, sys, collections
 

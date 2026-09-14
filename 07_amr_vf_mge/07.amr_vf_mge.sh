@@ -11,7 +11,7 @@ THREADS=8
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/07_amr_vf_mge"; mkdir -p "$OUT"/{abricate,amrfinder,rgi,pointfinder,genomad,mobsuite,antismash}
-DBROOT=${DBROOT:-$HOME/EasyIsolate_db}
+DBROOT=${DBROOT:-$HOME/easyWGS_db}
 
 # ---- 1) abricate batch annotation over multiple databases + summary ----
 for db in card resfinder ncbi vfdb plasmidfinder ISfinder mobileOG BacMet2_EXP_database; do

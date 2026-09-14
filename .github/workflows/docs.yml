@@ -19,7 +19,7 @@ jobs:
           pip install -r requirements-doc.txt
       - name: Build
         run: mkdocs build --strict
-      # 推送到 main 时发布到 GitHub Pages（仓库 Settings→Pages 选 GitHub Actions）
+      # On push to main, deploy to GitHub Pages (enable Settings -> Pages -> Source: GitHub Actions)
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3

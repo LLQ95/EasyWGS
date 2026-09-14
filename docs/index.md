@@ -1,6 +1,6 @@
-# EasyIsolate Guidebook
+# easyWGS Guidebook
 
-EasyIsolate is a reproducible workflow and companion guidebook for bacterial isolate
+easyWGS is a reproducible workflow and companion guidebook for bacterial isolate
 whole-genome sequencing (WGS). It follows the numbered-directory style of
 EasyMicrobiome and EasyMetagenome: each analysis stage maps to one numbered folder,
 the script inside runs on a batch after editing the parameters at the top, and stages
@@ -14,7 +14,7 @@ species do not propagate into typing and phylogenetic analyses.
 Raw isolate data often contain host, PhiX or other bacterial material, and long reads can
 assemble such contamination into a single long, misleading contig. Assembling and typing
 such data directly produces incorrect sequence types, serotypes and phylogenetic
-positions. EasyIsolate covers the full path from raw FASTQ to a time-scaled tree in a
+positions. easyWGS covers the full path from raw FASTQ to a time-scaled tree in a
 fixed order and reports completeness, contamination and chimerism at the critical gates,
 so that only assemblies that pass move downstream.
 

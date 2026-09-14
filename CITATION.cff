@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "EasyIsolate: a reproducible short-/long-read bacterial isolate WGS pipeline"
+title: "easyWGS: a reproducible short-/long-read bacterial isolate WGS pipeline"
 type: software
 # TODO: add co-authors before submission; current maintainer is LLQ95
 authors:
@@ -12,8 +12,8 @@ version: 0.1.0
 date-released: 2026-09-14
 licenses:
   - MIT
-repository-code: "https://github.com/LLQ95/EasyIsolate"
-url: "https://easyisolate.readthedocs.io"
+repository-code: "https://github.com/LLQ95/easyWGS"
+url: "https://easywgs.readthedocs.io"
 keywords:
   - bacterial genomics
   - whole-genome sequencing

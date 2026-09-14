@@ -13,7 +13,7 @@ OUT="$PROJECT/11_visualization/grapetree"; mkdir -p "$OUT"
 META="$PROJECT/11_visualization/merged_metadata.csv"
 
 if ! command -v grapetree >/dev/null 2>&1; then
-  echo "[skip] grapetree not installed; it is in the easyisolate env (pip/bioconda grapetree)"
+  echo "[skip] grapetree not installed; it is in the easywgs env (pip/bioconda grapetree)"
   exit 0
 fi
 

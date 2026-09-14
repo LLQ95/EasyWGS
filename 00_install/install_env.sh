@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# 00_install/install_env.sh - EasyIsolate environments (split envs avoid conflicts)
+# 00_install/install_env.sh - easyWGS environments (split envs avoid conflicts)
 # Linux / WSL2 / HPC; prefer mamba, replace mamba with conda if unavailable
 # Covers Illumina short reads, ONT/PacBio long reads and hybrid assembly
 # =============================================================================
@@ -11,7 +11,7 @@ conda config --add channels bioconda
 # 1) Main env: QC (short+long) / assembly / assessment / typing / comparison / phylogeny
 #    grapetree builds the cgMLST/core-SNP minimum spanning tree used by module 11
 #    The bioconda "iqtree" package now ships IQ-TREE 3 (binary iqtree3); version 2 used iqtree2
-mamba create -y -n easyisolate -c bioconda -c conda-forge \
+mamba create -y -n easywgs -c bioconda -c conda-forge \
   fastp fastqc multiqc seqkit \
   porechop chopper nanoplot filtlong \
   spades unicycler flye canu dragonflye racon circlator assembly-stats \
@@ -44,5 +44,5 @@ Rscript 00_install/install_R_packages.R
 # 8) CLEAN read decontamination is a Nextflow workflow; pulling it needs no local install
 nextflow pull rki-mf1/clean
 
-echo "[OK] envs: easyisolate (main) / longread (long polishing) / checkm2 / gunc / bakta / eggnog"
+echo "[OK] envs: easywgs (main) / longread (long polishing) / checkm2 / gunc / bakta / eggnog"
 echo "     Next run: bash 00_install/download_db.sh to fetch databases"

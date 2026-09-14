@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# run_all.sh - EasyIsolate master runner: execute the whole pipeline in order
+# run_all.sh - easyWGS master runner: execute the whole pipeline in order
 # Usage: bash run_all.sh config/my_samples.csv [start step]
 # Resume from a given step, e.g. bash run_all.sh config/my_samples.csv 06
 # =============================================================================

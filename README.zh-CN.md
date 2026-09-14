@@ -1,14 +1,14 @@
-# EasyIsolate
+# easyWGS
 
 [English](README.md) | **简体中文**
 
-EasyIsolate 是一套面向细菌分离株全基因组测序（WGS）的可复现流程，按编号目录组织。它同时
+easyWGS 是一套面向细菌分离株全基因组测序（WGS）的可复现流程，按编号目录组织。它同时
 覆盖二代 Illumina、三代 Oxford Nanopore / PacBio 与混合组装，串联质控、双层去污染、组装与
 打磨、组装评估、注释、MLST、分物种血清型、cgMLST、耐药/毒力/可移动元件扫描、泛基因组、核心
 SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、EasyMetagenome 的教学化风格：
 改每个编号脚本顶部参数，按顺序执行即可。
 
-完整图文教程：https://easyisolate.readthedocs.io （英文为默认版本，可切换简体中文）。
+完整图文教程：https://easywgs.readthedocs.io （英文为默认版本，可切换简体中文）。
 
 ## 按测序平台划分的分析主线
 
@@ -59,7 +59,7 @@ kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一
 
 平台列：S 以二代短读为主，L 以三代长读为主，A 对二者或组装结果通用。每条链接均已对照上游
 仓库或官方网站核验，按分析阶段分类，即本流程使用或推荐的工具。各工具当前上游版本与核验
-日期见 guidebook 的[软件版本](https://easyisolate.readthedocs.io/zh/latest/versions/)页。
+日期见 guidebook 的[软件版本](https://easywgs.readthedocs.io/zh/latest/versions/)页。
 
 ### 质控与读段处理
 

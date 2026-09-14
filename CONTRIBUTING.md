@@ -1,4 +1,4 @@
-# Contributing to EasyIsolate
+# Contributing to easyWGS
 
 感谢参与。本仓库由可执行脚本（编号目录）与 guidebook（docs/）两部分组成。
 

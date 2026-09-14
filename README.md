@@ -1,8 +1,8 @@
-# EasyIsolate
+# easyWGS
 
 **English** | [简体中文](README.zh-CN.md)
 
-EasyIsolate is a reproducible, numbered-directory workflow for bacterial isolate
+easyWGS is a reproducible, numbered-directory workflow for bacterial isolate
 whole-genome sequencing (WGS). It covers Illumina short reads, Oxford Nanopore and
 PacBio long reads, and hybrid assembly, and it chains quality control, two-layer
 decontamination, assembly and polishing, assembly QC, annotation, MLST, species-specific
@@ -11,7 +11,7 @@ phylogeny and a TreeTime time-scaled tree. The layout follows the teaching-orien
 EasyMicrobiome and EasyMetagenome: edit the parameters at the top of each numbered script and
 run the stages in order.
 
-Full documentation: https://easyisolate.readthedocs.io (English by default, switchable to
+Full documentation: https://easywgs.readthedocs.io (English by default, switchable to
 Simplified Chinese).
 
 ## Workflow by sequencing platform
@@ -64,9 +64,9 @@ typing schedule. Final assemblies are standardized to `03_assembly/genomes/{id}.
 
 Platform column: S = mainly short reads, L = mainly long reads, A = applies to both/assemblies.
 Every link was checked against the upstream repository or official site. These are the tools
-used or recommended by EasyIsolate, organized by analysis stage. The current upstream release of
+used or recommended by easyWGS, organized by analysis stage. The current upstream release of
 each tool and the check date are kept on the
-[Software versions](https://easyisolate.readthedocs.io/en/latest/versions/) page of the guidebook.
+[Software versions](https://easywgs.readthedocs.io/en/latest/versions/) page of the guidebook.
 
 ### Quality control and read processing
 

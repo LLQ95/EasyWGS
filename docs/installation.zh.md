@@ -23,7 +23,7 @@ bash 00_install/install_env.sh
 
 | 环境 | 用途 |
 | --- | --- |
-| easyisolate | 主环境，含质控、二/三代组装、分型、比较、系统发育工具 |
+| easywgs | 主环境，含质控、二/三代组装、分型、比较、系统发育工具 |
 | longread | Medaka 抛光与 Trycycler 多组装一致（依赖较重，单独隔离） |
 | checkm2 | 组装完整度与污染评估 |
 | gunc | 组装嵌合检测 |
@@ -53,7 +53,7 @@ usegalaxy.org 在线运行 FCS-GX 即可，流程已预留这一路径。
 ## 5. 验证安装
 
 ```bash
-conda activate easyisolate
+conda activate easywgs
 fastp --version; unicycler --version; flye --version; mlst --version
 conda activate checkm2 && checkm2 --version
 ```

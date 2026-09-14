@@ -24,7 +24,7 @@ The script creates the following environments:
 
 | Environment | Purpose |
 | --- | --- |
-| easyisolate | Main environment: QC, short/long assembly, typing, comparison, phylogeny |
+| easywgs | Main environment: QC, short/long assembly, typing, comparison, phylogeny |
 | longread | Medaka polishing and Trycycler consensus (heavy, kept separate) |
 | checkm2 | Assembly completeness and contamination |
 | gunc | Assembly chimerism detection |
@@ -56,7 +56,7 @@ usegalaxy.org instead; this route is already anticipated by the workflow.
 ## 5. Verify the installation
 
 ```bash
-conda activate easyisolate
+conda activate easywgs
 fastp --version; unicycler --version; flye --version; mlst --version
 conda activate checkm2 && checkm2 --version
 ```

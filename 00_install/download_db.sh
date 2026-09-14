@@ -3,7 +3,7 @@
 # 00_install/download_db.sh - database download (once only; comment out what you do not need)
 # =============================================================================
 set -euo pipefail
-DBROOT=${DBROOT:-$HOME/EasyIsolate_db}
+DBROOT=${DBROOT:-$HOME/easyWGS_db}
 mkdir -p "$DBROOT" && cd "$DBROOT"
 source "$(conda info --base)/etc/profile.d/conda.sh"
 
@@ -28,7 +28,7 @@ download_eggnog_data.py -y --data_dir "$DBROOT/eggnog_db"
 conda deactivate
 
 # ---- PubMLST offline refresh (bundled with mlst, periodic) ----
-conda activate easyisolate
+conda activate easywgs
 mlst-download_pub_mlst -j 8 -d "$(dirname "$(which mlst)")/../db/pubmlst" || true
 
 # ---- Update built-in abricate databases and list the available ones ----

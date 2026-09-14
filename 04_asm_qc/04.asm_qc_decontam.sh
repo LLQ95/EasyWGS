@@ -10,12 +10,12 @@ THREADS=8
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/04_asm_qc"; mkdir -p "$OUT/quast" "$OUT/checkm2" "$OUT/gunc"
-DBROOT=${DBROOT:-$HOME/EasyIsolate_db}
+DBROOT=${DBROOT:-$HOME/easyWGS_db}
 GUNC_DB=$(ls "$DBROOT"/gunc_db/*progenomes*.dmnd 2>/dev/null | head -n1 || true)
 source "$(conda info --base)/etc/profile.d/conda.sh"
 
 # ---- QUAST ----
-conda activate easyisolate
+conda activate easywgs
 quast.py -t "$THREADS" -o "$OUT/quast" "$GEN"/*.fasta
 
 # ---- CheckM2 ----
@@ -53,7 +53,7 @@ if [[ -f "$FCS_PY" && -d "$GXDB" ]]; then
 fi
 
 # ---- Gate: flag samples that need recheck/removal ----
-conda activate easyisolate
+conda activate easywgs
 awk -F'\t' 'NR==1 || $3>5 {print $1, $2, $3}' "$OUT/checkm2/quality_report.tsv" > "$OUT/recheck_checkm2.tsv"
 awk -F'\t' 'NR==1 || $NF=="False" {print}' "$OUT/gunc_all.tsv" > "$OUT/recheck_gunc.tsv"
 echo "[done] QUAST/CheckM2/GUNC results in $OUT; recheck lists: recheck_*.tsv"

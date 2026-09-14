@@ -10,16 +10,16 @@ THREADS=8
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/05_annotation"
-DBROOT=${DBROOT:-$HOME/EasyIsolate_db}
+DBROOT=${DBROOT:-$HOME/easyWGS_db}
 mkdir -p "$OUT/prokka" "$OUT/prodigal_faa" "$OUT/bakta" "$OUT/eggnog"
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate easyisolate
+conda activate easywgs
 
 # ---- 1) Prokka batch annotation (set --genus per sample if needed; Bacteria is generic) ----
 for f in "$GEN"/*.fasta; do
   id=$(basename "$f" .fasta)
   prokka --outdir "$OUT/prokka/$id" --prefix "$id" --cpus "$THREADS" \
-         --addgenes --centre EasyIsolate --compliant "$f"
+         --addgenes --centre easyWGS --compliant "$f"
 done
 
 # ---- 2) Prodigal proteins (for eggNOG / custom databases) ----

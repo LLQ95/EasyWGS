@@ -1,6 +1,6 @@
 # Software versions and currency
 
-EasyIsolate does not pin tools to a single release: the installer resolves the current build from Bioconda, and the scripts call stable command interfaces so that newer releases work without edits. The table below records the current upstream release of every external tool used by the workflow, checked on 2026-09-14 against each project's official GitHub repository (latest release or newest version tag). R packages are distributed through CRAN or Bioconductor and do not carry GitHub release tags; web tools have no local version.
+easyWGS does not pin tools to a single release: the installer resolves the current build from Bioconda, and the scripts call stable command interfaces so that newer releases work without edits. The table below records the current upstream release of every external tool used by the workflow, checked on 2026-09-14 against each project's official GitHub repository (latest release or newest version tag). R packages are distributed through CRAN or Bioconductor and do not carry GitHub release tags; web tools have no local version.
 
 Use this page to audit an existing installation. To reproduce the check, `git ls-remote --tags <repo>` lists every tag, or open the repository releases page linked in the README tool list.
 

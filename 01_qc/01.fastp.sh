@@ -7,7 +7,7 @@
 # =============================================================================
 set -euo pipefail
 THREADS=8
-PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}   # resolve EasyIsolate root
+PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}   # resolve easyWGS root
 RAW="$PROJECT/00_rawdata"
 OUT="$PROJECT/01_qc/clean"
 mkdir -p "$OUT"

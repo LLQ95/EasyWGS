@@ -6,7 +6,7 @@ Generate iTOL (https://itol.embl.de) annotation datasets from merged_metadata.cs
 and the abricate summary table. Upload a Newick/Nexus tree to iTOL, then drag the
 generated text files onto the tree to add color strips and a binary AMR track.
 
-Usage: python3 make_itol_datasets.py [EasyIsolate root]
+Usage: python3 make_itol_datasets.py [easyWGS root]
 Only the Python standard library is required.
 """
 import csv, os, sys
