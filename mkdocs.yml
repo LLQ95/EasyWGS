@@ -1,5 +1,5 @@
 site_name: EasyIsolate Guidebook
-site_description: Reproducible bacterial isolate WGS workflow: short/long/hybrid assembly, decontamination, typing, comparison and time-scaled trees
+site_description: "Reproducible bacterial isolate WGS workflow: short/long/hybrid assembly, decontamination, typing, comparison and time-scaled trees"
 site_author: EasyIsolate contributors
 repo_url: https://github.com/LLQ95/EasyIsolate
 repo_name: EasyIsolate
