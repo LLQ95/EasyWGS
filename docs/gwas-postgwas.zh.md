@@ -1,6 +1,6 @@
 # 微生物 GWAS 与 post-GWAS（模块 13）
 
-模块 13 把 easyWGS 从特征描述拓展到基因型与表型的关联分析。它提供三层互补的细菌 GWAS：基于基因有无的 Scoary、基于 SNP 关联的 PLINK、以及显式建模克隆群体结构、同时支持基因与 SNP 的 pyseer；最后用统一的 post-GWAS 步骤完成多重检验校正、QQ 图与曼哈顿图，并汇总显著命中。细菌基因组具有很强的克隆结构，因此关联结果必须结合系统发育一起解读，不能只看原始 p 值。
+模块 13 把 EasyWGS 从特征描述拓展到基因型与表型的关联分析。它提供三层互补的细菌 GWAS：基于基因有无的 Scoary、基于 SNP 关联的 PLINK、以及显式建模克隆群体结构、同时支持基因与 SNP 的 pyseer；最后用统一的 post-GWAS 步骤完成多重检验校正、QQ 图与曼哈顿图，并汇总显著命中。细菌基因组具有很强的克隆结构，因此关联结果必须结合系统发育一起解读，不能只看原始 p 值。
 
 ## 准备表型表
 
@@ -59,7 +59,7 @@ pyseer --phenotypes pheno.tsv --vcf snps.biallelic.vcf.gz \
 `13.4.post_gwas.R` 读取所有存在的结果文件，重新计算 Benjamini-Hochberg 与 Bonferroni 校正 p 值，为每种方法、每层画 QQ 图，为带位置的 SNP 画曼哈顿图（含全基因组线与本研究 FDR 线），并输出按校正 p 值排序的合并显著命中表。QQ 图膨胀、整体向左偏移，提示所选校正仍未去除残余群体结构。
 
 ```bash
-Rscript 13_gwas/13.4.post_gwas.R /path/to/easyWGS
+Rscript 13_gwas/13.4.post_gwas.R /path/to/EasyWGS
 ```
 
 ## 结果解读与局限

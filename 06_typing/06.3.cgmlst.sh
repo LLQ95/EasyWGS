@@ -11,7 +11,7 @@ THREADS=8
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/06_typing/cgmlst"; mkdir -p "$OUT"
-DBROOT=${DBROOT:-$HOME/easyWGS_db/chewie}
+DBROOT=${DBROOT:-$HOME/easywgs_db/chewie}
 
 # Choose the cgMLST schema by study group (samplesheet species column)
 # Schema sources are in 00_install/download_db.sh: INNUENDO (Salmonella) /

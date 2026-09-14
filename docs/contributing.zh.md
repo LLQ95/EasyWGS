@@ -1,7 +1,7 @@
 # 贡献指南
 
 本仓库同时包含可执行流程（编号目录）与双语教程（docs/，英文为默认、可切换中文）。提交前请阅读根目录
-[CONTRIBUTING.md](https://github.com/LLQ95/easyWGS/blob/main/CONTRIBUTING.md)。
+[CONTRIBUTING.md](https://github.com/LLQ95/EasyWGS/blob/main/CONTRIBUTING.md)。
 
 文档使用 MkDocs Material，本地预览：
 

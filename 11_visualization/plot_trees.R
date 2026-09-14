@@ -7,7 +7,7 @@
 #   - 10_treetime time-calibrated tree (year axis)
 # Tip annotations (species / ST / country / phenotype / serotype) come from
 # 11_visualization/merged_metadata.csv produced by 11.1.build_metadata.sh
-# Usage: Rscript plot_trees.R [easyWGS root]
+# Usage: Rscript plot_trees.R [EasyWGS root]
 # =============================================================================
 suppressPackageStartupMessages({
   need <- c("ape", "ggplot2", "ggtree", "treeio")

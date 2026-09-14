@@ -10,7 +10,7 @@ THREADS=8
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/04_asm_qc"; mkdir -p "$OUT/quast" "$OUT/checkm2" "$OUT/gunc"
-DBROOT=${DBROOT:-$HOME/easyWGS_db}
+DBROOT=${DBROOT:-$HOME/easywgs_db}
 GUNC_DB=$(ls "$DBROOT"/gunc_db/*progenomes*.dmnd 2>/dev/null | head -n1 || true)
 source "$(conda info --base)/etc/profile.d/conda.sh"
 

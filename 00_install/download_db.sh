@@ -3,7 +3,7 @@
 # 00_install/download_db.sh - database download (once only; comment out what you do not need)
 # =============================================================================
 set -euo pipefail
-DBROOT=${DBROOT:-$HOME/easyWGS_db}
+DBROOT=${DBROOT:-$HOME/easywgs_db}
 mkdir -p "$DBROOT" && cd "$DBROOT"
 source "$(conda info --base)/etc/profile.d/conda.sh"
 

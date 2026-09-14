@@ -1,6 +1,6 @@
-# easyWGS Guidebook
+# EasyWGS Guidebook
 
-easyWGS 是一套面向细菌分离株全基因组测序（WGS）的可复现分析流程与配套教程，
+EasyWGS 是一套面向细菌分离株全基因组测序（WGS）的可复现分析流程与配套教程，
 组织方式参考 EasyMicrobiome、EasyMetagenome：每个分析阶段对应一个编号目录，
 目录内脚本改顶部参数即可批量运行，阶段之间用统一命名衔接。它同时支持二代
 Illumina、三代 Oxford Nanopore / PacBio，以及短读加长读的混合组装，并把 reads
@@ -10,7 +10,7 @@ Illumina、三代 Oxford Nanopore / PacBio，以及短读加长读的混合组�
 
 分离株测序的原始数据里常混入宿主、PhiX、其他菌种，三代长读还会把污染片段拼成
 一条很长的错误 contig；如果直接组装并分型，会得到错误的 ST、血清型和进化位置。
-easyWGS 用一套固定顺序覆盖从原始 fastq 到时间树的完整链路，并在关键节点给出
+EasyWGS 用一套固定顺序覆盖从原始 fastq 到时间树的完整链路，并在关键节点给出
 完整度、污染率、嵌合度的量化判断，只有通过门控的组装才进入下游。
 
 ## 流程总览

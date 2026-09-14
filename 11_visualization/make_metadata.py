@@ -5,7 +5,7 @@
 Merge the samplesheet and 99_report/master_table.tsv into one tidy annotation
 table (11_visualization/merged_metadata.csv) shared by every visualization step.
 
-Usage: python3 make_metadata.py [easyWGS root]   (default = parent of this dir)
+Usage: python3 make_metadata.py [EasyWGS root]   (default = parent of this dir)
 Only the Python standard library is required.
 """
 import csv, glob, os, sys

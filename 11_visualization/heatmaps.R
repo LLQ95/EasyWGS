@@ -6,7 +6,7 @@
 #   - 07 .../abricate/summary.tab           per-DB resistance/virulence hit counts
 #   - 07 .../abricate/*.tab (per hit)       gene-by-isolate presence/absence (top genes)
 # Row/column annotations come from merged_metadata.csv.
-# Usage: Rscript heatmaps.R [easyWGS root]
+# Usage: Rscript heatmaps.R [EasyWGS root]
 # =============================================================================
 suppressPackageStartupMessages({
   need <- c("pheatmap", "RColorBrewer")

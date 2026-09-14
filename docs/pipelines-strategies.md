@@ -1,6 +1,6 @@
 # Two parallel analysis strategies
 
-easyWGS supports two parallel main routes that start from the same cleaned
+EasyWGS supports two parallel main routes that start from the same cleaned
 reads but answer different questions: an assembly-based route that reconstructs
 each genome de novo, and a reference-based route that aligns reads directly to
 one finished genome into BAM files and calls variants with bcftools. Both routes

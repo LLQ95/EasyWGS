@@ -76,7 +76,7 @@ typing schedule. Final assemblies are standardized to `03_assembly/genomes/{id}.
 
 Platform column: S = mainly short reads, L = mainly long reads, A = applies to both/assemblies.
 Every link was checked against the upstream repository or official site. These are the tools
-used or recommended by easyWGS, organized by analysis stage. The current upstream release of
+used or recommended by EasyWGS, organized by analysis stage. The current upstream release of
 each tool and the check date are kept on the
 [Software versions](https://easywgs.readthedocs.io/en/latest/versions/) page of the guidebook.
 

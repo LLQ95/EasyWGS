@@ -1,8 +1,8 @@
-site_name: easyWGS Guidebook
+site_name: EasyWGS Guidebook
 site_description: "Reproducible bacterial isolate WGS workflow: short/long/hybrid assembly, decontamination, typing, comparison and time-scaled trees"
-site_author: easyWGS contributors
-repo_url: https://github.com/LLQ95/easyWGS
-repo_name: easyWGS
+site_author: EasyWGS contributors
+repo_url: https://github.com/LLQ95/EasyWGS
+repo_name: EasyWGS
 edit_uri: edit/main/docs/
 
 theme:

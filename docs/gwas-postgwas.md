@@ -1,6 +1,6 @@
 # Microbial GWAS and post-GWAS (module 13)
 
-Module 13 extends easyWGS from characterization to genotype-to-phenotype
+Module 13 extends EasyWGS from characterization to genotype-to-phenotype
 association. It offers three complementary bacterial GWAS layers, Scoary for
 gene presence/absence, PLINK for SNP association, and pyseer for both genes and
 SNPs with an explicit model of clonal population structure, followed by one
@@ -96,7 +96,7 @@ FDR-significant features. QQ inflation and a strong leftward shift indicate
 residual population structure that the chosen correction did not remove.
 
 ```bash
-Rscript 13_gwas/13.4.post_gwas.R /path/to/easyWGS
+Rscript 13_gwas/13.4.post_gwas.R /path/to/EasyWGS
 ```
 
 ## Interpretation and limits

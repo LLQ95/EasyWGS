@@ -1,6 +1,6 @@
 # Two-layer decontamination and quality gates
 
-Contamination is the most error-prone part of isolate analysis. easyWGS sets one gate
+Contamination is the most error-prone part of isolate analysis. EasyWGS sets one gate
 at the read level and another at the assembly level: the first removes non-target reads
 before assembly, and the second quantifies and removes residual foreign fragments after
 assembly.

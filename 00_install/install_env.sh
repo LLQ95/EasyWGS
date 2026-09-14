@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# 00_install/install_env.sh - easyWGS environments (split envs avoid conflicts)
+# 00_install/install_env.sh - EasyWGS environments (split envs avoid conflicts)
 # Linux / WSL2 / HPC; prefer mamba, replace mamba with conda if unavailable
 # Covers Illumina short reads, ONT/PacBio long reads and hybrid assembly
 # =============================================================================

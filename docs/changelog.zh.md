@@ -1,6 +1,6 @@
 # 更新日志
 
-完整变更见根目录 [CHANGELOG.md](https://github.com/LLQ95/easyWGS/blob/main/CHANGELOG.md)。
+完整变更见根目录 [CHANGELOG.md](https://github.com/LLQ95/EasyWGS/blob/main/CHANGELOG.md)。
 
 ## 0.2.0（2026-09-14）
 

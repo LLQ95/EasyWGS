@@ -1,8 +1,8 @@
-# easyWGS
+# EasyWGS
 
 [English](README.md) | **简体中文**
 
-easyWGS 是一套面向细菌分离株全基因组测序（WGS）的可复现流程，按编号目录组织。它同时
+EasyWGS 是一套面向细菌分离株全基因组测序（WGS）的可复现流程，按编号目录组织。它同时
 覆盖二代 Illumina、三代 Oxford Nanopore / PacBio 与混合组装，串联质控、双层去污染、组装与
 打磨、组装评估、注释、MLST、分物种血清型、cgMLST、耐药/毒力/可移动元件扫描、泛基因组、核心
 SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、EasyMetagenome 的教学化风格：
