@@ -64,7 +64,9 @@ typing schedule. Final assemblies are standardized to `03_assembly/genomes/{id}.
 
 Platform column: S = mainly short reads, L = mainly long reads, A = applies to both/assemblies.
 Every link was checked against the upstream repository or official site. These are the tools
-used or recommended by EasyIsolate, organized by analysis stage.
+used or recommended by EasyIsolate, organized by analysis stage. The current upstream release of
+each tool and the check date are kept on the
+[Software versions](https://easyisolate.readthedocs.io/en/latest/versions/) page of the guidebook.
 
 ### Quality control and read processing
 
@@ -167,7 +169,7 @@ used or recommended by EasyIsolate, organized by analysis stage.
 | Gubbins | A | detect and mask recombination | [GitHub](https://github.com/nickjcroucher/gubbins) |
 | snp-sites | A | extract variable SNP sites from an alignment | [GitHub](https://github.com/tseemann/snp-sites) |
 | snp-dists | A | pairwise SNP distance matrix | [GitHub](https://github.com/tseemann/snp-dists) |
-| IQ-TREE 2 | A | maximum-likelihood phylogeny | [GitHub](https://github.com/iqtree/iqtree2) |
+| IQ-TREE 3 | A | maximum-likelihood phylogeny (IQ-TREE 2 still supported) | [GitHub](https://github.com/iqtree/iqtree3) |
 | FastTree | A | fast approximate ML tree for preview | [official site](http://www.microbesonline.org/fasttree/) |
 | MAFFT | A | multiple sequence alignment | [official site](https://mafft.cbrc.jp/alignment/software/) |
 | TreeTime | A | molecular clock, time tree, ancestors and migration | [GitHub](https://github.com/neherlab/treetime) |

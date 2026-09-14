@@ -9,6 +9,8 @@
 # =============================================================================
 set -euo pipefail
 THREADS=8
+# Prefer IQ-TREE 3 (binary iqtree3); fall back to IQ-TREE 2 (iqtree2) or the generic iqtree name
+IQTREE=$(command -v iqtree3 || command -v iqtree2 || command -v iqtree)
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/09_phylogeny"; mkdir -p "$OUT/snippy"
@@ -39,7 +41,7 @@ run_gubbins.py --threads "$THREADS" --tree-builder iqtree --prefix gubbins core/
 
 # ---- 4) Extract recombination-free core SNPs and build the tree ----
 snp-sites -c gubbins.filtered_polymorphic_sites.fasta > clean.core.aln
-iqtree2 -s clean.core.aln -m GTR+G4 -alrt 1000 -bb 1000 -nt AUTO -pre core_iqtree
+"$IQTREE" -s clean.core.aln -m GTR+G4 -alrt 1000 -bb 1000 -nt AUTO -pre core_iqtree
 # Fast alternative: FastTree -gtr -nt clean.core.aln > core_fasttree.tre
 
 # ---- 5) Pairwise SNP distance matrix (for cluster cutoffs, e.g. Salmonella 5/10/20 SNP) ----

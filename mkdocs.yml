@@ -59,6 +59,7 @@ plugins:
             Phylogeny and time tree: 系统发育与时间树
             Visualization: 可视化
             Tool map: 工具地图(二代/三代对照)
+            Software versions: 软件版本与时效性
             FAQ: 常见问题
             Contributing: 贡献指南
             Changelog: 更新日志
@@ -79,6 +80,7 @@ nav:
       - Phylogeny and time tree: phylogeny-timetree.md
       - Visualization: visualization.md
   - Tool map: toolmap.md
+  - Software versions: versions.md
   - FAQ: faq.md
   - Contributing: contributing.md
   - Changelog: changelog.md

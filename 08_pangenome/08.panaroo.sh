@@ -8,6 +8,8 @@
 # =============================================================================
 set -euo pipefail
 THREADS=8
+# Prefer IQ-TREE 3 (iqtree3); fall back to IQ-TREE 2 (iqtree2) or generic iqtree
+IQTREE=$(command -v iqtree3 || command -v iqtree2 || command -v iqtree)
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GFF_DIR="$PROJECT/05_annotation/prokka"
 OUT="$PROJECT/08_pangenome"; mkdir -p "$OUT/panaroo_in"
@@ -23,7 +25,7 @@ panaroo -i $(tr '\n' ' ' < "$OUT/gff_list.txt") -o "$OUT/panaroo" \
 panaroo-msa --pan_dir "$OUT/panaroo" --outdir "$OUT/core_msa" \
             --core_only --n_cpu "$THREADS"
 # Build a core-gene tree directly from the alignment (optional)
-iqtree2 -s "$OUT/core_msa/core_gene_alignment.aln" -m GTR+G4 \
+"$IQTREE" -s "$OUT/core_msa/core_gene_alignment.aln" -m GTR+G4 \
         -alrt 1000 -bb 1000 -nt "$THREADS" -pre "$OUT/core_gene_tree"
 
 # ---- 3) (Fallback) Roary, mutually exclusive with Panaroo, needs its own env ----

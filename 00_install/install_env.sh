@@ -10,6 +10,7 @@ conda config --add channels bioconda
 
 # 1) Main env: QC (short+long) / assembly / assessment / typing / comparison / phylogeny
 #    grapetree builds the cgMLST/core-SNP minimum spanning tree used by module 11
+#    The bioconda "iqtree" package now ships IQ-TREE 3 (binary iqtree3); version 2 used iqtree2
 mamba create -y -n easyisolate -c bioconda -c conda-forge \
   fastp fastqc multiqc seqkit \
   porechop chopper nanoplot filtlong \

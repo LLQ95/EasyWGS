@@ -12,12 +12,12 @@ snippy --cpus 16 --ref ref.gbk --out snippy/$id --R1 R1.fq.gz --R2 R2.fq.gz   # 
 snippy-core --ref ref.gbk snippy/*
 run_gubbins.py --prefix gubbins core.full.aln
 snp-sites -c gubbins.filtered_polymorphic_sites.fasta > core_snps.fasta
-iqtree2 -s core_snps.fasta -m GTR+G4 -bb 1000 -nt 16
+iqtree3 -s core_snps.fasta -m GTR+G4 -bb 1000 -nt 16
 snp-dists core.full.aln > snp_distance.tsv
 ```
 
 近缘暴发分析同时报告两两 SNP 距离矩阵，用于界定传播簇。模型可用 ModelFinder
-自动选择；样本量很大时 FastTree 用于快速预览，正式成稿用 IQ-TREE。
+自动选择；样本量很大时 FastTree 用于快速预览，正式成稿用 IQ-TREE 3。
 
 ## 时间树（10，TreeTime）
 

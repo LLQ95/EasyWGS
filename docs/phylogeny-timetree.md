@@ -14,13 +14,13 @@ snippy --cpus 16 --ref ref.gbk --out snippy/$id --R1 R1.fq.gz --R2 R2.fq.gz   # 
 snippy-core --ref ref.gbk snippy/*
 run_gubbins.py --prefix gubbins core.full.aln
 snp-sites -c gubbins.filtered_polymorphic_sites.fasta > core_snps.fasta
-iqtree2 -s core_snps.fasta -m GTR+G4 -bb 1000 -nt 16
+iqtree3 -s core_snps.fasta -m GTR+G4 -bb 1000 -nt 16
 snp-dists core.full.aln > snp_distance.tsv
 ```
 
 For outbreak-scale analysis, also report the pairwise SNP distance matrix to delineate
 transmission clusters. The model can be chosen automatically with ModelFinder; FastTree
-gives a quick preview for large sets while IQ-TREE is used for the final figure.
+gives a quick preview for large sets while IQ-TREE 3 is used for the final figure.
 
 ## Time tree (10, TreeTime)
 

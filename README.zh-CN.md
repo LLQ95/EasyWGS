@@ -58,7 +58,8 @@ kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一
 ## WGS 工具清单
 
 平台列：S 以二代短读为主，L 以三代长读为主，A 对二者或组装结果通用。每条链接均已对照上游
-仓库或官方网站核验，按分析阶段分类，即本流程使用或推荐的工具。
+仓库或官方网站核验，按分析阶段分类，即本流程使用或推荐的工具。各工具当前上游版本与核验
+日期见 guidebook 的[软件版本](https://easyisolate.readthedocs.io/zh/latest/versions/)页。
 
 ### 质控与读段处理
 
@@ -161,7 +162,7 @@ kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一
 | Gubbins | A | 检测并屏蔽重组 | [GitHub](https://github.com/nickjcroucher/gubbins) |
 | snp-sites | A | 从比对中提取变异 SNP 位点 | [GitHub](https://github.com/tseemann/snp-sites) |
 | snp-dists | A | 两两 SNP 距离矩阵 | [GitHub](https://github.com/tseemann/snp-dists) |
-| IQ-TREE 2 | A | 最大似然系统发育 | [GitHub](https://github.com/iqtree/iqtree2) |
+| IQ-TREE 3 | A | 最大似然系统发育（仍兼容 IQ-TREE 2） | [GitHub](https://github.com/iqtree/iqtree3) |
 | FastTree | A | 快速近似 ML 树，用于预览 | [官方网站](http://www.microbesonline.org/fasttree/) |
 | MAFFT | A | 多序列比对 | [官方网站](https://mafft.cbrc.jp/alignment/software/) |
 | TreeTime | A | 分子钟、时间树、祖先与状态迁移 | [GitHub](https://github.com/neherlab/treetime) |
