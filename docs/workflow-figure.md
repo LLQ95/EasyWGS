@@ -22,8 +22,10 @@ evolutionary layer, where core/accessory calls, cgMLST alleles and core-SNP
 alignments feed an IQ-TREE 3 phylogeny and a TreeTime time-scaled tree. The
 genomic GWAS layer (purple, module 13) draws on the pangenome matrix, the VCF and
 the trait table and runs Scoary, PLINK and pyseer, followed by R-based
-post-GWAS. The right column collects the module 11 visualizations and the
-integrated, reproducible outputs merged by module 99.
+post-GWAS. A closing band lists the integrated, reproducible outputs merged by
+module 99, including the tree and annotation bundles exported for GrapeTree,
+iTOL, ggtree and Microreact. Two plain text notes state when each route is the
+better choice.
 
 Route colour is used consistently throughout the guide: blue for the assembly
 route, teal for the reference-mapping route and purple for GWAS/post-GWAS, with

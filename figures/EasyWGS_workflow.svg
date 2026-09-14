@@ -1,437 +1,242 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1264" viewBox="0 0 1680 1264">
-<marker id="ar_777777" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#777777"/></marker>
-<marker id="ar_1f6fb2" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#1f6fb2"/></marker>
-<marker id="ar_0f7b7b" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#0f7b7b"/></marker>
-<marker id="ar_6b4fa0" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#6b4fa0"/></marker>
-<rect width="1680" height="1264" fill="#ffffff"/>
-<text x="840.0" y="34" font-family="Helvetica, Arial, sans-serif" font-size="17" fill="#c00000" font-weight="bold"   text-anchor="middle">EasyWGS: a reproducible cross-platform workflow for bacterial isolate whole-genome sequencing</text>
-<circle cx="36" cy="64" r="12" fill="#c00000" stroke="#c00000"/>
-<text x="36" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fff" font-weight="bold"   text-anchor="middle">1</text>
-<text x="54" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="10.6" fill="#222222" font-weight="bold"   text-anchor="start">Installation &amp; setup</text>
-<circle cx="330" cy="64" r="12" fill="#c00000" stroke="#c00000"/>
-<text x="330" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fff" font-weight="bold"   text-anchor="middle">2</text>
-<text x="348" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="10.6" fill="#222222" font-weight="bold"   text-anchor="start">QC &amp; two-layer decontamination</text>
-<circle cx="800" cy="64" r="12" fill="#c00000" stroke="#c00000"/>
-<text x="800" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fff" font-weight="bold"   text-anchor="middle">3</text>
-<text x="818" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="10.6" fill="#222222" font-weight="bold"   text-anchor="start">Two parallel routes + genomic GWAS</text>
-<circle cx="1254" cy="64" r="12" fill="#c00000" stroke="#c00000"/>
-<text x="1254" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#fff" font-weight="bold"   text-anchor="middle">4</text>
-<text x="1272" y="68.5" font-family="Helvetica, Arial, sans-serif" font-size="10.6" fill="#222222" font-weight="bold"   text-anchor="start">Integration, visualization &amp; reporting</text>
-<rect x="16" y="86" width="296" height="1094" rx="10" fill="#ffffff" stroke="#c00000" stroke-width="1.4" stroke-dasharray="6,4"/>
-<rect x="16" y="86" width="296" height="26" rx="10" fill="#c00000"/>
-<rect x="16" y="99" width="296" height="13" fill="#c00000"/>
-<text x="164.0" y="104" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="bold"   text-anchor="middle">Software &amp; database installation  (module 00)</text>
-<text x="30" y="128" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Conda / mamba environments</text>
-<circle cx="34" cy="139.6" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="143" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">easywgs (main), longread, checkm2, gunc,</text>
-<text x="42" y="155.2" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">bakta, eggnog</text>
-<text x="30" y="173.39999999999998" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Acquisition &amp; read QC</text>
-<circle cx="34" cy="184.99999999999997" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="188.39999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">fastp, FastQC, MultiQC</text>
-<circle cx="34" cy="197.19999999999996" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="200.59999999999997" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">porechop, chopper, Filtlong, NanoPlot</text>
-<circle cx="34" cy="209.39999999999995" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="212.79999999999995" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">NCBI datasets, SRA toolkit</text>
-<text x="30" y="230.99999999999994" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Two-layer decontamination</text>
-<circle cx="34" cy="242.59999999999994" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="245.99999999999994" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">CLEAN, Kraken2/Bracken, BBDuk</text>
-<circle cx="34" cy="254.79999999999993" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="258.19999999999993" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">CheckM2, GUNC, FCS-GX, BlobToolKit</text>
-<circle cx="34" cy="266.99999999999994" r="2.6" fill="#c00000" stroke="#c00000"/>
-<text x="42" y="270.3999999999999" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#c00000"    text-anchor="start">k2_standard &amp; FCS-GX databases</text>
-<text x="30" y="288.5999999999999" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Assembly &amp; polishing</text>
-<circle cx="34" cy="300.19999999999993" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="303.5999999999999" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">Unicycler, SPAdes, Flye, Canu, dragonflye</text>
-<circle cx="34" cy="312.3999999999999" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="315.7999999999999" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">Trycycler, minimap2+Racon, Medaka, Pilon</text>
-<circle cx="34" cy="324.5999999999999" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="327.9999999999999" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">circlator, QUAST, seqkit, assembly-stats</text>
-<text x="30" y="346.1999999999999" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Annotation &amp; typing</text>
-<circle cx="34" cy="357.7999999999999" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="361.1999999999999" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">Prokka, Bakta, Prodigal, eggNOG-mapper</text>
-<circle cx="34" cy="369.9999999999999" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="373.39999999999986" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">mlst; chewBBACA (cgMLST)</text>
-<circle cx="34" cy="382.1999999999999" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="385.59999999999985" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">Kleborate/Kaptive, ECTyper, ShigEiFinder</text>
-<circle cx="34" cy="394.39999999999986" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="397.79999999999984" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">SeqSero2, SISTR</text>
-<circle cx="34" cy="406.59999999999985" r="2.6" fill="#c00000" stroke="#c00000"/>
-<text x="42" y="409.99999999999983" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#c00000"    text-anchor="start">PubMLST &amp; species cgMLST schemas</text>
-<text x="30" y="428.1999999999998" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">AMR / virulence / MGE</text>
-<circle cx="34" cy="439.79999999999984" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="443.1999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">abricate (ResFinder/VFDB/CARD/MEGARes)</text>
-<circle cx="34" cy="451.99999999999983" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="455.3999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">AMRFinderPlus, RGI, PointFinder</text>
-<circle cx="34" cy="464.1999999999998" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="467.5999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">mob-suite, PlasmidFinder, IntegronFinder</text>
-<circle cx="34" cy="476.3999999999998" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="479.7999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">ISEScan, mobileOG, genomad, PhiSpy,</text>
-<text x="42" y="491.9999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">CRISPRCasFinder</text>
-<circle cx="34" cy="500.7999999999998" r="2.6" fill="#c00000" stroke="#c00000"/>
-<text x="42" y="504.19999999999976" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#c00000"    text-anchor="start">PLSDB, ResFinder, VFDB, CARD</text>
-<text x="30" y="522.3999999999997" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Comparison &amp; evolution</text>
-<circle cx="34" cy="533.9999999999998" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="537.3999999999997" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">Panaroo, Roary; mash, cd-hit</text>
-<circle cx="34" cy="546.1999999999998" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="549.5999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">snippy, Gubbins, snp-sites, snp-dists</text>
-<circle cx="34" cy="558.3999999999999" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="561.7999999999998" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">IQ-TREE 3, FastTree, MAFFT, MUMmer</text>
-<circle cx="34" cy="570.5999999999999" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="573.9999999999999" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">TreeTime (clock, ancestors, mugration)</text>
-<text x="30" y="592.1999999999999" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Mapping &amp; genomic GWAS</text>
-<circle cx="34" cy="603.8" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="607.1999999999999" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">BWA, minimap2, samtools/bcftools, htslib</text>
-<circle cx="34" cy="616.0" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="619.4" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">Qualimap, vcf2phylip, tabix</text>
-<circle cx="34" cy="628.2" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="631.6" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">Scoary, PLINK, pyseer; R (BH/Bonferroni)</text>
-<text x="30" y="649.8000000000001" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Visualization</text>
-<circle cx="34" cy="661.4000000000001" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="664.8000000000001" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">GrapeTree; iTOL datasets; ggtree</text>
-<circle cx="34" cy="673.6000000000001" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="677.0000000000001" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">ComplexHeatmap; ggplot2</text>
-<text x="30" y="1100" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Workflow drivers</text>
-<text x="30" y="1115" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">run_assembly.sh / run_mapping.sh</text>
-<text x="30" y="1129" font-family="Helvetica, Arial, sans-serif" font-size="8.4" fill="#777777"    text-anchor="start">run_all.sh chains every stage; 99_report merges results</text>
-<text x="30" y="1168" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#c00000" font-weight="bold"   text-anchor="start">Legend</text>
-<circle cx="34" cy="1182" r="2.6" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="42" y="1185" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#1f6fb2"    text-anchor="start">software</text>
-<circle cx="126" cy="1182" r="2.6" fill="#c00000" stroke="#c00000"/>
-<text x="134" y="1185" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#c00000"    text-anchor="start">database</text>
-<line x1="30" y1="1198" x2="46" y2="1198" stroke="#777777" stroke-width="1.6"  stroke-linecap="round"/>
-<text x="52" y="1202" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#777777"    text-anchor="start">data flow</text>
-<rect x="328" y="86" width="904" height="1094" rx="10" fill="#ffffff" stroke="#c00000" stroke-width="1.4" stroke-dasharray="6,4"/>
-<rect x="328" y="86" width="904" height="26" rx="10" fill="#c00000"/>
-<rect x="328" y="99" width="904" height="13" fill="#c00000"/>
-<text x="780.0" y="104" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="bold"   text-anchor="middle">Data analysis pipeline  (modules 01–13, 99)</text>
-<rect x="344" y="120" width="872" height="44" rx="8" fill="#dce9f6" stroke="#1f6fb2" stroke-width="1.3" />
-<text x="358" y="140" font-family="Helvetica, Arial, sans-serif" font-size="10.6" fill="#222222" font-weight="bold"   text-anchor="start">Raw reads + metadata (config/samplesheet.csv):   Illumina paired-end   |   Oxford Nanopore   |   PacBio   |   hybrid</text>
-<text x="358" y="156" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#777777"  font-style="italic"  text-anchor="start">per-isolate id, platform, species, R1/R2, long reads, reference, date, country, phenotype</text>
-<text x="1208" y="140" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#6b4fa0"  font-style="italic"  text-anchor="end">config/traits.csv</text>
-<rect x="344" y="176" width="872" height="58" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="195" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">01  Quality control</text>
-<text x="356" y="213" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">Short reads: fastp adapter/quality trimming and report     Long reads: porechop/chopper, Filtlong, NanoPlot</text>
-<text x="1206" y="226" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">trimmed FASTQ + FastQC/MultiQC</text>
-<rect x="344" y="248" width="872" height="58" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="267" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">02  Read-level decontamination  (layer 1: keep-by-target)</text>
-<text x="356" y="285" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">CLEAN retains only target-taxon reads; Kraken2/Bracken scouts composition; BBDuk removes reference/adapter hits</text>
-<text x="1206" y="298" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">clean, single-source reads (FASTQ)</text>
-<polyline points="780.0,234 780.0,248" fill="none" stroke="#777777" stroke-width="1.6" marker-end="url(#ar_777777)"/>
-<text x="560.0" y="328" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#1f6fb2" font-weight="bold"   text-anchor="middle">ROUTE A — assembly-based (modules 03–09)</text>
-<text x="1008.0" y="328" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#0f7b7b" font-weight="bold"   text-anchor="middle">ROUTE B — reference mapping (module 12)</text>
-<polyline points="780.0,306 780.0,340 560.0,340 560.0,352" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
-<polyline points="780.0,340 1008.0,340 1008.0,352" fill="none" stroke="#0f7b7b" stroke-width="1.6" marker-end="url(#ar_0f7b7b)"/>
-<rect x="344" y="352" width="432" height="82" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="371" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">03  Assemble &amp; polish</text>
-<text x="356" y="389" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">Unicycler/SPAdes for short &amp; hybrid; Flye/Canu/Trycycler for long;</text>
-<text x="356" y="403" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">minimap2+Racon, Medaka, Pilon polish; circlator circularizes</text>
-<text x="766" y="426" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">contigs FASTA</text>
-<rect x="344" y="442" width="432" height="64" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="461" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">04  Assembly QC &amp; decontam (layer 2)</text>
-<text x="356" y="479" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">QUAST/seqkit stats; CheckM2 completeness/contamination; GUNC chimerism; FCS-GX</text>
-<text x="356" y="493" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">removes foreign contigs/fragments</text>
-<text x="766" y="498" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">clean genome FASTA</text>
-<rect x="344" y="514" width="432" height="56" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="533" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">05  Structural &amp; functional annotation</text>
-<text x="356" y="551" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">Prokka/Bakta/Prodigal genes; eggNOG-mapper GO/KEGG/COG</text>
-<text x="766" y="562" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">GFF, GenBank, proteins</text>
-<rect x="344" y="578" width="432" height="78" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="597" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">06  Typing: MLST, serotype, cgMLST</text>
-<text x="356" y="615" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">mlst seven-gene ST; Kleborate/Kaptive (Klebsiella K/O), ECTyper/ShigEiFinder</text>
-<text x="356" y="629" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">(E. coli–Shigella), SeqSero2/SISTR (Salmonella); chewBBACA cgMLST alleles</text>
-<text x="766" y="648" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">ST / serotype / allele profiles</text>
-<rect x="344" y="664" width="432" height="78" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="683" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">07  AMR, virulence &amp; mobile elements</text>
-<text x="356" y="701" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">abricate/AMRFinderPlus/RGI/PointFinder; plasmid (mob-suite,</text>
-<text x="356" y="715" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">PlasmidFinder/PLSDB); integron, IS, ICE, phage/GI, CRISPR</text>
-<text x="766" y="734" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">resistance &amp; MGE tables</text>
-<rect x="344" y="750" width="432" height="56" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="769" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">08  Pangenome</text>
-<text x="356" y="787" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">Panaroo (Roary): core/accessory partition and graph</text>
-<text x="766" y="798" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">gene presence–absence matrix</text>
-<rect x="344" y="814" width="432" height="58" rx="8" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.5" />
-<text x="356" y="833" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">09A  Core SNPs from assemblies</text>
-<text x="356" y="851" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">snippy/Gubbins recombinant masking, snp-sites, snp-dists</text>
-<text x="766" y="864" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">core alignment, SNP distance</text>
-<polyline points="560.0,434 560.0,442" fill="none" stroke="#1f6fb2" stroke-width="1.5" marker-end="url(#ar_1f6fb2)"/>
-<polyline points="560.0,506 560.0,514" fill="none" stroke="#1f6fb2" stroke-width="1.5" marker-end="url(#ar_1f6fb2)"/>
-<polyline points="560.0,570 560.0,578" fill="none" stroke="#1f6fb2" stroke-width="1.5" marker-end="url(#ar_1f6fb2)"/>
-<polyline points="560.0,656 560.0,664" fill="none" stroke="#1f6fb2" stroke-width="1.5" marker-end="url(#ar_1f6fb2)"/>
-<polyline points="560.0,742 560.0,750" fill="none" stroke="#1f6fb2" stroke-width="1.5" marker-end="url(#ar_1f6fb2)"/>
-<polyline points="560.0,806 560.0,814" fill="none" stroke="#1f6fb2" stroke-width="1.5" marker-end="url(#ar_1f6fb2)"/>
-<rect x="800" y="352" width="416" height="96" rx="8" fill="#e5f2f1" stroke="#0f7b7b" stroke-width="1.5" />
-<text x="812" y="371" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">12.1  Map reads to a common reference</text>
-<text x="812" y="389" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">BWA-MEM for Illumina/hybrid, minimap2 -ax map-ont/map-pb for long reads; samtools</text>
-<text x="812" y="403" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">sort/index, flagstat, depth -a; coverage breadth/depth; Qualimap BAM QC</text>
-<text x="1206" y="440" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">sorted+indexed BAM, coverage summary</text>
-<rect x="800" y="456" width="416" height="96" rx="8" fill="#e5f2f1" stroke="#0f7b7b" stroke-width="1.5" />
-<text x="812" y="475" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">12.2  Joint variant calling &amp; filtering</text>
-<text x="812" y="493" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">bcftools mpileup (-q20 -Q20) | call -mv | norm | filter QUAL/DP; keep bi-allelic</text>
-<text x="812" y="507" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">SNPs (missingness, MAC); bgzip+tabix</text>
-<text x="1206" y="544" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">raw/filtered/bi-allelic VCF</text>
-<rect x="800" y="560" width="416" height="64" rx="8" fill="#e5f2f1" stroke="#0f7b7b" stroke-width="1.5" />
-<text x="812" y="579" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">SNP matrix &amp; alignment-free check</text>
-<text x="812" y="597" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#222222"    text-anchor="start">vcf2phylip core alignment; snp-dists pairwise matrix; mash for rapid neighbors</text>
-<text x="1206" y="616" font-family="Helvetica, Arial, sans-serif" font-size="9" fill="#c00000"  font-style="italic"  text-anchor="end">genotype matrix / SNP distances</text>
-<rect x="800" y="632" width="416" height="108" rx="8" fill="#fbfdfd" stroke="#0f7b7b" stroke-width="1.2" />
-<text x="812" y="650" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#0f7b7b" font-weight="bold"   text-anchor="start">When to choose mapping</text>
-<text x="812" y="668" font-family="Helvetica, Arial, sans-serif" font-size="9.3" fill="#222222"    text-anchor="start">Clonal outbreak tracing and large surveillance sets with a high-quality close</text>
-<text x="812" y="682" font-family="Helvetica, Arial, sans-serif" font-size="9.3" fill="#222222"    text-anchor="start">reference; one common coordinate system, sensitive SNP/indel calls at moderate</text>
-<text x="812" y="696" font-family="Helvetica, Arial, sans-serif" font-size="9.3" fill="#222222"    text-anchor="start">depth, no assembly step.</text>
-<text x="812" y="728" font-family="Helvetica, Arial, sans-serif" font-size="9.1" fill="#c00000"  font-style="italic"  text-anchor="start">Route A is preferred for accessory genes, plasmids, MGE and broad lineage diversity</text>
-<polyline points="1008.0,448 1008.0,456" fill="none" stroke="#0f7b7b" stroke-width="1.5" marker-end="url(#ar_0f7b7b)"/>
-<polyline points="1008.0,552 1008.0,560" fill="none" stroke="#0f7b7b" stroke-width="1.5" marker-end="url(#ar_0f7b7b)"/>
-<polyline points="1008.0,624 1008.0,632" fill="none" stroke="#0f7b7b" stroke-width="1.3" marker-end="url(#ar_0f7b7b)"/>
-<rect x="344" y="952" width="872" height="78" rx="8" fill="#f4f8fc" stroke="#1f6fb2" stroke-width="1.6" />
-<text x="358" y="972" font-family="Helvetica, Arial, sans-serif" font-size="11.5" fill="#c00000" font-weight="bold"   text-anchor="start">Comparative genomics &amp; evolution  (modules 09–10)</text>
-<text x="358" y="992" font-family="Helvetica, Arial, sans-serif" font-size="9.6" fill="#222222"    text-anchor="start">Core/accessory calls, cgMLST alleles and core-SNP alignments/distances converge into one phylogeny:</text>
-<text x="358" y="1010" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1f6fb2" font-weight="bold"   text-anchor="start">IQ-TREE 3 (FastTree for quick look)  →  10 TreeTime: molecular clock, dated time tree,</text>
-<text x="358" y="1024" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#1f6fb2" font-weight="bold"   text-anchor="start">ancestral sequence reconstruction and trait mugration (country/host/phenotype)</text>
-<polyline points="560.0,872 560.0,952" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
-<polyline points="1008.0,740 1008.0,922 1008.0,922 1008.0,952" fill="none" stroke="#0f7b7b" stroke-width="1.6" marker-end="url(#ar_0f7b7b)"/>
-<rect x="344" y="1046" width="872" height="100" rx="8" fill="#efeaf7" stroke="#6b4fa0" stroke-width="1.6" />
-<text x="358" y="1066" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#6b4fa0" font-weight="bold"   text-anchor="start">13  Microbial genomic GWAS &amp; post-GWAS  (input: gene presence–absence from 08, VCF from 12, traits.csv)</text>
-<rect x="354.0" y="1076" width="281.3333333333333" height="44" rx="6" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.2" />
-<text x="362.0" y="1093" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#6b4fa0" font-weight="bold"   text-anchor="start">13.1 Scoary</text>
-<text x="362.0" y="1106" font-family="Helvetica, Arial, sans-serif" font-size="8.4" fill="#222222"    text-anchor="start">gene-level pan-GWAS, Fisher + permutation, pairwise</text>
-<text x="362.0" y="1117" font-family="Helvetica, Arial, sans-serif" font-size="8.4" fill="#222222"    text-anchor="start">correction</text>
-<rect x="639.3333333333333" y="1076" width="281.3333333333333" height="44" rx="6" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.2" />
-<text x="647.3333333333333" y="1093" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#6b4fa0" font-weight="bold"   text-anchor="start">13.2 PLINK</text>
-<text x="647.3333333333333" y="1106" font-family="Helvetica, Arial, sans-serif" font-size="8.4" fill="#222222"    text-anchor="start">SNP logistic/linear model with IBS/MDS population</text>
-<text x="647.3333333333333" y="1117" font-family="Helvetica, Arial, sans-serif" font-size="8.4" fill="#222222"    text-anchor="start">covariates</text>
-<rect x="924.6666666666666" y="1076" width="281.3333333333333" height="44" rx="6" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.2" />
-<text x="932.6666666666666" y="1093" font-family="Helvetica, Arial, sans-serif" font-size="9.8" fill="#6b4fa0" font-weight="bold"   text-anchor="start">13.3 pyseer</text>
-<text x="932.6666666666666" y="1106" font-family="Helvetica, Arial, sans-serif" font-size="8.4" fill="#222222"    text-anchor="start">mixed model with SNP/mash distance kernel; gene,</text>
-<text x="932.6666666666666" y="1117" font-family="Helvetica, Arial, sans-serif" font-size="8.4" fill="#222222"    text-anchor="start">SNP, optional k-mer</text>
-<text x="358" y="1138" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#6b4fa0" font-weight="bold"   text-anchor="start">13.4 post-GWAS in R: BH/Bonferroni correction, QQ &amp; Manhattan plots, merged hit table</text>
-<rect x="1252" y="86" width="412" height="1094" rx="10" fill="#ffffff" stroke="#c00000" stroke-width="1.4" stroke-dasharray="6,4"/>
-<rect x="1252" y="86" width="412" height="26" rx="10" fill="#c00000"/>
-<rect x="1252" y="99" width="412" height="13" fill="#c00000"/>
-<text x="1458.0" y="104" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ffffff" font-weight="bold"   text-anchor="middle">Statistics, visualization &amp; reporting  (11, 99)</text>
-<rect x="1264.0" y="122" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1272.0" y="138" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">Phylogeny (ggtree, IQ-TREE 3)</text>
-<line x1="1282.0" y1="152" x2="1300.0" y2="152" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1282.0" y1="164" x2="1300.0" y2="164" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1282.0" y1="176" x2="1300.0" y2="176" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1282.0" y1="152" x2="1282.0" y2="176" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1300.0" y1="152" x2="1300.0" y2="164" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1300.0" y1="164" x2="1437.0" y2="164" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1300.0" y1="176" x2="1437.0" y2="176" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<rect x="1461.0" y="122" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1469.0" y="138" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">Time-scaled tree (TreeTime)</text>
-<line x1="1477.0" y1="154" x2="1556.5" y2="154" stroke="#1f6fb2" stroke-width="1.2"  stroke-linecap="round"/>
-<line x1="1477.0" y1="168" x2="1556.5" y2="168" stroke="#1f6fb2" stroke-width="1.2"  stroke-linecap="round"/>
-<line x1="1477.0" y1="180" x2="1556.5" y2="180" stroke="#1f6fb2" stroke-width="1.2"  stroke-linecap="round"/>
-<line x1="1477.0" y1="154" x2="1477.0" y2="180" stroke="#1f6fb2" stroke-width="1.2"  stroke-linecap="round"/>
-<line x1="1556.5" y1="154" x2="1565.05" y2="168" stroke="#1f6fb2" stroke-width="1.2"  stroke-linecap="round"/>
-<line x1="1565.05" y1="168" x2="1636.0" y2="168" stroke="#1f6fb2" stroke-width="1.2"  stroke-linecap="round"/>
-<line x1="1556.5" y1="180" x2="1636.0" y2="180" stroke="#1f6fb2" stroke-width="1.2"  stroke-linecap="round"/>
-<line x1="1475.0" y1="236" x2="1638.0" y2="236" stroke="#777777" stroke-width="1.1"  stroke-linecap="round"/>
-<text x="1475.0" y="241" font-family="Helvetica, Arial, sans-serif" font-size="7" fill="#777777"    text-anchor="start">2010</text>
-<text x="1556.5" y="241" font-family="Helvetica, Arial, sans-serif" font-size="7" fill="#777777"    text-anchor="start">2018</text>
-<text x="1638.0" y="241" font-family="Helvetica, Arial, sans-serif" font-size="7" fill="#777777"    text-anchor="start">2026</text>
-<rect x="1264.0" y="260" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1272.0" y="276" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">GrapeTree / MST clusters</text>
-<line x1="1288.0" y1="296" x2="1350.95" y2="292" stroke="#777777" stroke-width="1.0"  stroke-linecap="round"/>
-<line x1="1288.0" y1="296" x2="1431.0" y2="298" stroke="#777777" stroke-width="1.0"  stroke-linecap="round"/>
-<line x1="1350.95" y1="292" x2="1431.0" y2="298" stroke="#777777" stroke-width="1.0"  stroke-linecap="round"/>
-<line x1="1350.95" y1="292" x2="1359.5" y2="368" stroke="#777777" stroke-width="1.0"  stroke-linecap="round"/>
-<line x1="1431.0" y1="298" x2="1359.5" y2="368" stroke="#777777" stroke-width="1.0"  stroke-linecap="round"/>
-<line x1="1431.0" y1="298" x2="1316.75" y2="364" stroke="#777777" stroke-width="1.0"  stroke-linecap="round"/>
-<line x1="1359.5" y1="368" x2="1316.75" y2="364" stroke="#777777" stroke-width="1.0"  stroke-linecap="round"/>
-<circle cx="1288.0" cy="296" r="4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<circle cx="1350.95" cy="292" r="4" fill="#c00000" stroke="#c00000"/>
-<circle cx="1431.0" cy="298" r="4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<circle cx="1359.5" cy="368" r="4" fill="#0f7b7b" stroke="#0f7b7b"/>
-<circle cx="1316.75" cy="364" r="4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<rect x="1461.0" y="260" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1469.0" y="276" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">iTOL annotated rings</text>
-<circle cx="1556.5" cy="331.0" r="43.0" fill="none" stroke="#1f6fb2" stroke-width="5"/>
-<path d="M 1592.5 331.0 A 36.0 36.0 0 0 1 1590.2 343.6" fill="none" stroke="#c00000" stroke-width="4"/>
-<path d="M 1588.9 346.6 A 36.0 36.0 0 0 1 1581.4 357.0" fill="none" stroke="#1f6fb2" stroke-width="4"/>
-<path d="M 1578.9 359.1 A 36.0 36.0 0 0 1 1567.6 365.2" fill="none" stroke="#0f7b7b" stroke-width="4"/>
-<path d="M 1564.5 366.1 A 36.0 36.0 0 0 1 1551.7 366.7" fill="none" stroke="#6b4fa0" stroke-width="4"/>
-<path d="M 1548.5 366.1 A 36.0 36.0 0 0 1 1536.7 361.0" fill="none" stroke="#c00000" stroke-width="4"/>
-<path d="M 1534.1 359.1 A 36.0 36.0 0 0 1 1525.6 349.5" fill="none" stroke="#1f6fb2" stroke-width="4"/>
-<path d="M 1524.1 346.6 A 36.0 36.0 0 0 1 1520.6 334.2" fill="none" stroke="#0f7b7b" stroke-width="4"/>
-<path d="M 1520.5 331.0 A 36.0 36.0 0 0 1 1522.8 318.4" fill="none" stroke="#6b4fa0" stroke-width="4"/>
-<path d="M 1524.1 315.4 A 36.0 36.0 0 0 1 1531.6 305.0" fill="none" stroke="#c00000" stroke-width="4"/>
-<path d="M 1534.1 302.9 A 36.0 36.0 0 0 1 1545.4 296.8" fill="none" stroke="#1f6fb2" stroke-width="4"/>
-<path d="M 1548.5 295.9 A 36.0 36.0 0 0 1 1561.3 295.3" fill="none" stroke="#0f7b7b" stroke-width="4"/>
-<path d="M 1564.5 295.9 A 36.0 36.0 0 0 1 1576.3 301.0" fill="none" stroke="#6b4fa0" stroke-width="4"/>
-<path d="M 1578.9 302.9 A 36.0 36.0 0 0 1 1587.4 312.5" fill="none" stroke="#c00000" stroke-width="4"/>
-<path d="M 1588.9 315.4 A 36.0 36.0 0 0 1 1592.4 327.8" fill="none" stroke="#1f6fb2" stroke-width="4"/>
-<rect x="1264.0" y="398" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1272.0" y="414" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">ggtree annotation panels</text>
-<line x1="1282.0" y1="428" x2="1300.0" y2="428" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1282.0" y1="440" x2="1300.0" y2="440" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1282.0" y1="452" x2="1300.0" y2="452" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1282.0" y1="428" x2="1282.0" y2="452" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1300.0" y1="428" x2="1300.0" y2="440" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1300.0" y1="440" x2="1437.0" y2="440" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<line x1="1300.0" y1="452" x2="1437.0" y2="452" stroke="#1f6fb2" stroke-width="1.3"  stroke-linecap="round"/>
-<rect x="1380.02" y="424" width="-201.50333333333333" height="11" fill="#eaf2fa" stroke="#fff" stroke-width="0.6"/>
-<rect x="1178.5166666666667" y="424" width="-201.50333333333333" height="11" fill="#bcd6ea" stroke="#fff" stroke-width="0.6"/>
-<rect x="977.0133333333333" y="424" width="-201.50333333333333" height="11" fill="#1f6fb2" stroke="#fff" stroke-width="0.6"/>
-<rect x="775.51" y="424" width="-201.50333333333333" height="11" fill="#f3d2d2" stroke="#fff" stroke-width="0.6"/>
-<rect x="574.0066666666667" y="424" width="-201.50333333333333" height="11" fill="#efeaf7" stroke="#fff" stroke-width="0.6"/>
-<rect x="372.50333333333333" y="424" width="-201.50333333333333" height="11" fill="#dff0ee" stroke="#fff" stroke-width="0.6"/>
-<rect x="1380.02" y="437" width="-201.50333333333333" height="11" fill="#bcd6ea" stroke="#fff" stroke-width="0.6"/>
-<rect x="1178.5166666666667" y="437" width="-201.50333333333333" height="11" fill="#1f6fb2" stroke="#fff" stroke-width="0.6"/>
-<rect x="977.0133333333333" y="437" width="-201.50333333333333" height="11" fill="#f3d2d2" stroke="#fff" stroke-width="0.6"/>
-<rect x="775.51" y="437" width="-201.50333333333333" height="11" fill="#efeaf7" stroke="#fff" stroke-width="0.6"/>
-<rect x="574.0066666666667" y="437" width="-201.50333333333333" height="11" fill="#dff0ee" stroke="#fff" stroke-width="0.6"/>
-<rect x="372.50333333333333" y="437" width="-201.50333333333333" height="11" fill="#eaf2fa" stroke="#fff" stroke-width="0.6"/>
-<rect x="1380.02" y="450" width="-201.50333333333333" height="11" fill="#1f6fb2" stroke="#fff" stroke-width="0.6"/>
-<rect x="1178.5166666666667" y="450" width="-201.50333333333333" height="11" fill="#f3d2d2" stroke="#fff" stroke-width="0.6"/>
-<rect x="977.0133333333333" y="450" width="-201.50333333333333" height="11" fill="#efeaf7" stroke="#fff" stroke-width="0.6"/>
-<rect x="775.51" y="450" width="-201.50333333333333" height="11" fill="#dff0ee" stroke="#fff" stroke-width="0.6"/>
-<rect x="574.0066666666667" y="450" width="-201.50333333333333" height="11" fill="#eaf2fa" stroke="#fff" stroke-width="0.6"/>
-<rect x="372.50333333333333" y="450" width="-201.50333333333333" height="11" fill="#bcd6ea" stroke="#fff" stroke-width="0.6"/>
-<rect x="1461.0" y="398" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1469.0" y="414" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">GWAS QQ &amp; Manhattan (13.4)</text>
-<circle cx="1475.0" cy="482.8" r="1.7" fill="#1f6fb2"/>
-<circle cx="1478.5" cy="506.8" r="1.7" fill="#1f6fb2"/>
-<circle cx="1482.1" cy="496.3" r="1.7" fill="#1f6fb2"/>
-<circle cx="1485.6" cy="508.5" r="1.7" fill="#1f6fb2"/>
-<circle cx="1489.2" cy="498.7" r="1.7" fill="#1f6fb2"/>
-<circle cx="1492.7" cy="502.3" r="1.7" fill="#1f6fb2"/>
-<circle cx="1496.3" cy="508.8" r="1.7" fill="#1f6fb2"/>
-<circle cx="1499.8" cy="499.3" r="1.7" fill="#1f6fb2"/>
-<circle cx="1503.3" cy="509.2" r="1.7" fill="#1f6fb2"/>
-<circle cx="1506.9" cy="473.6" r="1.7" fill="#1f6fb2"/>
-<circle cx="1510.4" cy="508.5" r="1.7" fill="#1f6fb2"/>
-<circle cx="1514.0" cy="508.1" r="1.7" fill="#1f6fb2"/>
-<circle cx="1517.5" cy="501.1" r="1.7" fill="#1f6fb2"/>
-<circle cx="1521.1" cy="492.6" r="1.7" fill="#1f6fb2"/>
-<circle cx="1524.6" cy="507.4" r="1.7" fill="#1f6fb2"/>
-<circle cx="1528.2" cy="505.3" r="1.7" fill="#1f6fb2"/>
-<circle cx="1531.7" cy="496.8" r="1.7" fill="#1f6fb2"/>
-<circle cx="1535.2" cy="490.1" r="1.7" fill="#1f6fb2"/>
-<circle cx="1538.8" cy="461.5" r="1.7" fill="#c00000"/>
-<circle cx="1542.3" cy="501.7" r="1.7" fill="#1f6fb2"/>
-<circle cx="1545.9" cy="489.5" r="1.7" fill="#1f6fb2"/>
-<circle cx="1549.4" cy="509.0" r="1.7" fill="#1f6fb2"/>
-<circle cx="1553.0" cy="492.0" r="1.7" fill="#1f6fb2"/>
-<circle cx="1556.5" cy="503.9" r="1.7" fill="#1f6fb2"/>
-<circle cx="1560.0" cy="507.0" r="1.7" fill="#1f6fb2"/>
-<circle cx="1563.6" cy="507.5" r="1.7" fill="#1f6fb2"/>
-<circle cx="1567.1" cy="503.5" r="1.7" fill="#1f6fb2"/>
-<circle cx="1570.7" cy="441.4" r="1.7" fill="#c00000"/>
-<circle cx="1574.2" cy="506.2" r="1.7" fill="#1f6fb2"/>
-<circle cx="1577.8" cy="497.8" r="1.7" fill="#1f6fb2"/>
-<circle cx="1581.3" cy="496.6" r="1.7" fill="#1f6fb2"/>
-<circle cx="1584.8" cy="502.2" r="1.7" fill="#1f6fb2"/>
-<circle cx="1588.4" cy="498.5" r="1.7" fill="#1f6fb2"/>
-<circle cx="1591.9" cy="508.7" r="1.7" fill="#1f6fb2"/>
-<circle cx="1595.5" cy="508.7" r="1.7" fill="#1f6fb2"/>
-<circle cx="1599.0" cy="505.7" r="1.7" fill="#1f6fb2"/>
-<circle cx="1602.6" cy="452.8" r="1.7" fill="#c00000"/>
-<circle cx="1606.1" cy="501.0" r="1.7" fill="#1f6fb2"/>
-<circle cx="1609.7" cy="503.4" r="1.7" fill="#1f6fb2"/>
-<circle cx="1613.2" cy="497.7" r="1.7" fill="#1f6fb2"/>
-<circle cx="1616.7" cy="500.5" r="1.7" fill="#1f6fb2"/>
-<circle cx="1620.3" cy="503.7" r="1.7" fill="#1f6fb2"/>
-<circle cx="1623.8" cy="493.3" r="1.7" fill="#1f6fb2"/>
-<circle cx="1627.4" cy="495.3" r="1.7" fill="#1f6fb2"/>
-<circle cx="1630.9" cy="504.9" r="1.7" fill="#1f6fb2"/>
-<circle cx="1634.5" cy="461.7" r="1.7" fill="#c00000"/>
-<line x1="1475.0" y1="459.6" x2="1638.0" y2="459.6" stroke="#c00000" stroke-width="1.0" stroke-dasharray="3,2" stroke-linecap="round"/>
-<rect x="1264.0" y="536" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1272.0" y="552" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">AMR / allele heatmaps</text>
-<rect x="1278.0" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(159,182,230)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1294.3" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(100,135,214)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1310.6" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(85,123,210)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1326.9" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(126,156,221)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1343.2" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(192,208,238)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1359.5" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(232,240,249)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1375.8" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(216,228,245)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1392.1" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(157,180,229)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1408.4" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(99,134,214)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1424.7" y="562.0" width="16.3" height="14.333333333333334" fill="rgb(86,123,210)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1278.0" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(86,124,210)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1294.3" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(98,133,213)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1310.6" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(155,179,229)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1326.9" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(215,227,245)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1343.2" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(232,240,249)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1359.5" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(193,209,239)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1375.8" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(128,157,221)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1392.1" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(86,123,210)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1408.4" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(99,134,214)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1424.7" y="576.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(157,180,229)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1278.0" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(120,151,219)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1294.3" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(185,203,237)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1310.6" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(230,239,249)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1326.9" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(221,231,246)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1343.2" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(165,186,231)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1359.5" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(104,138,215)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1375.8" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(84,122,210)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1392.1" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(121,151,219)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1408.4" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(186,203,237)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1424.7" y="590.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(230,239,249)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1278.0" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(210,223,243)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1294.3" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(233,241,249)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1310.6" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(200,215,241)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1326.9" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(135,163,223)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1343.2" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(88,125,211)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1359.5" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(94,130,212)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1375.8" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(149,174,227)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1392.1" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(211,223,243)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1408.4" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(233,241,249)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1424.7" y="605.0" width="16.3" height="14.333333333333334" fill="rgb(199,214,240)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1278.0" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(225,235,247)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1294.3" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(172,192,233)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1310.6" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(109,142,216)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1326.9" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(84,122,210)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1343.2" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(115,146,218)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1359.5" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(179,198,235)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1375.8" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(228,237,248)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1392.1" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(224,234,247)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1408.4" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(171,191,233)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1424.7" y="619.3333333333334" width="16.3" height="14.333333333333334" fill="rgb(108,141,216)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1278.0" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(142,169,225)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1294.3" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(91,128,212)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1310.6" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(91,127,211)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1326.9" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(142,168,225)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1343.2" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(205,219,242)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1359.5" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(233,241,249)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1375.8" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(205,219,242)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1392.1" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(141,168,225)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1408.4" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(91,127,211)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1424.7" y="633.6666666666666" width="16.3" height="14.333333333333334" fill="rgb(91,128,212)" stroke="#fff" stroke-width="0.5"/>
-<rect x="1461.0" y="536" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1469.0" y="552" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">Metadata maps &amp; timeline</text>
-<path d="M1477.0,646 q10,-26 30,-20 q14,-16 34,-6 q20,-12 30,8 q16,2 14,20 Z" fill="#eef4fa" stroke="#1f6fb2" stroke-width="1"/>
-<circle cx="1495.0" cy="636" r="3" fill="#c00000" stroke="#c00000"/>
-<circle cx="1523.0" cy="628" r="3" fill="#c00000" stroke="#c00000"/>
-<circle cx="1549.0" cy="638" r="3" fill="#c00000" stroke="#c00000"/>
-<circle cx="1511.0" cy="642" r="3" fill="#c00000" stroke="#c00000"/>
-<rect x="1264.0" y="674" width="191.0" height="128" rx="7" fill="#ffffff" stroke="#1f6fb2" stroke-width="1.2" />
-<text x="1272.0" y="690" font-family="Helvetica, Arial, sans-serif" font-size="9.4" fill="#c00000" font-weight="bold"   text-anchor="start">99 merged, typed report</text>
-<line x1="1280.0" y1="704" x2="1439.0" y2="704" stroke="#777777" stroke-width="0.9"  stroke-linecap="round"/>
-<line x1="1280.0" y1="712" x2="1439.0" y2="712" stroke="#777777" stroke-width="0.9"  stroke-linecap="round"/>
-<line x1="1280.0" y1="720" x2="1439.0" y2="720" stroke="#777777" stroke-width="0.9"  stroke-linecap="round"/>
-<line x1="1280.0" y1="728" x2="1439.0" y2="728" stroke="#777777" stroke-width="0.9"  stroke-linecap="round"/>
-<line x1="1280.0" y1="736" x2="1439.0" y2="736" stroke="#777777" stroke-width="0.9"  stroke-linecap="round"/>
-<rect x="1280.0" y="700" width="159.0" height="6" fill="#dce9f6" stroke="#1f6fb2" stroke-width="0.8"/>
-<rect x="1264" y="824" width="388" height="344" rx="8" fill="#fcfdff" stroke="#c00000" stroke-width="1.3" />
-<text x="1274" y="846" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#c00000" font-weight="bold"   text-anchor="start">Integrated, reproducible outputs (99_report)</text>
-<circle cx="1276" cy="864.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="868" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">Clean single-source reads and assemblies (FASTQ/FASTA)</text>
-<circle cx="1276" cy="884.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="888" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">ST, species serotype and cgMLST allele profiles</text>
-<circle cx="1276" cy="904.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="908" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">AMR, virulence, plasmid and MGE annotations</text>
-<circle cx="1276" cy="924.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="928" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">Pangenome, core-SNP and cgMLST distance matrices</text>
-<circle cx="1276" cy="944.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="948" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">Sorted/indexed BAM, coverage metrics and filtered VCF</text>
-<circle cx="1276" cy="964.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="968" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">IQ-TREE 3 phylogeny and TreeTime-dated time tree</text>
-<circle cx="1276" cy="984.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="988" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">GWAS hits with BH/Bonferroni, QQ and Manhattan plots</text>
-<circle cx="1276" cy="1004.6" r="2.4" fill="#1f6fb2" stroke="#1f6fb2"/>
-<text x="1284" y="1008" font-family="Helvetica, Arial, sans-serif" font-size="8.8" fill="#222222"    text-anchor="start">GrapeTree/iTOL/ggtree bundles and merged report</text>
-<text x="840.0" y="1206" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="30" font-weight="bold"><tspan fill="#1f6fb2">Easy</tspan><tspan fill="#c00000">WGS</tspan></text>
-<text x="840.0" y="1238" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#777777"    text-anchor="middle">github.com/LLQ95/EasyWGS  ·  easywgs.readthedocs.io  ·  MIT license  ·  Illumina / Nanopore / PacBio / hybrid</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1780" height="2022" viewBox="0 0 1780 2022">
+<marker id="ar_6f6f6f" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3.2 L0,6.4 Z" fill="#6f6f6f"/></marker>
+<marker id="ar_1f6fb2" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3.2 L0,6.4 Z" fill="#1f6fb2"/></marker>
+<marker id="ar_0f7b7b" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3.2 L0,6.4 Z" fill="#0f7b7b"/></marker>
+<marker id="ar_6b4fa0" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3.2 L0,6.4 Z" fill="#6b4fa0"/></marker>
+<rect width="1780" height="2022" fill="#ffffff"/>
+<text x="890.0" y="42.0" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#c00000" font-weight="bold"  text-anchor="middle">EasyWGS: a reproducible cross-platform workflow for bacterial isolate whole-genome sequencing</text>
+<circle cx="44.0" cy="74.0" r="13.5" fill="#c00000" stroke="#c00000"/>
+<text x="44.0" y="79.5" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#fff" font-weight="bold"  text-anchor="middle">1</text>
+<text x="65.0" y="79.0" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#1f1f1f" font-weight="bold"  text-anchor="start">Installation and setup</text>
+<circle cx="360.0" cy="74.0" r="13.5" fill="#c00000" stroke="#c00000"/>
+<text x="360.0" y="79.5" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#fff" font-weight="bold"  text-anchor="middle">2</text>
+<text x="381.0" y="79.0" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#1f1f1f" font-weight="bold"  text-anchor="start">QC and two-layer decontamination</text>
+<circle cx="870.0" cy="74.0" r="13.5" fill="#c00000" stroke="#c00000"/>
+<text x="870.0" y="79.5" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#fff" font-weight="bold"  text-anchor="middle">3</text>
+<text x="891.0" y="79.0" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#1f1f1f" font-weight="bold"  text-anchor="start">Two parallel routes plus genomic GWAS</text>
+<circle cx="1430.0" cy="74.0" r="13.5" fill="#c00000" stroke="#c00000"/>
+<text x="1430.0" y="79.5" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#fff" font-weight="bold"  text-anchor="middle">4</text>
+<text x="1451.0" y="79.0" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#1f1f1f" font-weight="bold"  text-anchor="start">Integration and reporting</text>
+<rect x="18.0" y="96.0" width="346.0" height="1848.4" rx="12" fill="#ffffff" stroke="#c00000" stroke-width="1.6" stroke-dasharray="7,5"/>
+<rect x="18" y="96" width="346" height="30" rx="12" fill="#c00000"/>
+<rect x="18" y="111" width="346" height="15" fill="#c00000"/>
+<text x="191.0" y="117.0" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold"  text-anchor="middle">Software and databases (module 00)</text>
+<rect x="378.0" y="96.0" width="1378.0" height="1848.4" rx="12" fill="#ffffff" stroke="#c00000" stroke-width="1.6" stroke-dasharray="7,5"/>
+<rect x="378" y="96" width="1378" height="30" rx="12" fill="#c00000"/>
+<rect x="378" y="111" width="1378" height="15" fill="#c00000"/>
+<text x="1067.0" y="117.0" font-family="Helvetica, Arial, sans-serif" font-size="16" fill="#ffffff" font-weight="bold"  text-anchor="middle">Data analysis pipeline (modules 01 to 13, 99)</text>
+<text x="38.0" y="142.0" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Conda / mamba environments</text>
+<circle cx="42.0" cy="159.0" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="163.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">easywgs (main), longread, checkm2, gunc,</text>
+<text x="52.0" y="180.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">bakta, eggnog</text>
+<text x="38.0" y="205.8" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Acquisition and read QC</text>
+<circle cx="42.0" cy="222.8" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="226.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">fastp, FastQC, MultiQC</text>
+<circle cx="42.0" cy="240.2" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="244.2" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Porechop, chopper, Filtlong, NanoPlot</text>
+<circle cx="42.0" cy="257.6" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="261.6" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">NCBI datasets, SRA Toolkit</text>
+<text x="38.0" y="287.0" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Two-layer decontamination</text>
+<circle cx="42.0" cy="304.0" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="308.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">CLEAN, Kraken2/Bracken, BBDuk</text>
+<circle cx="42.0" cy="321.4" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="325.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">CheckM2, GUNC, FCS-GX, BlobToolKit</text>
+<circle cx="42.0" cy="338.8" r="3.1" fill="#c00000" stroke="#c00000"/>
+<text x="52.0" y="342.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#c00000"   text-anchor="start">k2_standard and FCS-GX databases</text>
+<text x="38.0" y="368.2" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Assembly and polishing</text>
+<circle cx="42.0" cy="385.2" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="389.2" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Unicycler, SPAdes, Flye, Canu,</text>
+<text x="52.0" y="406.6" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">dragonflye</text>
+<circle cx="42.0" cy="420.0" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="424.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Trycycler, minimap2 + Racon, Medaka,</text>
+<text x="52.0" y="441.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Pilon</text>
+<circle cx="42.0" cy="454.8" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="458.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Circlator, QUAST, SeqKit, assembly-stats</text>
+<text x="38.0" y="484.2" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Annotation and typing</text>
+<circle cx="42.0" cy="501.2" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="505.2" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Prokka, Bakta, Prodigal, eggNOG-mapper</text>
+<circle cx="42.0" cy="518.6" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="522.6" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">mlst; chewBBACA (cgMLST)</text>
+<circle cx="42.0" cy="536.0" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="540.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Kleborate/Kaptive, ECTyper, ShigEiFinder</text>
+<circle cx="42.0" cy="553.4" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="557.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">SeqSero2, SISTR</text>
+<circle cx="42.0" cy="570.8" r="3.1" fill="#c00000" stroke="#c00000"/>
+<text x="52.0" y="574.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#c00000"   text-anchor="start">PubMLST and species cgMLST schemas</text>
+<text x="38.0" y="600.2" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">AMR / virulence / MGE</text>
+<circle cx="42.0" cy="617.2" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="621.2" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">abricate (ResFinder/VFDB/CARD/MEGARes)</text>
+<circle cx="42.0" cy="634.6" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="638.6" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">AMRFinderPlus, RGI, PointFinder</text>
+<circle cx="42.0" cy="652.0" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="656.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">mob-suite, PlasmidFinder, IntegronFinder</text>
+<circle cx="42.0" cy="669.4" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="673.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">ISEScan, mobileOG, geNomad, PhiSpy,</text>
+<text x="52.0" y="690.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">CRISPRCasFinder</text>
+<circle cx="42.0" cy="704.2" r="3.1" fill="#c00000" stroke="#c00000"/>
+<text x="52.0" y="708.2" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#c00000"   text-anchor="start">PLSDB, ResFinder, VFDB, CARD</text>
+<text x="38.0" y="733.6" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Comparison and evolution</text>
+<circle cx="42.0" cy="750.6" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="754.6" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Panaroo, Roary; Mash, CD-HIT</text>
+<circle cx="42.0" cy="768.0" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="772.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">snippy, Gubbins, snp-sites, snp-dists</text>
+<circle cx="42.0" cy="785.4" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="789.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">IQ-TREE 3, FastTree, MAFFT, MUMmer</text>
+<circle cx="42.0" cy="802.8" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="806.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">TreeTime (clock, ancestors, mugration)</text>
+<text x="38.0" y="832.2" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Mapping and genomic GWAS</text>
+<circle cx="42.0" cy="849.2" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="853.2" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">BWA, minimap2, samtools/bcftools, htslib</text>
+<circle cx="42.0" cy="866.6" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="870.6" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Qualimap, vcf2phylip, tabix</text>
+<circle cx="42.0" cy="884.0" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="888.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">Scoary, PLINK, pyseer; R (BH/Bonferroni)</text>
+<text x="38.0" y="913.4" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">External viewers (bundles exported)</text>
+<circle cx="42.0" cy="930.4" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="934.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">GrapeTree, iTOL datasets, ggtree</text>
+<circle cx="42.0" cy="947.8" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="951.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">ComplexHeatmap, ggplot2, Microreact</text>
+<text x="38.0" y="1848.4" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Workflow drivers</text>
+<text x="38.0" y="1868.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">run_assembly.sh / run_mapping.sh</text>
+<text x="38.0" y="1886.4" font-family="Helvetica, Arial, sans-serif" font-size="10.8" fill="#6f6f6f"   text-anchor="start">run_all.sh chains every stage; 99_report merges results</text>
+<text x="38.0" y="1908.4" font-family="Helvetica, Arial, sans-serif" font-size="13.5" fill="#c00000" font-weight="bold"  text-anchor="start">Legend</text>
+<circle cx="42.0" cy="1924.4" r="3.1" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="52.0" y="1928.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f6fb2"   text-anchor="start">software</text>
+<circle cx="156.0" cy="1924.4" r="3.1" fill="#c00000" stroke="#c00000"/>
+<text x="166.0" y="1928.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#c00000"   text-anchor="start">database</text>
+<rect x="396.0" y="130.0" width="1342.0" height="58.0" rx="9" fill="#dce9f6" stroke="#1f6fb2" stroke-width="1.5" />
+<text x="410.0" y="155.0" font-family="Helvetica, Arial, sans-serif" font-size="13.4" fill="#1f1f1f" font-weight="bold"  text-anchor="start">Raw reads and metadata (config/samplesheet.csv):  Illumina paired-end   |   Oxford Nanopore   |   PacBio   |   hybrid</text>
+<text x="410.0" y="177.0" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#6f6f6f"  font-style="italic" text-anchor="start">per-isolate id, platform, species, R1/R2, long reads, reference, date, country, phenotype          config/traits.csv</text>
+<rect x="396.0" y="200.0" width="1342.0" height="111.2" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="224.0" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">01  Quality control</text>
+<text x="410.0" y="246.0" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">Short reads: fastp adapter/quality trimming and HTML report.</text>
+<text x="410.0" y="265.6" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">Long reads: Porechop/chopper, Filtlong and NanoPlot for length and quality.</text>
+<text x="1726.0" y="300.2" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">trimmed FASTQ plus FastQC/MultiQC</text>
+<rect x="396.0" y="323.2" width="1342.0" height="111.2" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="347.2" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">02  Read-level decontamination (layer 1, keep-by-target)</text>
+<text x="410.0" y="369.2" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">CLEAN retains only target-taxon reads; Kraken2/Bracken scouts the taxonomic composition.</text>
+<text x="410.0" y="388.8" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">BBDuk removes reference and adapter hits, leaving clean single-source reads.</text>
+<text x="1726.0" y="423.4" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">clean single-source reads (FASTQ)</text>
+<polyline points="1067.0,311.2 1067.0,323.2" fill="none" stroke="#6f6f6f" stroke-width="1.7" marker-end="url(#ar_6f6f6f)"/>
+<text x="724.5" y="458.4" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#1f6fb2" font-weight="bold"  text-anchor="middle">ROUTE A - assembly-based (modules 03 to 09)</text>
+<text x="1409.5" y="458.4" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#0f7b7b" font-weight="bold"  text-anchor="middle">ROUTE B - reference mapping (module 12)</text>
+<polyline points="1067.0,434.4 1067.0,470.4 724.5,470.4 724.5,478.4" fill="none" stroke="#1f6fb2" stroke-width="1.7" marker-end="url(#ar_1f6fb2)"/>
+<polyline points="1067.0,470.4 1409.5,470.4 1409.5,478.4" fill="none" stroke="#0f7b7b" stroke-width="1.7" marker-end="url(#ar_0f7b7b)"/>
+<rect x="396.0" y="480.4" width="657.0" height="150.4" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="504.4" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">03  Assemble and polish</text>
+<text x="410.0" y="526.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">Unicycler/SPAdes for short and hybrid reads; Flye, Canu and Trycycler for long</text>
+<text x="410.0" y="546.0" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">reads.</text>
+<text x="410.0" y="565.6" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">minimap2 plus Racon, then Medaka and short-read Pilon; Circlator fixes the origin.</text>
+<text x="1041.0" y="619.8" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">contigs FASTA</text>
+<rect x="396.0" y="642.8" width="657.0" height="130.8" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="666.8" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">04  Assembly QC and decontamination (layer 2)</text>
+<text x="410.0" y="688.8" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">QUAST/SeqKit statistics; CheckM2 completeness and contamination; GUNC chimerism.</text>
+<text x="410.0" y="708.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">FCS-GX removes foreign contigs and fragments that survived read-level cleaning.</text>
+<text x="1041.0" y="762.6" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">clean genome FASTA</text>
+<rect x="396.0" y="785.6" width="657.0" height="111.2" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="809.6" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">05  Structural and functional annotation</text>
+<text x="410.0" y="831.6" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">Prokka/Bakta/Prodigal call genes; eggNOG-mapper assigns GO, KEGG and COG terms.</text>
+<text x="1041.0" y="885.8" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">GFF, GenBank, proteins</text>
+<rect x="396.0" y="908.8" width="657.0" height="150.4" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="932.8" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">06  Typing: MLST, serotype, cgMLST</text>
+<text x="410.0" y="954.8" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">mlst seven-gene ST; Kleborate/Kaptive for Klebsiella K/O; ECTyper/ShigEiFinder for</text>
+<text x="410.0" y="974.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">E. coli-Shigella.</text>
+<text x="410.0" y="994.0" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">SeqSero2/SISTR for Salmonella; chewBBACA calls cgMLST alleles.</text>
+<text x="1041.0" y="1048.2" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">ST / serotype / allele profiles</text>
+<rect x="396.0" y="1071.2" width="657.0" height="150.4" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="1095.2" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">07  AMR, virulence and mobile elements</text>
+<text x="410.0" y="1117.2" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">abricate, AMRFinderPlus, RGI and PointFinder for resistance and point mutations.</text>
+<text x="410.0" y="1136.8" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">Plasmid, integron, IS, ICE, prophage/genomic island and CRISPR annotation.</text>
+<text x="1041.0" y="1210.6" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">resistance and MGE tables</text>
+<rect x="396.0" y="1233.6" width="657.0" height="91.6" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="1257.6" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">08  Pangenome</text>
+<text x="410.0" y="1279.6" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">Panaroo (Roary retained as a fast baseline): core/accessory partition and graph.</text>
+<text x="1041.0" y="1314.2" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">gene presence-absence matrix</text>
+<rect x="396.0" y="1337.2" width="657.0" height="111.2" rx="9" fill="#eaf2fa" stroke="#1f6fb2" stroke-width="1.6" />
+<text x="410.0" y="1361.2" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">09A  Core SNPs from assemblies</text>
+<text x="410.0" y="1383.2" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">snippy and Gubbins mask recombinant segments; snp-sites and snp-dists finish the</text>
+<text x="410.0" y="1402.8" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">set.</text>
+<text x="1041.0" y="1437.4" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#1f6fb2"  font-style="italic" text-anchor="end">core alignment, SNP distance</text>
+<polyline points="724.5,630.8 724.5,642.8" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
+<polyline points="724.5,773.6 724.5,785.6" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
+<polyline points="724.5,896.8 724.5,908.8" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
+<polyline points="724.5,1059.2 724.5,1071.2" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
+<polyline points="724.5,1221.6 724.5,1233.6" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
+<polyline points="724.5,1325.2 724.5,1337.2" fill="none" stroke="#1f6fb2" stroke-width="1.6" marker-end="url(#ar_1f6fb2)"/>
+<rect x="1081.0" y="480.4" width="657.0" height="150.4" rx="9" fill="#e4f2f1" stroke="#0f7b7b" stroke-width="1.6" />
+<text x="1095.0" y="504.4" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">12.1  Map reads to a common reference</text>
+<text x="1095.0" y="526.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">BWA-MEM for Illumina/hybrid reads, minimap2 -ax map-ont/map-pb for long reads.</text>
+<text x="1095.0" y="546.0" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">samtools sort/index, flagstat and depth; coverage breadth and depth; Qualimap BAM</text>
+<text x="1095.0" y="565.6" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">QC.</text>
+<text x="1726.0" y="619.8" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#0f7b7b"  font-style="italic" text-anchor="end">sorted/indexed BAM, coverage summary</text>
+<rect x="1081.0" y="642.8" width="657.0" height="150.4" rx="9" fill="#e4f2f1" stroke="#0f7b7b" stroke-width="1.6" />
+<text x="1095.0" y="666.8" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">12.2  Joint variant calling and filtering</text>
+<text x="1095.0" y="688.8" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">bcftools mpileup, call -mv, norm and filter on QUAL/DP; retain bi-allelic SNPs.</text>
+<text x="1095.0" y="708.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">Control missingness and minor allele count, then bgzip and tabix the result.</text>
+<text x="1726.0" y="782.2" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#0f7b7b"  font-style="italic" text-anchor="end">raw/filtered/bi-allelic VCF</text>
+<rect x="1081.0" y="805.2" width="657.0" height="111.2" rx="9" fill="#e4f2f1" stroke="#0f7b7b" stroke-width="1.6" />
+<text x="1095.0" y="829.2" font-family="Helvetica, Arial, sans-serif" font-size="15.5" fill="#c00000" font-weight="bold"  text-anchor="start">SNP matrix and alignment-free check</text>
+<text x="1095.0" y="851.2" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">vcf2phylip core alignment; snp-dists pairwise matrix; Mash for a quick neighbour</text>
+<text x="1095.0" y="870.8" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#1f1f1f"   text-anchor="start">check.</text>
+<text x="1726.0" y="905.4" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#0f7b7b"  font-style="italic" text-anchor="end">genotype matrix / SNP distances</text>
+<polyline points="1409.5,630.8 1409.5,642.8" fill="none" stroke="#0f7b7b" stroke-width="1.6" marker-end="url(#ar_0f7b7b)"/>
+<polyline points="1409.5,793.2 1409.5,805.2" fill="none" stroke="#0f7b7b" stroke-width="1.6" marker-end="url(#ar_0f7b7b)"/>
+<rect x="1081.0" y="928.4" width="657.0" height="140.4" rx="9" fill="#fbfdfd" stroke="#0f7b7b" stroke-width="1.4" />
+<text x="1095.0" y="952.4" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#0f7b7b" font-weight="bold"  text-anchor="start">When to choose mapping</text>
+<text x="1095.0" y="974.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f1f1f"   text-anchor="start">Clonal outbreak tracing and large surveillance sets where a high-quality close</text>
+<text x="1095.0" y="994.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f1f1f"   text-anchor="start">reference exists: one common coordinate system, sensitive SNP and indel calls at</text>
+<text x="1095.0" y="1013.6" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f1f1f"   text-anchor="start">moderate depth, and no assembly step. Choose Route A for accessory genes,</text>
+<text x="1095.0" y="1033.2" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f1f1f"   text-anchor="start">plasmids, mobile elements and broad lineage diversity.</text>
+<text x="1095.0" y="1057.8" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#c00000"  font-style="italic" text-anchor="start">Route A is preferred for accessory genes, plasmids, MGE and broad diversity</text>
+<rect x="1081.0" y="1080.8" width="657.0" height="116.8" rx="9" fill="#fbfdfd" stroke="#1f6fb2" stroke-width="1.4" />
+<text x="1095.0" y="1104.8" font-family="Helvetica, Arial, sans-serif" font-size="14.5" fill="#1f6fb2" font-weight="bold"  text-anchor="start">When to choose assembly</text>
+<text x="1095.0" y="1126.8" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f1f1f"   text-anchor="start">Use Route A when no close reference exists, when plasmids and mobile elements</text>
+<text x="1095.0" y="1146.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f1f1f"   text-anchor="start">matter, for species-level or cross-lineage comparisons, and whenever a</text>
+<text x="1095.0" y="1166.0" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#1f1f1f"   text-anchor="start">standalone annotated genome is the intended deliverable.</text>
+<polyline points="1409.5,916.4 1409.5,928.4" fill="none" stroke="#0f7b7b" stroke-width="1.4" marker-end="url(#ar_0f7b7b)"/>
+<rect x="396.0" y="1466.4" width="1342.0" height="116.0" rx="9" fill="#f4f8fc" stroke="#1f6fb2" stroke-width="1.8" />
+<text x="412.0" y="1493.4" font-family="Helvetica, Arial, sans-serif" font-size="16.0" fill="#c00000" font-weight="bold"  text-anchor="start">Comparative genomics and evolution (modules 09 to 10)</text>
+<text x="412.0" y="1521.4" font-family="Helvetica, Arial, sans-serif" font-size="13.4" fill="#1f1f1f"   text-anchor="start">Core/accessory calls, cgMLST alleles and core-SNP alignments converge into one comparative framework:</text>
+<text x="412.0" y="1548.4" font-family="Helvetica, Arial, sans-serif" font-size="13.4" fill="#1f6fb2" font-weight="bold"  text-anchor="start">IQ-TREE 3 maximum-likelihood phylogeny (FastTree for a quick preview), then module 10 TreeTime</text>
+<text x="412.0" y="1570.4" font-family="Helvetica, Arial, sans-serif" font-size="13.4" fill="#1f6fb2"   text-anchor="start">for molecular-clock dating, a dated time tree, ancestral sequence reconstruction and trait mugration (country/host/phenotype).</text>
+<polyline points="724.5,1448.4 724.5,1466.4" fill="none" stroke="#1f6fb2" stroke-width="1.7" marker-end="url(#ar_1f6fb2)"/>
+<polyline points="1409.5,1068.8 1409.5,1452.4 1442.8,1452.4 1442.8,1466.4" fill="none" stroke="#0f7b7b" stroke-width="1.7" marker-end="url(#ar_0f7b7b)"/>
+<polyline points="1409.5,1197.6 1409.5,1452.4" fill="none" stroke="#0f7b7b" stroke-width="1.4" marker-end="url(#ar_0f7b7b)"/>
+<rect x="396.0" y="1596.4" width="1342.0" height="150.0" rx="9" fill="#efeaf7" stroke="#6b4fa0" stroke-width="1.8" />
+<text x="412.0" y="1624.4" font-family="Helvetica, Arial, sans-serif" font-size="13.6" fill="#6b4fa0" font-weight="bold"  text-anchor="start">13  Microbial genomic GWAS and post-GWAS   (inputs: gene presence-absence from 08, VCF from 12, traits.csv)</text>
+<rect x="412.0" y="1638.4" width="428.7" height="68.0" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.4" />
+<text x="424.0" y="1662.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#6b4fa0" font-weight="bold"  text-anchor="start">13.1  Scoary</text>
+<text x="424.0" y="1684.4" font-family="Helvetica, Arial, sans-serif" font-size="11.8" fill="#1f1f1f"   text-anchor="start">gene-level pan-GWAS, Fisher and permutation</text>
+<text x="424.0" y="1701.4" font-family="Helvetica, Arial, sans-serif" font-size="11.8" fill="#1f1f1f"   text-anchor="start">tests with pairwise population correction</text>
+<rect x="852.7" y="1638.4" width="428.7" height="68.0" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.4" />
+<text x="864.7" y="1662.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#6b4fa0" font-weight="bold"  text-anchor="start">13.2  PLINK</text>
+<text x="864.7" y="1684.4" font-family="Helvetica, Arial, sans-serif" font-size="11.8" fill="#1f1f1f"   text-anchor="start">SNP logistic/linear regression with IBS/MDS</text>
+<text x="864.7" y="1701.4" font-family="Helvetica, Arial, sans-serif" font-size="11.8" fill="#1f1f1f"   text-anchor="start">axes as population-structure covariates</text>
+<rect x="1293.3" y="1638.4" width="428.7" height="68.0" rx="8" fill="#ffffff" stroke="#6b4fa0" stroke-width="1.4" />
+<text x="1305.3" y="1662.4" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#6b4fa0" font-weight="bold"  text-anchor="start">13.3  pyseer</text>
+<text x="1305.3" y="1684.4" font-family="Helvetica, Arial, sans-serif" font-size="11.8" fill="#1f1f1f"   text-anchor="start">mixed model with a SNP/Mash distance kernel;</text>
+<text x="1305.3" y="1701.4" font-family="Helvetica, Arial, sans-serif" font-size="11.8" fill="#1f1f1f"   text-anchor="start">gene, SNP and optional k-mer associations</text>
+<text x="412.0" y="1732.4" font-family="Helvetica, Arial, sans-serif" font-size="12.6" fill="#6b4fa0" font-weight="bold"  text-anchor="start">13.4  post-GWAS in R: Benjamini-Hochberg and Bonferroni correction, QQ and Manhattan plots, merged hit table</text>
+<polyline points="1067.0,1582.4 1067.0,1596.4" fill="none" stroke="#6f6f6f" stroke-width="1.7" marker-end="url(#ar_6f6f6f)"/>
+<rect x="396.0" y="1760.4" width="1342.0" height="180.0" rx="9" fill="#fcfdff" stroke="#c00000" stroke-width="1.7" />
+<text x="412.0" y="1788.4" font-family="Helvetica, Arial, sans-serif" font-size="16.0" fill="#c00000" font-weight="bold"  text-anchor="start">99_report: integrated, reproducible outputs and external-viewer bundles</text>
+<circle cx="414.0" cy="1818.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="426.0" y="1822.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">Clean single-source reads and assemblies (FASTQ/FASTA)</text>
+<circle cx="1085.0" cy="1818.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="1097.0" y="1822.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">ST, species serotype and cgMLST allele profiles</text>
+<circle cx="414.0" cy="1847.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="426.0" y="1851.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">AMR, virulence, plasmid and MGE annotations</text>
+<circle cx="1085.0" cy="1847.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="1097.0" y="1851.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">Pangenome, core-SNP and cgMLST distance matrices</text>
+<circle cx="414.0" cy="1876.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="426.0" y="1880.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">Sorted/indexed BAM, coverage metrics and filtered VCF</text>
+<circle cx="1085.0" cy="1876.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="1097.0" y="1880.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">IQ-TREE 3 phylogeny and TreeTime-dated time tree</text>
+<circle cx="414.0" cy="1905.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="426.0" y="1909.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">GWAS hits with BH/Bonferroni, QQ and Manhattan plots</text>
+<circle cx="1085.0" cy="1905.4" r="3.4" fill="#1f6fb2" stroke="#1f6fb2"/>
+<text x="1097.0" y="1909.4" font-family="Helvetica, Arial, sans-serif" font-size="12.8" fill="#1f1f1f"   text-anchor="start">Tree/annotation bundles for GrapeTree, iTOL, ggtree, Microreact</text>
+<polyline points="1067.0,1746.4 1067.0,1760.4" fill="none" stroke="#6f6f6f" stroke-width="1.7" marker-end="url(#ar_6f6f6f)"/>
+<text x="890.0" y="1976.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="36" font-weight="bold"><tspan fill="#1f6fb2">Easy</tspan><tspan fill="#c00000">WGS</tspan></text>
+<text x="890.0" y="2006.4" font-family="Helvetica, Arial, sans-serif" font-size="12.5" fill="#6f6f6f"   text-anchor="middle">github.com/LLQ95/EasyWGS   .   easywgs.readthedocs.io   .   MIT license   .   Illumina / Nanopore / PacBio / hybrid</text>
 </svg>
