@@ -14,6 +14,15 @@ run the stages in order.
 Full documentation: https://easywgs.readthedocs.io (English by default, switchable to
 Simplified Chinese).
 
+![EasyWGS end-to-end workflow](figures/EasyWGS_workflow.png)
+
+The workflow above runs two parallel routes after QC and two-layer
+decontamination: an assembly-based route (03 to 09) and a reference-mapping
+route (12), which converge on phylogeny and the TreeTime time tree, with a
+genomic GWAS/post-GWAS layer (13) and shared visualization (11) and reporting
+(99). Editable SVG, print-ready PDF and the generator script are in
+[`figures/`](figures/).
+
 ## Workflow by sequencing platform
 
 Two parallel main routes share the same QC and reporting layers. The assembly

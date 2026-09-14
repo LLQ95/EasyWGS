@@ -45,6 +45,7 @@ plugins:
           build: true
           nav_translations:
             Home: 首页
+            "Workflow overview (Figure 1)": 流程总览图
             Installation: 安装
             Quick start: 快速开始
             Inputs and samplesheet: 输入与样本表
@@ -69,6 +70,7 @@ plugins:
 
 nav:
   - Home: index.md
+  - "Workflow overview (Figure 1)": workflow-figure.md
   - Installation: installation.md
   - Quick start: quickstart.md
   - Inputs and samplesheet: samplesheet.md

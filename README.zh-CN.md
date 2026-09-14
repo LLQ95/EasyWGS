@@ -10,6 +10,12 @@ SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、Eas
 
 完整图文教程：https://easywgs.readthedocs.io （英文为默认版本，可切换简体中文）。
 
+![EasyWGS 端到端工作流程](figures/EasyWGS_workflow.png)
+
+上图展示质控与双层去污染之后的两条并行路线：组装路线（模块 03–09）与参考比对路线（模块 12），
+二者汇合于系统发育与 TreeTime 时间树，另设基因组 GWAS/post-GWAS 层（模块 13），并共用可视化（11）
+与结果汇总（99）。可编辑 SVG、可直接投稿的 PDF 与生成脚本位于 [`figures/`](figures/)。
+
 ## 按测序平台划分的分析主线
 
 流程提供两条并行主路线，共用同一套质控与汇总层：组装路线（`run_assembly.sh`）
