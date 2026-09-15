@@ -1,308 +1,245 @@
 #!/usr/bin/env python3
-# Generate the EasyWGS publication workflow figure (Figure 1), styled after the
-# EasyMetagenome iMeta workflow: red section headers/numbers, blue boxes, a left
-# software/database column and a wide central pipeline. The rough hand-drawn
-# visualization thumbnails were removed on purpose; final deliverables (including
-# the bundles for external viewers) are listed as text in the closing output band.
-# Fonts are kept large and every node height is computed from its line count, and
-# nodes are laid out sequentially so that nothing can overlap.
-# Output: figures/EasyWGS_workflow.svg (render to PDF/PNG with a browser).
-import textwrap, os, math
+# EasyWGS publication workflow figure (Figure 1), swimlane style.
+#
+# The figure follows the compact "numbered horizontal swimlane" layout used by
+# the EasyMicrobiome/EasyMetagenome guides: each analysis stage is a pale dashed
+# band with a bold stage label on the left, and every tool is a small rounded
+# node that carries a bold title plus one bracketed tool line. Nodes are joined
+# by dark orthogonal arrows; the assembly route (A, green) and the reference
+# mapping route (B, teal) run as two parallel rows inside one band and merge
+# into comparative genomics. Geometry is computed in a first pass and rendered
+# in a second pass, so enlarging fonts only grows the canvas and never overlaps.
+#
+# Output: figures/EasyWGS_workflow.svg (render PDF/PNG with a browser).
+import os
 
-# ---------------- palette ----------------
-RED, BLUE, INK, GREY = "#c00000", "#1f6fb2", "#1f1f1f", "#6f6f6f"
-A_BLUE, A_FILL = "#1f6fb2", "#eaf2fa"      # assembly route
-B_TEAL, B_FILL = "#0f7b7b", "#e4f2f1"      # mapping route
-P_PUR, P_FILL = "#6b4fa0", "#efeaf7"       # GWAS
-HEAD_FILL = "#dce9f6"
 FS = "Helvetica, Arial, sans-serif"
+INK, SUB, ARROW_C = "#1d1d1d", "#404040", "#333a44"
 
-# ---------------- enlarged type scale ----------------
-F_TITLE, F_BAND, F_PANEL = 24, 14.5, 16
-F_GROUP, F_LEFT = 13.5, 12.6
-F_NODET, F_BODY, F_NOTE = 15.5, 13, 12
-F_ROUTE, F_FOOT, F_LOGO = 14.5, 12.5, 36
-LH = 19.6          # body line height
-GAP = 12           # vertical gap between stacked nodes
+# ---- type scale (kept at normal reading size) ----
+F_TITLE, F_LANE, F_NODE, F_TOOL = 21, 16.5, 14, 11.8
+F_TAG, F_FOOT, F_LOGO = 11.5, 11.5, 30
 
-W = 1780
-# geometry
-LX, LW = 18, 346
-MX = LX + LW + 14                 # 378
-MW = W - MX - 24                  # main panel width
-PAD = 18
-IX = MX + PAD                     # inner left
-IW = MW - 2 * PAD                 # inner width
-AX, AW = IX, (IW - 28) / 2
-BX, BW = IX + AW + 28, (IW - 28) / 2
+W = 1680
+TOP = 64
+LANE_GAP = 14
+PAD = 16
+NODE_H, NODE_H2, NODE_H3 = 60, 68, 78      # one / two / three tool lines
+# node area and side rails
+NX0, NX1 = 300, 1640
+NW = NX1 - NX0
+RAIL_L, RAIL_R = 276, 1652
+
+# lane palette: band fill, band edge, node stroke, node fill
+C_IN   = ("#eaf1fb", "#b7cbe8", "#4f78b5", "#f8fbff")
+C_PRE  = ("#fdf1e1", "#e7c38c", "#cf8744", "#fffaf3")
+C_BOX  = ("#f3f4f7", "#c7ccd6", "#8a909c", "#ffffff")
+C_A    = ("#f3f4f7", "#c7ccd6", "#4e9a5c", "#f2faf3")   # route A nodes
+C_B    = ("#f3f4f7", "#c7ccd6", "#2e8f8f", "#f0f9f8")   # route B nodes
+C_CMP  = ("#e6f4f3", "#92cfc9", "#2f8f86", "#f6fbfa")
+C_GWAS = ("#f1ebf8", "#c4b1e0", "#7353a6", "#faf8fe")
+C_VIZ  = ("#fbf5df", "#e4d085", "#c6a03d", "#fffdf2")
 
 out = []
 def esc(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-def T(x, y, s, sz=11.8, col=INK, b=False, i=False, a="start"):
+def T(x, y, s, sz=F_TOOL, col=SUB, b=False, i=False, a="middle"):
     w = 'font-weight="bold"' if b else ''
     st = 'font-style="italic"' if i else ''
     out.append(f'<text x="{x:.1f}" y="{y:.1f}" font-family="{FS}" font-size="{sz}" fill="{col}" {w} {st} text-anchor="{a}">{esc(s)}</text>')
-def line(x1, y1, x2, y2, col=GREY, w=1.5, dash=None):
-    d = f'stroke-dasharray="{dash}"' if dash else ''
-    out.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{col}" stroke-width="{w}" {d} stroke-linecap="round"/>')
-def arrow(pts, col=GREY, w=1.7):
-    p = " ".join(f"{a:.1f},{b:.1f}" for a, b in pts)
-    out.append(f'<polyline points="{p}" fill="none" stroke="{col}" stroke-width="{w}" marker-end="url(#ar_{col[1:]})"/>')
-def box(x, y, w, h, fill="#ffffff", stroke=BLUE, sw=1.5, rx=9, dash=None):
+def rect(x, y, w, h, fill, stroke, sw=1.5, rx=10, dash=None):
     d = f'stroke-dasharray="{dash}"' if dash else ''
     out.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" rx="{rx}" fill="{fill}" stroke="{stroke}" stroke-width="{sw}" {d}/>')
-def circ(x, y, r, fill=RED, stroke=RED):
-    out.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="{fill}" stroke="{stroke}"/>')
-def wr(s, n): return textwrap.wrap(s, n)
+def line(x1, y1, x2, y2, col=ARROW_C, w=1.6, dash=None):
+    d = f'stroke-dasharray="{dash}"' if dash else ''
+    out.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{col}" stroke-width="{w}" {d} stroke-linecap="round"/>')
+def poly(pts, col=ARROW_C, w=1.6, arrow=True):
+    p = " ".join(f"{a:.1f},{b:.1f}" for a, b in pts)
+    m = ' marker-end="url(#ar)"' if arrow else ''
+    out.append(f'<polyline points="{p}" fill="none" stroke="{col}" stroke-width="{w}"{m} stroke-linejoin="round"/>')
 
-# ---------------- PASS 1: layout (geometry only) ----------------
-def node_h(n_body, has_out=True):
-    return 44 + n_body * LH + (28 if has_out else 18)
+# arrow marker (single dark style)
+out.append('<marker id="ar" markerWidth="10" markerHeight="10" refX="7.6" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3.2 L0,6.4 Z" fill="' + ARROW_C + '"/></marker>')
 
-y = 130
-g_input = dict(x=IX, y=y, w=IW, h=58); y += g_input["h"] + GAP
-g01 = dict(x=IX, y=y, w=IW, h=node_h(2)); y += g01["h"] + GAP
-g02 = dict(x=IX, y=y, w=IW, h=node_h(2)); y += g02["h"] + 16
-ROUTE_Y = y                      # route label band
-ay = ROUTE_Y + 30
+# ---------- PASS 1: lane geometry ----------
+def lane_h(rows):  # rows = list of node heights inside the band
+    return PAD * 2 + sum(rows) + max(0, len(rows) - 1) * 20
 
-def stack(x, w, specs, top):
-    yy = top; geos = []
-    for n_body, has_out in specs:
-        h = node_h(n_body, has_out)
-        geos.append(dict(x=x, y=yy, w=w, h=h)); yy += h + GAP
-    return geos, yy - GAP
-
-# Route A (assembly) body line counts
-A_specs = [(4, 1), (3, 1), (2, 1), (4, 1), (4, 1), (1, 1), (2, 1)]
-gA, A_bot = stack(AX, AW, A_specs, ay)
-# Route B (mapping): 3 nodes + a plain "when to choose" note sized to balance column
-B_specs = [(4, 1), (4, 1), (2, 1)]
-gB, B_bot0 = stack(BX, BW, B_specs, ay)
-note_top = B_bot0 + GAP
-note_body = wr("Clonal outbreak tracing and large surveillance sets where a high-quality close reference exists: one common coordinate system, sensitive SNP and indel calls at moderate depth, and no assembly step. Choose Route A for accessory genes, plasmids, mobile elements and broad lineage diversity.", 80)
-gBnote = dict(x=BX, y=note_top, w=BW, h=40 + len(note_body) * LH + 22)
-# a symmetric "when to choose assembly" note fills the lower part of column B
-chooseA_top = gBnote["y"] + gBnote["h"] + GAP
-chooseA_body = wr("Use Route A when no close reference exists, when plasmids and mobile elements matter, for species-level or cross-lineage comparisons, and whenever a standalone annotated genome is the intended deliverable.", 80)
-gChooseA = dict(x=BX, y=chooseA_top, w=BW, h=40 + len(chooseA_body) * LH + 18)
-B_bot = gChooseA["y"] + gChooseA["h"]
-COL_BOT = max(A_bot, B_bot)
-ev_y = COL_BOT + 18
-g_ev = dict(x=IX, y=ev_y, w=IW, h=116)
-gw_y = ev_y + 116 + 14
-g_gw = dict(x=IX, y=gw_y, w=IW, h=150)
-out_y = gw_y + 150 + 14
-g_out = dict(x=IX, y=out_y, w=IW, h=180)
-MAIN_BOT = out_y + 168
-PANEL_TOP, PANEL_BOT = 96, MAIN_BOT + 16
-H = PANEL_BOT + 78
-
-# ---------------- PASS 2: render ----------------
-for c in [GREY[1:], A_BLUE[1:], B_TEAL[1:], P_PUR[1:]]:
-    out.append(f'<marker id="ar_{c}" markerWidth="10" markerHeight="10" refX="7.5" refY="3.2" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,3.2 L0,6.4 Z" fill="#{c}"/></marker>')
-out.append(f'<rect width="{W}" height="{H:.0f}" fill="#ffffff"/>')
-
-# ---- title + numbered stage bands ----
-T(W / 2, 42, "EasyWGS: a reproducible cross-platform workflow for bacterial isolate whole-genome sequencing",
-  F_TITLE, RED, b=True, a="middle")
-stages = [(44, "1", "Installation and setup"),
-          (360, "2", "QC and two-layer decontamination"),
-          (870, "3", "Two parallel routes plus genomic GWAS"),
-          (1430, "4", "Integration and reporting")]
-for x, num, lab in stages:
-    circ(x, 74, 13.5); T(x, 79.5, num, 14, "#fff", b=True, a="middle")
-    T(x + 21, 79, lab, F_BAND, INK, b=True)
-
-# ---- panels ----
-def panel(x, y, w, h, title):
-    box(x, y, w, h, fill="#ffffff", stroke=RED, sw=1.6, rx=12, dash="7,5")
-    out.append(f'<rect x="{x}" y="{y}" width="{w}" height="30" rx="12" fill="{RED}"/>')
-    out.append(f'<rect x="{x}" y="{y+15}" width="{w}" height="15" fill="{RED}"/>')
-    T(x + w / 2, y + 21, title, F_PANEL, "#ffffff", b=True, a="middle")
-
-panel(LX, PANEL_TOP, LW, PANEL_BOT - PANEL_TOP, "Software and databases (module 00)")
-panel(MX, PANEL_TOP, MW, PANEL_BOT - PANEL_TOP, "Data analysis pipeline (modules 01 to 13, 99)")
-
-# ---- LEFT column: software/database inventory ----
-def soft_group(x, y, title, items, width_chars=40):
-    T(x, y, title, F_GROUP, RED, b=True); yy = y + 21
-    for kind, txt in items:
-        c = RED if kind == "db" else BLUE
-        segs = wr(txt, width_chars)
-        circ(x + 4, yy - 4, 3.1, fill=c, stroke=c)
-        for seg in segs:
-            T(x + 14, yy, seg, F_LEFT, c); yy += 17.4
-        if not segs: yy += 17.4
-    return yy + 8
-
-llx = LX + 20
-lly = PANEL_TOP + 46
-lly = soft_group(llx, lly, "Conda / mamba environments", [("s", "easywgs (main), longread, checkm2, gunc, bakta, eggnog")])
-lly = soft_group(llx, lly, "Acquisition and read QC", [("s", "fastp, FastQC, MultiQC"), ("s", "Porechop, chopper, Filtlong, NanoPlot"), ("s", "NCBI datasets, SRA Toolkit")])
-lly = soft_group(llx, lly, "Two-layer decontamination", [("s", "CLEAN, Kraken2/Bracken, BBDuk"), ("s", "CheckM2, GUNC, FCS-GX, BlobToolKit"), ("db", "k2_standard and FCS-GX databases")])
-lly = soft_group(llx, lly, "Assembly and polishing", [("s", "Unicycler, SPAdes, Flye, Canu, dragonflye"), ("s", "Trycycler, minimap2 + Racon, Medaka, Pilon"), ("s", "Circlator, QUAST, SeqKit, assembly-stats")])
-lly = soft_group(llx, lly, "Annotation and typing", [("s", "Prokka, Bakta, Prodigal, eggNOG-mapper"), ("s", "mlst; chewBBACA (cgMLST)"), ("s", "Kleborate/Kaptive, ECTyper, ShigEiFinder"), ("s", "SeqSero2, SISTR"), ("db", "PubMLST and species cgMLST schemas")])
-lly = soft_group(llx, lly, "AMR / virulence / MGE", [("s", "abricate (ResFinder/VFDB/CARD/MEGARes)"), ("s", "AMRFinderPlus, RGI, PointFinder"), ("s", "mob-suite, PlasmidFinder, IntegronFinder"), ("s", "ISEScan, mobileOG, geNomad, PhiSpy, CRISPRCasFinder"), ("db", "PLSDB, ResFinder, VFDB, CARD")])
-lly = soft_group(llx, lly, "Comparison and evolution", [("s", "Panaroo, Roary; Mash, CD-HIT"), ("s", "snippy, Gubbins, snp-sites, snp-dists"), ("s", "IQ-TREE 3, FastTree, MAFFT, MUMmer"), ("s", "TreeTime (clock, ancestors, mugration)")])
-lly = soft_group(llx, lly, "Mapping and genomic GWAS", [("s", "BWA, minimap2, samtools/bcftools, htslib"), ("s", "Qualimap, vcf2phylip, tabix"), ("s", "Scoary, PLINK, pyseer; R (BH/Bonferroni)")])
-lly = soft_group(llx, lly, "External viewers (bundles exported)", [("s", "GrapeTree, iTOL datasets, ggtree"), ("s", "ComplexHeatmap, ggplot2, Microreact")])
-# drivers + legend pinned near bottom of left panel
-T(llx, PANEL_BOT - 96, "Workflow drivers", F_GROUP, RED, b=True)
-T(llx, PANEL_BOT - 76, "run_assembly.sh / run_mapping.sh", F_LEFT, BLUE)
-T(llx, PANEL_BOT - 58, "run_all.sh chains every stage; 99_report merges results", 10.8, GREY)
-T(llx, PANEL_BOT - 36, "Legend", F_GROUP, RED, b=True)
-circ(llx + 4, PANEL_BOT - 20, 3.1, fill=BLUE, stroke=BLUE); T(llx + 14, PANEL_BOT - 16, "software", F_LEFT, BLUE)
-circ(llx + 118, PANEL_BOT - 20, 3.1, fill=RED, stroke=RED); T(llx + 128, PANEL_BOT - 16, "database", F_LEFT, RED)
-
-# ---- node renderer ----
-def draw_node(g, title, body, otext, stroke, fill, title_col=None, wrapn=84):
-    x, y, w, h = g["x"], g["y"], g["w"], g["h"]
-    box(x, y, w, h, fill=fill, stroke=stroke, sw=1.6)
-    T(x + 14, y + 24, title, F_NODET, title_col or RED, b=True)
-    yy = y + 46
-    for raw in body:
-        for seg in wr(raw, wrapn):
-            T(x + 14, yy, seg, F_BODY, INK); yy += LH
-    if otext:
-        T(x + w - 12, y + h - 11, otext, F_NOTE, stroke, i=True, a="end")
-
-# input strip
-box(g_input["x"], g_input["y"], g_input["w"], g_input["h"], fill=HEAD_FILL, stroke=BLUE)
-T(IX + 14, g_input["y"] + 25, "Raw reads and metadata (config/samplesheet.csv):  Illumina paired-end   |   Oxford Nanopore   |   PacBio   |   hybrid", 13.4, INK, b=True)
-T(IX + 14, g_input["y"] + 47, "per-isolate id, platform, species, R1/R2, long reads, reference, date, country, phenotype          config/traits.csv", 12, GREY, i=True)
-
-draw_node(g01, "01  Quality control",
-          ["Short reads: fastp adapter/quality trimming and HTML report.",
-           "Long reads: Porechop/chopper, Filtlong and NanoPlot for length and quality."],
-          "trimmed FASTQ plus FastQC/MultiQC", A_BLUE, A_FILL, wrapn=150)
-draw_node(g02, "02  Read-level decontamination (layer 1, keep-by-target)",
-          ["CLEAN retains only target-taxon reads; Kraken2/Bracken scouts the taxonomic composition.",
-           "BBDuk removes reference and adapter hits, leaving clean single-source reads."],
-          "clean single-source reads (FASTQ)", A_BLUE, A_FILL, wrapn=150)
-arrow([(g01["x"] + g01["w"] / 2, g01["y"] + g01["h"]), (g01["x"] + g01["w"] / 2, g02["y"])])
-
-# route labels
-T(AX + AW / 2, ROUTE_Y + 8, "ROUTE A - assembly-based (modules 03 to 09)", F_ROUTE, A_BLUE, b=True, a="middle")
-T(BX + BW / 2, ROUTE_Y + 8, "ROUTE B - reference mapping (module 12)", F_ROUTE, B_TEAL, b=True, a="middle")
-cx02 = g02["x"] + g02["w"] / 2
-arrow([(cx02, g02["y"] + g02["h"]), (cx02, ROUTE_Y + 20), (AX + AW / 2, ROUTE_Y + 20), (AX + AW / 2, ay - 2)], A_BLUE)
-arrow([(cx02, ROUTE_Y + 20), (BX + BW / 2, ROUTE_Y + 20), (BX + BW / 2, ay - 2)], B_TEAL)
-
-# Route A
-A_titles = ["03  Assemble and polish",
-            "04  Assembly QC and decontamination (layer 2)",
-            "05  Structural and functional annotation",
-            "06  Typing: MLST, serotype, cgMLST",
-            "07  AMR, virulence and mobile elements",
-            "08  Pangenome",
-            "09A  Core SNPs from assemblies"]
-A_bodies = [
-    ["Unicycler/SPAdes for short and hybrid reads; Flye, Canu and Trycycler for long reads.",
-     "minimap2 plus Racon, then Medaka and short-read Pilon; Circlator fixes the origin."],
-    ["QUAST/SeqKit statistics; CheckM2 completeness and contamination; GUNC chimerism.",
-     "FCS-GX removes foreign contigs and fragments that survived read-level cleaning."],
-    ["Prokka/Bakta/Prodigal call genes; eggNOG-mapper assigns GO, KEGG and COG terms."],
-    ["mlst seven-gene ST; Kleborate/Kaptive for Klebsiella K/O; ECTyper/ShigEiFinder for E. coli-Shigella.",
-     "SeqSero2/SISTR for Salmonella; chewBBACA calls cgMLST alleles."],
-    ["abricate, AMRFinderPlus, RGI and PointFinder for resistance and point mutations.",
-     "Plasmid, integron, IS, ICE, prophage/genomic island and CRISPR annotation."],
-    ["Panaroo (Roary retained as a fast baseline): core/accessory partition and graph."],
-    ["snippy and Gubbins mask recombinant segments; snp-sites and snp-dists finish the set."],
+lanes = []
+y = TOP
+specs = [
+    ("1. Data Input", C_IN, [NODE_H]),
+    ("2. Preprocessing and QC", C_PRE, [NODE_H]),
+    ("3. Two parallel routes (A assembly, B mapping)", C_BOX, [NODE_H3, NODE_H2]),
+    ("4. Comparative genomics and evolution", C_CMP, [NODE_H]),
+    ("5. Microbial genomic GWAS", C_GWAS, [NODE_H]),
+    ("6. Visualization and reporting", C_VIZ, [NODE_H]),
 ]
-A_outs = ["contigs FASTA", "clean genome FASTA", "GFF, GenBank, proteins",
-          "ST / serotype / allele profiles", "resistance and MGE tables",
-          "gene presence-absence matrix", "core alignment, SNP distance"]
-for i, g in enumerate(gA):
-    draw_node(g, A_titles[i], A_bodies[i], A_outs[i], A_BLUE, A_FILL, wrapn=82)
-for i in range(len(gA) - 1):
-    arrow([(gA[i]["x"] + gA[i]["w"] / 2, gA[i]["y"] + gA[i]["h"]),
-           (gA[i + 1]["x"] + gA[i + 1]["w"] / 2, gA[i + 1]["y"])], A_BLUE, 1.6)
+for title, pal, rows in specs:
+    h = lane_h(rows)
+    lanes.append(dict(title=title, pal=pal, rows=rows, y=y, h=h))
+    y += h + LANE_GAP
+H = y - LANE_GAP + 58
 
-# Route B
-B_titles = ["12.1  Map reads to a common reference",
-            "12.2  Joint variant calling and filtering",
-            "SNP matrix and alignment-free check"]
-B_bodies = [
-    ["BWA-MEM for Illumina/hybrid reads, minimap2 -ax map-ont/map-pb for long reads.",
-     "samtools sort/index, flagstat and depth; coverage breadth and depth; Qualimap BAM QC."],
-    ["bcftools mpileup, call -mv, norm and filter on QUAL/DP; retain bi-allelic SNPs.",
-     "Control missingness and minor allele count, then bgzip and tabix the result."],
-    ["vcf2phylip core alignment; snp-dists pairwise matrix; Mash for a quick neighbour check."],
-]
-B_outs = ["sorted/indexed BAM, coverage summary", "raw/filtered/bi-allelic VCF", "genotype matrix / SNP distances"]
-for i, g in enumerate(gB):
-    draw_node(g, B_titles[i], B_bodies[i], B_outs[i], B_TEAL, B_FILL, wrapn=84)
-for i in range(len(gB) - 1):
-    arrow([(gB[i]["x"] + gB[i]["w"] / 2, gB[i]["y"] + gB[i]["h"]),
-           (gB[i + 1]["x"] + gB[i + 1]["w"] / 2, gB[i + 1]["y"])], B_TEAL, 1.6)
+def row_geos(lane, ri, n, gap=44):
+    """Return node geometry for row ri of a lane, n equal nodes across node area."""
+    if len(lane["rows"]) == 1:
+        top = lane["y"] + PAD
+    else:
+        top = lane["y"] + PAD + ri * (lane["rows"][0] + 20)
+    nh = lane["rows"][ri]
+    w = (NW - (n - 1) * gap) / n
+    return [dict(x=NX0 + i * (w + gap), y=top, w=w, h=nh) for i in range(n)]
 
-def draw_note(g, head, lines, headcol, tail=None):
-    x, y, w, h = g["x"], g["y"], g["w"], g["h"]
-    box(x, y, w, h, fill="#fbfdfd", stroke=headcol, sw=1.4)
-    T(x + 14, y + 24, head, F_NODET - 1, headcol, b=True); yy = y + 46
-    for seg in lines:
-        T(x + 14, yy, seg, F_BODY - 0.4, INK); yy += LH
-    if tail:
-        T(x + 14, y + h - 11, tail, F_NOTE, RED, i=True)
-draw_note(gBnote, "When to choose mapping", note_body, B_TEAL,
-          tail="Route A is preferred for accessory genes, plasmids, MGE and broad diversity")
-draw_note(gChooseA, "When to choose assembly", chooseA_body, A_BLUE)
-arrow([(gB[-1]["x"] + gB[-1]["w"] / 2, gB[-1]["y"] + gB[-1]["h"]),
-       (gBnote["x"] + gBnote["w"] / 2, gBnote["y"])], B_TEAL, 1.4)
+# ---------- render helpers ----------
+def draw_lane(lane):
+    bf, be, _, _ = lane["pal"]
+    rect(20, lane["y"], W - 40, lane["h"], bf, be, sw=1.6, rx=14, dash="7,5")
+    # stage title, wrapped and vertically centered in the label gutter
+    words, lines, cur = lane["title"].split(), [], ""
+    limit = 28
+    for wd in words:
+        t = (cur + " " + wd).strip()
+        if len(t) > limit and cur:
+            lines.append(cur); cur = wd
+        else:
+            cur = t
+    if cur: lines.append(cur)
+    cy = lane["y"] + lane["h"] / 2 - (len(lines) - 1) * 10
+    for k, ln in enumerate(lines):
+        T(34, cy + k * 20 + 5, ln, F_LANE, "#111111", b=True, a="start")
 
-# convergence: comparative genomics & evolution
-box(g_ev["x"], g_ev["y"], g_ev["w"], g_ev["h"], fill="#f4f8fc", stroke=BLUE, sw=1.8)
-T(IX + 16, g_ev["y"] + 27, "Comparative genomics and evolution (modules 09 to 10)", F_NODET + 0.5, RED, b=True)
-T(IX + 16, g_ev["y"] + 55, "Core/accessory calls, cgMLST alleles and core-SNP alignments converge into one comparative framework:", F_BODY + 0.4, INK)
-T(IX + 16, g_ev["y"] + 82, "IQ-TREE 3 maximum-likelihood phylogeny (FastTree for a quick preview), then module 10 TreeTime", 13.4, BLUE, b=True)
-T(IX + 16, g_ev["y"] + 104, "for molecular-clock dating, a dated time tree, ancestral sequence reconstruction and trait mugration (country/host/phenotype).", 13.4, BLUE)
-arrow([(gA[-1]["x"] + gA[-1]["w"] / 2, gA[-1]["y"] + gA[-1]["h"]), (gA[-1]["x"] + gA[-1]["w"] / 2, g_ev["y"])], A_BLUE, 1.7)
-arrow([(gBnote["x"] + gBnote["w"] / 2, gBnote["y"] + gBnote["h"]), (gBnote["x"] + gBnote["w"] / 2, g_ev["y"] - 14),
-       (g_ev["x"] + g_ev["w"] * 0.78, g_ev["y"] - 14), (g_ev["x"] + g_ev["w"] * 0.78, g_ev["y"])], B_TEAL, 1.7)
-arrow([(gChooseA["x"] + gChooseA["w"] / 2, gChooseA["y"] + gChooseA["h"]), (gChooseA["x"] + gChooseA["w"] / 2, g_ev["y"] - 14)], B_TEAL, 1.4)
+def draw_node(g, title, tools, pal, tag=None):
+    _, _, ns, nf = pal
+    rect(g["x"], g["y"], g["w"], g["h"], nf, ns, sw=1.7, rx=11)
+    cx = g["x"] + g["w"] / 2
+    if isinstance(tools, str): tools = [tools]
+    k = len(tools)
+    if k == 1:
+        T(cx, g["y"] + 24, title, F_NODE, INK, b=True)
+        T(cx, g["y"] + 45, tools[0], F_TOOL, SUB)
+    elif k == 2:
+        ty = g["y"] + (g["h"] - 49) / 2 + 12.5
+        T(cx, ty, title, F_NODE, INK, b=True)
+        T(cx, ty + 19, tools[0], F_TOOL, SUB)
+        T(cx, ty + 35, tools[1], F_TOOL, SUB)
+    else:
+        T(cx, g["y"] + 20, title, F_NODE, INK, b=True)
+        T(cx, g["y"] + 38, tools[0], F_TOOL, SUB)
+        T(cx, g["y"] + 53, tools[1], F_TOOL, SUB)
+        T(cx, g["y"] + 68, tools[2], F_TOOL, SUB)
+    if tag:
+        T(g["x"] + 10, g["y"] + 16, tag, F_TAG, ns, b=True, a="start")
+    return g
 
-# GWAS band
-box(g_gw["x"], g_gw["y"], g_gw["w"], g_gw["h"], fill=P_FILL, stroke=P_PUR, sw=1.8)
-T(IX + 16, g_gw["y"] + 28, "13  Microbial genomic GWAS and post-GWAS   (inputs: gene presence-absence from 08, VCF from 12, traits.csv)", 13.6, P_PUR, b=True)
-gw_items = [("13.1  Scoary", ["gene-level pan-GWAS, Fisher and permutation", "tests with pairwise population correction"]),
-            ("13.2  PLINK", ["SNP logistic/linear regression with IBS/MDS", "axes as population-structure covariates"]),
-            ("13.3  pyseer", ["mixed model with a SNP/Mash distance kernel;", "gene, SNP and optional k-mer associations"])]
-cw3 = (IW - 32 - 2 * 12) / 3
-for k, (tt, dd) in enumerate(gw_items):
-    cx = IX + 16 + k * (cw3 + 12)
-    box(cx, g_gw["y"] + 42, cw3, 68, fill="#ffffff", stroke=P_PUR, sw=1.4, rx=8)
-    T(cx + 12, g_gw["y"] + 66, tt, 13, P_PUR, b=True)
-    T(cx + 12, g_gw["y"] + 88, dd[0], 11.8, INK)
-    T(cx + 12, g_gw["y"] + 105, dd[1], 11.8, INK)
-T(IX + 16, g_gw["y"] + 136, "13.4  post-GWAS in R: Benjamini-Hochberg and Bonferroni correction, QQ and Manhattan plots, merged hit table", 12.6, P_PUR, b=True)
-arrow([(g_ev["x"] + g_ev["w"] / 2, g_ev["y"] + g_ev["h"]), (g_ev["x"] + g_ev["w"] / 2, g_gw["y"])], GREY, 1.7)
+def cx(g): return g["x"] + g["w"] / 2
+def top(g): return (cx(g), g["y"])
+def bot(g): return (cx(g), g["y"] + g["h"])
 
-# integrated outputs band (text only, no thumbnails)
-box(g_out["x"], g_out["y"], g_out["w"], g_out["h"], fill="#fcfdff", stroke=RED, sw=1.7)
-T(IX + 16, g_out["y"] + 28, "99_report: integrated, reproducible outputs and external-viewer bundles", F_NODET + 0.5, RED, b=True)
-outs = ["Clean single-source reads and assemblies (FASTQ/FASTA)",
-        "ST, species serotype and cgMLST allele profiles",
-        "AMR, virulence, plasmid and MGE annotations",
-        "Pangenome, core-SNP and cgMLST distance matrices",
-        "Sorted/indexed BAM, coverage metrics and filtered VCF",
-        "IQ-TREE 3 phylogeny and TreeTime-dated time tree",
-        "GWAS hits with BH/Bonferroni, QQ and Manhattan plots",
-        "Tree/annotation bundles for GrapeTree, iTOL, ggtree, Microreact"]
-col_w = IW / 2
-for k, o in enumerate(outs):
-    col = k % 2
-    rowi = k // 2
-    ox = IX + 18 + col * col_w
-    oy = g_out["y"] + 62 + rowi * 29
-    circ(ox, oy - 4, 3.4, fill=BLUE, stroke=BLUE)
-    T(ox + 12, oy, o, 12.8, INK)
-arrow([(g_gw["x"] + g_gw["w"] / 2, g_gw["y"] + g_gw["h"]), (g_out["x"] + g_out["w"] / 2, g_out["y"])], GREY, 1.7)
+# ---------- title ----------
+T(W / 2, 36, "EasyWGS: end-to-end workflow for bacterial isolate whole-genome sequencing",
+  F_TITLE, "#c00000", b=True)
 
-# ---- footer logotype ----
-fy = H - 46
-out.append(f'<text x="{W/2}" y="{fy}" text-anchor="middle" font-family="{FS}" font-size="{F_LOGO}" font-weight="bold"><tspan fill="{BLUE}">Easy</tspan><tspan fill="{RED}">WGS</tspan></text>')
-T(W / 2, H - 16, "github.com/LLQ95/EasyWGS   .   easywgs.readthedocs.io   .   MIT license   .   Illumina / Nanopore / PacBio / hybrid", F_FOOT, GREY, a="middle")
+# ---------- PASS 2: lanes and nodes ----------
+L1, L2, L3, L4, L5, L6 = lanes
+for ln in lanes: draw_lane(ln)
+
+# Lane 1: inputs
+r1 = row_geos(L1, 0, 2, gap=70)
+draw_node(r1[0], "Raw Short Reads", "[Illumina paired-end]", C_IN)
+draw_node(r1[1], "Raw Long Reads", "[ONT / PacBio]", C_IN)
+
+# Lane 2: preprocessing
+r2 = row_geos(L2, 0, 2, gap=70)
+draw_node(r2[0], "Short-read QC and read-level decontamination",
+          "[fastp, CLEAN, Kraken2/Bracken, BBDuk]", C_PRE)
+draw_node(r2[1], "Long-read QC and trimming",
+          "[Porechop, chopper, Filtlong, NanoPlot]", C_PRE)
+
+# Lane 3: two parallel routes
+rA = row_geos(L3, 0, 4, gap=42)
+rB = row_geos(L3, 1, 3, gap=46)
+draw_node(rA[0], "A1  Assembly and polishing",
+          ["Unicycler/SPAdes (short, hybrid);", "Flye/Canu -> Trycycler -> Racon/Medaka,", "Pilon short-read polishing"], C_A)
+draw_node(rA[1], "A2  Assembly quality gate",
+          ["second-layer decontamination;", "QUAST, CheckM2, GUNC, FCS-GX"], C_A)
+draw_node(rA[2], "A3  Annotation",
+          ["Prokka, Bakta, Prodigal,", "eggNOG-mapper"], C_A)
+draw_node(rA[3], "A4  Typing, AMR and MGEs",
+          ["mlst, chewBBACA, Kleborate, ECTyper;", "abricate, AMRFinderPlus, mob-suite"], C_A)
+draw_node(rB[0], "B1  Map to reference",
+          ["BWA, minimap2,", "samtools sort/index"], C_B)
+draw_node(rB[1], "B2  Joint variant calling",
+          ["bcftools mpileup/call/filter,", "Qualimap coverage QC"], C_B)
+draw_node(rB[2], "B3  Core-SNP matrix",
+          ["vcf2phylip, snp-dists,", "Mash distance check"], C_B)
+T(236, rA[0]["y"] + rA[0]["h"] / 2 + 4, "Route A", 11.5, C_A[2], b=True, a="start")
+T(236, rB[0]["y"] + rB[0]["h"] / 2 + 4, "Route B", 11.5, C_B[2], b=True, a="start")
+
+# Lane 4: comparative
+r4 = row_geos(L4, 0, 3, gap=46)
+draw_node(r4[0], "08  Pangenome", "[Panaroo; Roary as baseline]", C_CMP)
+draw_node(r4[1], "09  Core-SNP / cgMLST phylogeny", "[snippy, Gubbins, snp-sites, IQ-TREE 3]", C_CMP)
+draw_node(r4[2], "10  Dated time tree and evolution", "[TreeTime: clock, ancestors, mugration]", C_CMP)
+
+# Lane 5: GWAS
+r5 = row_geos(L5, 0, 4, gap=42)
+draw_node(r5[0], "13.1  Scoary", "gene pan-GWAS [pan-matrix]", C_GWAS)
+draw_node(r5[1], "13.2  PLINK", "SNP regression [VCF, MDS]", C_GWAS)
+draw_node(r5[2], "13.3  pyseer", "mixed model [SNP/k-mer]", C_GWAS)
+draw_node(r5[3], "Post-GWAS in R", "BH/Bonferroni, QQ, Manhattan", C_GWAS)
+
+# Lane 6: reporting (single centered node)
+g6 = dict(x=(W - 840) / 2, y=L6["y"] + PAD, w=840, h=NODE_H)
+draw_node(g6, "99  Integrated, reproducible outputs",
+          "[MultiQC  .  GrapeTree  .  iTOL  .  ggtree  .  Microreact  .  tables and logs]", C_VIZ)
+
+# ---------- connectors ----------
+# L1 -> L2 (aligned columns)
+for i in range(2):
+    poly([bot(r1[i]), top(r2[i])])
+
+# L2 -> L3 : merge to a bus, enter A1 from top; route B through left rail
+bus23 = L2["y"] + L2["h"] + 7
+line(cx(r2[0]), bot(r2[0])[1], cx(r2[0]), bus23)
+line(cx(r2[1]), bot(r2[1])[1], cx(r2[1]), bus23)
+line(RAIL_L, bus23, max(cx(r2[0]), cx(r2[1])), bus23)
+poly([(cx(rA[0]), bus23), top(rA[0])])                       # into A1
+poly([(RAIL_L, bus23), (RAIL_L, rB[0]["y"] - 7), (cx(rB[0]), rB[0]["y"] - 7), top(rB[0])])
+
+# within L3: A row and B row horizontal chains
+def hchain(row):
+    for a, b in zip(row[:-1], row[1:]):
+        poly([(a["x"] + a["w"], a["y"] + a["h"] / 2), (b["x"], b["y"] + b["h"] / 2)])
+hchain(rA); hchain(rB)
+
+# L3 -> L4 : both rows exit via the right rail into a bus feeding lane 4
+bus34 = L3["y"] + L3["h"] + 7
+line(rA[3]["x"] + rA[3]["w"], rA[3]["y"] + rA[3]["h"] / 2, RAIL_R, rA[3]["y"] + rA[3]["h"] / 2)
+line(rB[2]["x"] + rB[2]["w"], rB[2]["y"] + rB[2]["h"] / 2, RAIL_R, rB[2]["y"] + rB[2]["h"] / 2)
+line(RAIL_R, rA[3]["y"] + rA[3]["h"] / 2, RAIL_R, bus34)
+line(cx(r4[0]), bus34, RAIL_R, bus34)
+for g in r4:
+    poly([(cx(g), bus34), top(g)])
+
+# within L4 chain
+hchain(r4)
+
+# L4 -> L5 : bus across, feed all four GWAS nodes
+bus45 = L4["y"] + L4["h"] + 7
+line(cx(r4[0]), bot(r4[0])[1], cx(r4[0]), bus45)
+line(cx(r4[2]), bot(r4[2])[1], cx(r4[2]), bus45)
+line(cx(r5[0]), bus45, cx(r5[3]), bus45)
+for g in r5:
+    poly([(cx(g), bus45), top(g)])
+hchain(r5)
+
+# L5 -> L6 : from last GWAS node, bend to centered report node
+bus56 = L5["y"] + L5["h"] + 7
+poly([bot(r5[3]), (cx(r5[3]), bus56), (cx(g6), bus56), top(g6)])
+
+# ---------- footer ----------
+fy = H - 34
+out.append(f'<text x="{W/2}" y="{fy}" text-anchor="middle" font-family="{FS}" font-size="{F_LOGO}" font-weight="bold"><tspan fill="#1f6fb2">Easy</tspan><tspan fill="#c00000">WGS</tspan><tspan fill="#666" font-size="{F_FOOT}" font-weight="normal">    github.com/LLQ95/EasyWGS  .  easywgs.readthedocs.io  .  Illumina / ONT / PacBio / hybrid</tspan></text>')
 
 svg = f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H:.0f}" viewBox="0 0 {W} {H:.0f}">\n' + "\n".join(out) + "\n</svg>\n"
 here = os.path.dirname(os.path.abspath(__file__))
