@@ -48,6 +48,7 @@ plugins:
             "Workflow overview (Figure 1)": 流程总览图
             Installation: 安装
             Quick start: 快速开始
+            "Worked example (public panel)": 实战示例(公共数据面板)
             Inputs and samplesheet: 输入与样本表
             Workflows: 分析流程
             Short-read (Illumina): 二代 Illumina 流程
@@ -74,6 +75,7 @@ nav:
   - "Workflow overview (Figure 1)": workflow-figure.md
   - Installation: installation.md
   - Quick start: quickstart.md
+  - "Worked example (public panel)": example-walkthrough.md
   - Inputs and samplesheet: samplesheet.md
   - Workflows:
       - Two parallel strategies: pipelines-strategies.md

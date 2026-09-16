@@ -1,0 +1,51 @@
+# EasyWGS multi-pathogen demonstration panel (curated and accession-verified).
+# All run accessions were verified against the ENA Portal API on 2026-09-16; each
+# row carries real WGS reads with public FASTQ links. No reads are shipped in git:
+# examples/00_download_panel.sh fetches them by run accession and downsamples.
+#
+# Columns:
+#  id            EasyWGS sample id (no spaces / extra dots); also the 00_rawdata prefix
+#  group         pathogen group used in the text (salmonella/kpneumoniae/ecoli/listeria/shigella)
+#  species_code  value for the samplesheet 'species' column that drives module 06
+#  platform      illumina or hybrid (hybrid rows give BOTH an Illumina and an ONT run)
+#  illumina_run  ENA/SRA Illumina paired-end run accession (empty for none)
+#  ont_run       ENA/SRA Oxford Nanopore run accession of the SAME BioSample (empty for none)
+#  biosample     BioSample that proves the Illumina and ONT runs are one isolate (hybrid rows)
+#  bioproject    source study accession (documentation; download uses the run accessions)
+#  country       ENA collection country
+#  date          ENA collection date (YYYY or YYYY-MM; year-only records are mid-dated in the dates file)
+#  scientific_name
+#  reference_gcf verified RefSeq complete-genome accession used for module 09/12
+#  ref_label     local reference file produced under ref/
+#  tier          smallest tier the sample belongs to (1 core, 2 typing breadth, 3 Salmonella temporal)
+#  note
+id	group	species_code	platform	illumina_run	ont_run	biosample	bioproject	country	date	scientific_name	reference_gcf	ref_label	tier	note
+SE_IT_2011_1	salmonella	salm	illumina	DRR107076		-	PRJDB6430	Italy	2011	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	1	Salmonella temporal core; smallest Illumina run
+SE_JP_1992_1	salmonella	salm	illumina	DRR106844		-	PRJDB6430	Japan	1992	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	2	earliest Salmonella temporal isolate
+SE_JP_2017_1	salmonella	salm	illumina	DRR236580		-	PRJDB6430	Japan	2017	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	2	latest Salmonella temporal isolate
+SE_JP_2007_1	salmonella	salm	illumina	DRR106865		-	PRJDB6430	Japan	2007	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+SE_JP_2009_1	salmonella	salm	illumina	DRR236390		-	PRJDB6430	Japan	2009	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+SE_IT_2012_1	salmonella	salm	illumina	DRR106884		-	PRJDB6430	Italy	2012	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal; second country for mugration
+SE_JP_2012_2	salmonella	salm	illumina	DRR236449		-	PRJDB6430	Japan	2012	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+SE_JP_2013_1	salmonella	salm	illumina	DRR236502		-	PRJDB6430	Japan	2013	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+SE_JP_2015_1	salmonella	salm	illumina	DRR236396		-	PRJDB6430	Japan	2015	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+SE_JP_2015_2	salmonella	salm	illumina	DRR236469		-	PRJDB6430	Japan	2015	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+SE_JP_2015_3	salmonella	salm	illumina	DRR236519		-	PRJDB6430	Japan	2015	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+SE_JP_2016_1	salmonella	salm	illumina	DRR236438		-	PRJDB6430	Japan	2016	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	3	temporal
+KP_GR_2011	kpneumoniae	kpsc	illumina	DRR065618		-	PRJDB4948	Greece	2011	Klebsiella pneumoniae	GCF_000016305	Kp_ref.gbk	1	multi-country Klebsiella collection
+KP_IT_2011	kpneumoniae	kpsc	illumina	DRR065613		-	PRJDB4948	Italy	2011	Klebsiella pneumoniae	GCF_000016305	Kp_ref.gbk	2	multi-country Klebsiella collection
+KP_JP_2013	kpneumoniae	kpsc	illumina	DRR065642		-	PRJDB4948	Japan	2013	Klebsiella pneumoniae	GCF_000016305	Kp_ref.gbk	2	multi-country Klebsiella collection
+EC_BE_2015	ecoli	ecoli	illumina	DRR102545		-	PRJDB5579	Belgium	2015	Escherichia coli	GCF_000005845	Ec_ref.gbk	1	commensal/extra-intestinal E. coli
+EC_JP_2007_O26	ecoli	ecoli	illumina	DRR073024		-	PRJDB5136	Japan	2007	Escherichia coli O26	GCF_000005845	Ec_ref.gbk	2	STEC serogroup O26 for ECTyper
+EC_JP_2011	ecoli	ecoli	illumina	DRR033780		-	PRJDB3552	Japan	2011	Escherichia coli	GCF_000005845	Ec_ref.gbk	2	E. coli breadth
+LM_AT_2013	listeria	listeria	illumina	ERR10549289		-	PRJEB56155	Austria	2013	Listeria monocytogenes	GCF_000196035	Lm_ref.gbk	1	Austrian Listeria surveillance
+LM_AT_1986	listeria	listeria	illumina	ERR10550017		-	PRJEB56155	Austria	1986	Listeria monocytogenes	GCF_000196035	Lm_ref.gbk	2	earliest Listeria isolate
+LM_AT_2017	listeria	listeria	illumina	ERR10611936		-	PRJEB56155	Austria	2017	Listeria monocytogenes	GCF_000196035	Lm_ref.gbk	2	latest Listeria isolate
+SS_FR_2010	shigella	ecoli	illumina	ERR1516066		-	PRJEB12097	France	2010	Shigella sonnei	GCF_000283715	Ss_ref.gbk	1	S. sonnei; ShigEiFinder target
+SF_GM_2015	shigella	ecoli	illumina	ERR12363657		-	PRJEB71076	Gambia	2015	Shigella flexneri	GCF_000006925	Sf_ref.gbk	2	S. flexneri breadth
+SF_ET_2022	shigella	ecoli	illumina	ERR12952128		-	PRJEB73590	Ethiopia	2022	Shigella flexneri	GCF_000006925	Sf_ref.gbk	2	S. flexneri breadth
+SE_HY_JP_2010	salmonella	salm	hybrid	DRR071033	DRR462725	DRS057967	DRP004007	Japan	2010	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	1	paired Illumina+MinION of one isolate
+KP_HY_JP_2015	kpneumoniae	kpsc	hybrid	DRR120574	DRR193884	DRS117601	DRP004119	Japan:Osaka	2015-12	Klebsiella pneumoniae	GCF_000016305	Kp_ref.gbk	1	paired Illumina+GridION of one isolate
+EC_HY_JP_2015	ecoli	ecoli	hybrid	DRR192219	DRR193923	DRS119519	DRP004119	Japan:Osaka	2015-12	Escherichia coli	GCF_000005845	Ec_ref.gbk	1	paired Illumina+GridION of one isolate
+LM_HY_DE_2019	listeria	listeria	hybrid	ERR12028755	ERR12165303	ERS16327337	ERP150987	Germany	2019	Listeria monocytogenes	GCF_000196035	Lm_ref.gbk	1	paired Illumina+MinION of one isolate
+SD_HY_HU_1954	shigella	ecoli	hybrid	SRR13039590	SRR13039589	SRS7698471	SRP292271	Hungary	1954	Shigella dysenteriae	GCF_022354085	Sd_ref.gbk	1	paired Illumina+MinION of one S. dysenteriae isolate

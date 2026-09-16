@@ -71,6 +71,26 @@ the assembly route; `species` is one of kpsc / ecoli / salm / listeria / other a
 typing schedule. Final assemblies are standardized to `03_assembly/genomes/{id}.fasta`
 (fragments shorter than 200 nt removed), which every later module consumes.
 
+## Worked example on a multi-pathogen public panel
+
+[`examples/`](examples/) runs the complete workflow end to end on real, accession-verified
+public isolates spanning five pathogen groups (Salmonella, K. pneumoniae, E. coli,
+L. monocytogenes and Shigella), with a twelve-isolate temporal Salmonella collection and five
+matched Illumina/Nanopore hybrid isolates, organized as nested tiers of 10, 20 and 29 samples.
+Reads are downloaded from ENA/NCBI on demand and downsampled so the tutorial runs on an ordinary
+server; an expected-result checker reports PASS/WARN/FAIL and a controlled PhiX plus
+near-neighbour spike-in validates the two decontamination layers.
+
+```bash
+EXAMPLE_PAIRS=800000 bash examples/00_download_panel.sh 1   # download tier 1 and references
+bash examples/01_run_panel.sh 1                             # run every module end to end
+bash examples/02_run_spikein.sh                             # decontamination validation (Fig. 4)
+```
+
+See [`examples/README.md`](examples/README.md) and the bilingual guidebook page
+[Worked example (public panel)](https://easywgs.readthedocs.io/en/latest/example-walkthrough/)
+for the panel accessions, outputs and collection-level analysis.
+
 ## Species-specific typing schedule (module 06)
 
 | Group | 7-gene MLST | Serotype / surface antigens | cgMLST schema |

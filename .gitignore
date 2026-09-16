@@ -38,3 +38,9 @@ config/my_samples.csv
 11_visualization/grapetree/
 11_visualization/itol/
 11_visualization/online_bundle/
+# ---- Example panel run products (panel.tsv, scripts and expected rules are tracked) ----
+examples/results/
+examples/spikein/work/
+examples/spikein/refs/
+examples/spikein/results/
+examples/generated/

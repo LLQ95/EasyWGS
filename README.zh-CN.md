@@ -61,6 +61,23 @@ bash run_all.sh config/my_samples.csv 06          # 或从指定步骤恢复
 kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一为
 `03_assembly/genomes/{id}.fasta`（已去除 200 nt 以下短片段），供后续所有模块读取。
 
+## 多病原公共数据实战示例
+
+[`examples/`](examples/) 用真实、accession 已核实的公开分离株端到端跑通整个流程，覆盖
+五大类病原（沙门菌、肺克、大肠埃希菌、单增李斯特菌、志贺菌），包含一个 12 株的沙门菌
+时间序列集合和 5 株 Illumina/Nanopore 严格配对的 hybrid 样本，并组织为 10、20、29 三个
+嵌套 tier。读段按需从 ENA/NCBI 下载并下采样，普通服务器即可运行；预期结果检查器输出
+PASS/WARN/FAIL，受控的 PhiX 与近缘菌 spike-in 实验用于验证两层去污染。
+
+```bash
+EXAMPLE_PAIRS=800000 bash examples/00_download_panel.sh 1   # 下载 tier 1 与参考基因组
+bash examples/01_run_panel.sh 1                             # 端到端运行全部模块
+bash examples/02_run_spikein.sh                             # 去污染验证（图 4）
+```
+
+面板 accession、输出文件与集合级分析见 [`examples/README.md`](examples/README.md) 以及
+双语指南页面[实战示例（公共数据面板）](https://easywgs.readthedocs.io/en/latest/zh/example-walkthrough/)。
+
 ## 分物种分型调度（06 模块）
 
 | 类群 | 7基因 MLST | 血清型/表面抗原 | cgMLST schema |

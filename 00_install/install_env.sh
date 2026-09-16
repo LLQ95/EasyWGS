@@ -23,7 +23,7 @@ mamba create -y -n easywgs -c bioconda -c conda-forge \
   mlst abricate ncbi-amrfinderplus rgi mob-suite genomad \
   kleborate ectyper shigeifinder seqsero2 sistr chewbbaca \
   scoary plink pyseer \
-  grapetree csvtk r-base nextflow
+  grapetree csvtk r-base nextflow art matplotlib
 
 # 2) Dedicated long-read polishing env: Medaka (heavy deps) and Trycycler (multi-assembly consensus, finished-grade)
 mamba create -y -n longread -c bioconda -c conda-forge medaka trycycler racon minimap2
