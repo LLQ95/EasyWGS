@@ -55,8 +55,9 @@ them and skips the composition scout. The spike-in uses `art_illumina`
 To reuse a shared CheckM2 database instead of downloading it, export
 `CHECKM2_DB` (the `uniref100.KO.1.dmnd` file or its `CheckM2_database`
 directory) before running `download_db.sh`; module 04 and the spike-in then use
-that copy directly. See the Installation chapter of the guidebook for the
-resumable download option.
+that copy directly. `BAKTA_DB`, `EGGNOG_DB` and `GUNC_DB` work the same way for
+the annotation and chimerism databases. See the Installation chapter of the
+guidebook for the shared-database setup and the resumable download option.
 
 ## Run the panel
 

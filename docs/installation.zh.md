@@ -50,21 +50,37 @@ DBROOT=/data/shared/easywgs_db bash 00_install/download_db.sh
 下载内容包括 abricate 各库、AMRFinder 库、CheckM2 模型、GUNC 参考集、Bakta 与
 eggNOG 库、chewBBACA schema。脚本可重复运行，已完成的项目会自动跳过。
 
-### 复用已有的 CheckM2 数据库
+### 复用已有的共享数据库
 
-CheckM2 数据库约 1.7 GB，Zenodo 的一次性下载在网络不稳时容易中断。如果集群上已有
-副本，导出 `CHECKM2_DB` 后，下载脚本会跳过该数据库，模块 04 与 spike-in 示例也会直接
-使用共享文件。`CHECKM2_DB` 既可以指向 `uniref100.KO.1.dmnd` 文件本身，也可以指向包含
-它的 `CheckM2_database` 目录：
+每个大型数据库都可以通过环境变量指向已有的共享副本，下载脚本会自动跳过，对应模块
+也会直接使用该副本。仍需下载的内容则放到 `DBROOT` 指定的共享根目录：
+
+| 变量 | 指向 | 使用模块 |
+| --- | --- | --- |
+| `CHECKM2_DB` | `uniref100.KO.1.dmnd` 文件或其 `CheckM2_database` 目录 | 模块 04、spike-in |
+| `BAKTA_DB` | 含 `version.json` 的 Bakta 目录（或其父目录） | 模块 05 |
+| `EGGNOG_DB` | 含 `eggnog.db` 的 eggNOG 目录 | 模块 05 |
+| `GUNC_DB` | `gunc_db.dmnd` 文件或包含它的目录 | 模块 04 |
+
+例如，集群上已在 `/db/student/metagenome` 下备好 CheckM2、Bakta 与 eggNOG，并希望把
+GUNC 也下载到同一区域：
 
 ```bash
-# 指向 .dmnd 文件（或 CheckM2_database 目录）
+export DBROOT=/db/student/metagenome
 export CHECKM2_DB=/db/student/metagenome/checkm_db/checkm2_database/CheckM2_database/uniref100.KO.1.dmnd
-DBROOT=/data/shared/easywgs_db bash 00_install/download_db.sh   # 此时 CheckM2 会被跳过
+export BAKTA_DB=/db/student/metagenome/bakta_db/db
+export EGGNOG_DB=/db/student/metagenome/eggnog_db
+# GUNC_DB 不设置，下载脚本会把 GUNC 下载到 $DBROOT/gunc_db
+bash 00_install/download_db.sh
 ```
 
-建议把 `export CHECKM2_DB=...` 写入 `~/.bashrc`（或在每次运行前导出），模块 04 与
-`examples/02_run_spikein.sh` 即会自动使用。
+下载脚本对找到的数据库会打印 `[skip]`，只下载缺失的部分（本例为 GUNC 以及较小的
+AMRFinder、CARD、abricate 数据）。建议把这些 `export` 写入 `~/.bashrc`，或在每次运行前
+导出，模块 04、05 即会自动使用。运行时若某个数据库确实缺失，对应模块会给出明确警告并
+把相关结果记为 NA，而不是让整个流程中断。
+
+CheckM2 数据库约 1.7 GB，Zenodo 的一次性下载在网络不稳时容易中断；没有共享副本时，可
+用下一小节的断点续传方式下载。
 
 ### 没有共享库时使用断点续传下载
 

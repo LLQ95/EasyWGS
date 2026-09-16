@@ -52,10 +52,11 @@ DBROOT=$HOME/easywgs_db bash 00_install/download_db.sh
 The panel needs the CheckM2, GUNC and Bakta databases. The Kraken 2 standard database
 and FCS-GX are optional for the worked example, and module 02 runs without them and
 skips the composition scout. The spike-in uses `art_illumina` (Bioconda package `art`)
-and `bwa`, both included in the `easywgs` environment. To reuse a shared CheckM2
-database instead of downloading it, export `CHECKM2_DB` (the `uniref100.KO.1.dmnd` file
-or its `CheckM2_database` directory) before running `download_db.sh`; see
-[Installation](installation.md) for details and the resumable download option.
+and `bwa`, both included in the `easywgs` environment. To reuse shared databases
+instead of downloading them, export `CHECKM2_DB`, `BAKTA_DB`, `EGGNOG_DB` or
+`GUNC_DB` as appropriate before running `download_db.sh`; see
+[Installation](installation.md) for the paths each variable expects and the resumable
+download option.
 
 ## Run the panel
 

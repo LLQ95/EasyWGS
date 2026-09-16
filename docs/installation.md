@@ -54,22 +54,40 @@ The downloader includes the abricate databases, AMRFinder data, the CheckM2 mode
 GUNC reference set, Bakta and eggNOG databases and the chewBBACA schemas. It is safe to
 rerun, and completed items are skipped.
 
-### Reuse an existing CheckM2 database
+### Reuse existing shared databases
 
-The CheckM2 database is about 1.7 GB and the one-shot Zenodo download can break on an
-unstable link. If your cluster already has a copy, export `CHECKM2_DB` and the downloader
-skips the download while module 04 and the spike-in example use the shared file directly.
-`CHECKM2_DB` accepts either the `uniref100.KO.1.dmnd` file itself or the
-`CheckM2_database` directory that contains it:
+Each large database can be pointed at an existing shared copy with an environment
+variable, so the downloader skips it while the corresponding module uses that copy
+directly. Set `DBROOT` to the shared root for anything that still has to be downloaded:
+
+| Variable | Points at | Used by |
+| --- | --- | --- |
+| `CHECKM2_DB` | `uniref100.KO.1.dmnd` file or its `CheckM2_database` directory | module 04, spike-in |
+| `BAKTA_DB` | Bakta folder containing `version.json` (or its parent folder) | module 05 |
+| `EGGNOG_DB` | eggNOG folder containing `eggnog.db` | module 05 |
+| `GUNC_DB` | `gunc_db.dmnd` file or the folder that contains it | module 04 |
+
+For example, on a cluster that already hosts CheckM2, Bakta and eggNOG under
+`/db/student/metagenome` and that wants GUNC downloaded into the same area:
 
 ```bash
-# point at the file (or at the CheckM2_database directory)
+export DBROOT=/db/student/metagenome
 export CHECKM2_DB=/db/student/metagenome/checkm_db/checkm2_database/CheckM2_database/uniref100.KO.1.dmnd
-DBROOT=/data/shared/easywgs_db bash 00_install/download_db.sh   # CheckM2 is now skipped
+export BAKTA_DB=/db/student/metagenome/bakta_db/db
+export EGGNOG_DB=/db/student/metagenome/eggnog_db
+# GUNC_DB is left unset, so the downloader fetches GUNC into $DBROOT/gunc_db
+bash 00_install/download_db.sh
 ```
 
-Add the `export CHECKM2_DB=...` line to `~/.bashrc` (or prepend it to each run) so that
-module 04 and `examples/02_run_spikein.sh` pick it up.
+The downloader prints `[skip]` for every database it finds and downloads only the
+missing ones (in this case GUNC and the small AMRFinder, CARD and abricate data). Add
+these `export` lines to `~/.bashrc`, or prepend them to each run, so that modules 04 and
+05 pick them up. When a database is absent at run time, the module that needs it logs a
+clear warning and writes NA instead of aborting the whole workflow.
+
+The CheckM2 database is about 1.7 GB and the one-shot Zenodo download can break on an
+unstable link; the next subsection describes the resumable fallback used when no shared
+copy is available.
 
 ### Resumable download when no shared copy exists
 

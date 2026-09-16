@@ -38,17 +38,40 @@ conda deactivate
 
 # ---- GUNC database (default progenomes2.1, about 13 GB) ----
 conda activate gunc
-gunc download_db "$DBROOT/gunc_db"
+GUNC_DMND=$(easywgs_resolve_gunc_db)
+if [ -n "$GUNC_DMND" ] && [ -f "$GUNC_DMND" ]; then
+  echo "[skip] GUNC database found at $GUNC_DMND"
+  export GUNC_DB="$GUNC_DMND"
+else
+  mkdir -p "$DBROOT/gunc_db"
+  gunc download_db "$DBROOT/gunc_db"
+  GUNC_DMND=$(easywgs_resolve_gunc_db)
+  [ -n "$GUNC_DMND" ] && export GUNC_DB="$GUNC_DMND"
+fi
 conda deactivate
 
 # ---- Bakta database (full, sizable) ----
 conda activate bakta
-bakta_db download --output "$DBROOT/bakta_db" --type full
+BAKTA_DIR=$(easywgs_resolve_bakta_db)
+if [ -n "$BAKTA_DIR" ] && [ -f "$BAKTA_DIR/version.json" ]; then
+  echo "[skip] Bakta database found at $BAKTA_DIR"
+  export BAKTA_DB="$BAKTA_DIR"
+else
+  bakta_db download --output "$DBROOT/bakta_db" --type full
+  BAKTA_DIR=$(easywgs_resolve_bakta_db)
+  [ -n "$BAKTA_DIR" ] && export BAKTA_DB="$BAKTA_DIR"
+fi
 conda deactivate
 
 # ---- eggNOG database ----
 conda activate eggnog
-download_eggnog_data.py -y --data_dir "$DBROOT/eggnog_db"
+EGG_DIR=$(easywgs_resolve_eggnog_db)
+if [ -n "$EGG_DIR" ] && [ -f "$EGG_DIR/eggnog.db" ]; then
+  echo "[skip] eggNOG database found at $EGG_DIR"
+else
+  mkdir -p "$DBROOT/eggnog_db"
+  download_eggnog_data.py -y --data_dir "$DBROOT/eggnog_db"
+fi
 conda deactivate
 
 # ---- PubMLST offline refresh (bundled with mlst, periodic) ----

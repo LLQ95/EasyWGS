@@ -11,7 +11,7 @@ PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/04_asm_qc"; mkdir -p "$OUT/quast" "$OUT/checkm2" "$OUT/gunc"
 source "$PROJECT/00_install/runtime.sh"
-GUNC_DB=$(ls "$DBROOT"/gunc_db/*progenomes*.dmnd 2>/dev/null | head -n1 || true)
+GUNC_DB=$(easywgs_resolve_gunc_db)
 CHECKM2_DMND=$(easywgs_resolve_checkm2_db)
 source "$(conda info --base)/etc/profile.d/conda.sh"
 
@@ -35,13 +35,18 @@ conda deactivate
 
 # ---- GUNC ----
 conda activate gunc
-for f in "$GEN"/*.fasta; do
-  id=$(basename "$f" .fasta)
-  gunc run --input_fasta "$f" -r "$GUNC_DB" --out_dir "$OUT/gunc/$id" \
-           --threads "$THREADS" --detailed_output --contig_taxonomy_output
-done
-# Merge per-sample maxCSS tables
-find "$OUT/gunc" -name "GUNC.*maxCSS_level.tsv" -exec cat {} \; | awk '!a[$1]++' > "$OUT/gunc_all.tsv"
+if [ -n "$GUNC_DB" ] && [ -f "$GUNC_DB" ]; then
+  for f in "$GEN"/*.fasta; do
+    id=$(basename "$f" .fasta)
+    gunc run --input_fasta "$f" -r "$GUNC_DB" --out_dir "$OUT/gunc/$id" \
+             --threads "$THREADS" --detailed_output --contig_taxonomy_output
+  done
+  # Merge per-sample maxCSS tables
+  find "$OUT/gunc" -name "GUNC.*maxCSS_level.tsv" -exec cat {} \; | awk '!a[$1]++' > "$OUT/gunc_all.tsv"
+else
+  echo "[warn] GUNC database not found (set GUNC_DB to gunc_db.dmnd or run download_db.sh); skipping GUNC" >&2
+  : > "$OUT/gunc_all.tsv"
+fi
 conda deactivate
 
 # ---- (optional) FCS-GX to excise cross-species contaminants; needs large RAM and a taxid column
