@@ -3,13 +3,37 @@
 # 00_install/download_db.sh - database download (once only; comment out what you do not need)
 # =============================================================================
 set -euo pipefail
-DBROOT=${DBROOT:-$HOME/easywgs_db}
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+source "$SCRIPT_DIR/runtime.sh"
 mkdir -p "$DBROOT" && cd "$DBROOT"
 source "$(conda info --base)/etc/profile.d/conda.sh"
 
 # ---- CheckM2 database ----
+# Reuse a shared copy when CHECKM2_DB is set (the uniref100.KO.1.dmnd file or its
+# CheckM2_database directory); otherwise download with a resumable transfer, since
+# the Zenodo file is about 1.7 GB and the built-in one-shot download can break.
 conda activate checkm2
-checkm2 database --download --path "$DBROOT/checkm2_db"
+CHECKM2_DMND=$(easywgs_resolve_checkm2_db)
+if [ -n "$CHECKM2_DMND" ] && [ -f "$CHECKM2_DMND" ]; then
+  echo "[skip] CheckM2 database found at $CHECKM2_DMND"
+  checkm2 database --setdblocation "$(dirname "$CHECKM2_DMND")" || true
+else
+  mkdir -p "$DBROOT/checkm2_db"
+  CK2_URL="https://zenodo.org/api/records/14897628/files/checkm2_database.tar.gz/content"
+  CK2_TAR="$DBROOT/checkm2_db/checkm2_database.tar.gz"
+  echo "[info] downloading CheckM2 database (resumable; rerun this script to continue) ..."
+  if wget -c -O "$CK2_TAR" "$CK2_URL"; then
+    tar -xzf "$CK2_TAR" -C "$DBROOT/checkm2_db"
+    CHECKM2_DMND=$(find "$DBROOT/checkm2_db" -name uniref100.KO.1.dmnd | head -n1 || true)
+    if [ -n "$CHECKM2_DMND" ]; then
+      checkm2 database --setdblocation "$(dirname "$CHECKM2_DMND")" || true
+    fi
+  else
+    echo "[warn] resumable wget failed; falling back to the built-in downloader" >&2
+    checkm2 database --download --path "$DBROOT/checkm2_db" || \
+      echo "[error] CheckM2 DB incomplete. Re-run this script, or export CHECKM2_DB to a shared uniref100.KO.1.dmnd" >&2
+  fi
+fi
 conda deactivate
 
 # ---- GUNC database (default progenomes2.1, about 13 GB) ----
@@ -28,7 +52,7 @@ download_eggnog_data.py -y --data_dir "$DBROOT/eggnog_db"
 conda deactivate
 
 # ---- PubMLST offline refresh (bundled with mlst, periodic) ----
-conda activate easywgs
+conda activate "${EASYWGS_ENV:-easywgs}"
 mlst-download_pub_mlst -j 8 -d "$(dirname "$(which mlst)")/../db/pubmlst" || true
 
 # ---- Update built-in abricate databases and list the available ones ----

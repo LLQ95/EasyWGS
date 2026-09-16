@@ -34,16 +34,60 @@ The script creates the following environments:
 CLEAN is a Nextflow pipeline; once nextflow is installed, the setup script runs
 `nextflow pull rki-mf1/clean`, so no separate environment is needed.
 
-## 3. Download databases
+The installer is idempotent: rerunning it skips an environment that already exists and
+creates only the missing ones, which is useful after a partial install. The main
+environment name defaults to `easywgs` and can be overridden with `EASYWGS_ENV`; every
+module activates `${EASYWGS_ENV:-easywgs}`, so a workstation that keeps the main tools in
+another environment can point the workflow at it (for example
+`EASYWGS_ENV=isolateqc bash 00_install/install_env.sh`).
+
+## 3. Download databases or point at shared copies
+
+Databases are downloaded once and shared across projects. Set `DBROOT` to a large,
+ideally shared disk before running the downloader (the default is `~/easywgs_db`):
 
 ```bash
-# Open the script first and point DBROOT to a large, ideally shared disk
-bash 00_install/download_db.sh
+DBROOT=/data/shared/easywgs_db bash 00_install/download_db.sh
 ```
 
-Databases are downloaded once and shared across projects. They include the abricate
-databases, AMRFinder data, the Kraken2 database, the CheckM2 model, the GUNC reference
-set, Bakta and eggNOG databases and the chewBBACA schemas.
+The downloader includes the abricate databases, AMRFinder data, the CheckM2 model, the
+GUNC reference set, Bakta and eggNOG databases and the chewBBACA schemas. It is safe to
+rerun, and completed items are skipped.
+
+### Reuse an existing CheckM2 database
+
+The CheckM2 database is about 1.7 GB and the one-shot Zenodo download can break on an
+unstable link. If your cluster already has a copy, export `CHECKM2_DB` and the downloader
+skips the download while module 04 and the spike-in example use the shared file directly.
+`CHECKM2_DB` accepts either the `uniref100.KO.1.dmnd` file itself or the
+`CheckM2_database` directory that contains it:
+
+```bash
+# point at the file (or at the CheckM2_database directory)
+export CHECKM2_DB=/db/student/metagenome/checkm_db/checkm2_database/CheckM2_database/uniref100.KO.1.dmnd
+DBROOT=/data/shared/easywgs_db bash 00_install/download_db.sh   # CheckM2 is now skipped
+```
+
+Add the `export CHECKM2_DB=...` line to `~/.bashrc` (or prepend it to each run) so that
+module 04 and `examples/02_run_spikein.sh` pick it up.
+
+### Resumable download when no shared copy exists
+
+The downloader fetches CheckM2 with `wget -c`, which resumes after an interruption, so
+repeating the command continues the transfer; it then unpacks the archive and registers
+the location with `checkm2 database --setdblocation`. To do this by hand instead:
+
+```bash
+conda activate checkm2
+wget -c -O checkm2_database.tar.gz \
+  https://zenodo.org/api/records/14897628/files/checkm2_database.tar.gz/content
+tar -xzf checkm2_database.tar.gz
+checkm2 database --setdblocation "$PWD/CheckM2_database"
+```
+
+The same shared-database idea applies to the other large resources: point `DBROOT` at the
+shared location and keep only the missing pieces, or download GUNC, Bakta and eggNOG on a
+machine with a better connection and copy the directories into `DBROOT`.
 
 ## 4. Hardware and optional components
 

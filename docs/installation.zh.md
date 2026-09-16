@@ -33,15 +33,54 @@ bash 00_install/install_env.sh
 CLEAN 是 Nextflow 流程，主环境装好 nextflow 后由脚本执行 `nextflow pull rki-mf1/clean`，
 不需要单独建环境。
 
-## 3. 下载数据库
+安装脚本是幂等的：重复运行会跳过已经存在的环境，只创建缺失的环境，适合安装中断后
+补齐。主环境名默认为 `easywgs`，可用 `EASYWGS_ENV` 覆盖；每个模块激活的都是
+`${EASYWGS_ENV:-easywgs}`，因此如果工作站把主要工具装在另一个环境里，可让流程直接
+使用它（例如 `EASYWGS_ENV=isolateqc bash 00_install/install_env.sh`）。
+
+## 3. 下载数据库或指向已有共享库
+
+数据库只需下载一次，可在多个项目间共享。运行前建议把 `DBROOT` 指向大容量、最好是
+共享的磁盘（默认为 `~/easywgs_db`）：
 
 ```bash
-# 先打开脚本，把 DBROOT 改成自己的数据库存放盘（建议大盘、只读共享）
-bash 00_install/download_db.sh
+DBROOT=/data/shared/easywgs_db bash 00_install/download_db.sh
 ```
 
-数据库只需下载一次，可在多个项目间共享。主要包括 abricate 各库、AMRFinder 库、
-Kraken2 库、CheckM2 模型、GUNC 参考集、Bakta 与 eggNOG 库、chewBBACA schema。
+下载内容包括 abricate 各库、AMRFinder 库、CheckM2 模型、GUNC 参考集、Bakta 与
+eggNOG 库、chewBBACA schema。脚本可重复运行，已完成的项目会自动跳过。
+
+### 复用已有的 CheckM2 数据库
+
+CheckM2 数据库约 1.7 GB，Zenodo 的一次性下载在网络不稳时容易中断。如果集群上已有
+副本，导出 `CHECKM2_DB` 后，下载脚本会跳过该数据库，模块 04 与 spike-in 示例也会直接
+使用共享文件。`CHECKM2_DB` 既可以指向 `uniref100.KO.1.dmnd` 文件本身，也可以指向包含
+它的 `CheckM2_database` 目录：
+
+```bash
+# 指向 .dmnd 文件（或 CheckM2_database 目录）
+export CHECKM2_DB=/db/student/metagenome/checkm_db/checkm2_database/CheckM2_database/uniref100.KO.1.dmnd
+DBROOT=/data/shared/easywgs_db bash 00_install/download_db.sh   # 此时 CheckM2 会被跳过
+```
+
+建议把 `export CHECKM2_DB=...` 写入 `~/.bashrc`（或在每次运行前导出），模块 04 与
+`examples/02_run_spikein.sh` 即会自动使用。
+
+### 没有共享库时使用断点续传下载
+
+下载脚本改用 `wget -c` 拉取 CheckM2，中断后重复运行同一命令即可续传；随后自动解压并
+通过 `checkm2 database --setdblocation` 注册路径。也可以手动完成：
+
+```bash
+conda activate checkm2
+wget -c -O checkm2_database.tar.gz \
+  https://zenodo.org/api/records/14897628/files/checkm2_database.tar.gz/content
+tar -xzf checkm2_database.tar.gz
+checkm2 database --setdblocation "$PWD/CheckM2_database"
+```
+
+其他大型数据库同理：把 `DBROOT` 指向共享位置，只补缺失的部分；也可以在网络更好的
+机器上下载 GUNC、Bakta、eggNOG 后，把目录拷贝到 `DBROOT`。
 
 ## 4. 硬件与可选组件
 

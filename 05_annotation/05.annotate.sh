@@ -13,7 +13,7 @@ OUT="$PROJECT/05_annotation"
 DBROOT=${DBROOT:-$HOME/easywgs_db}
 mkdir -p "$OUT/prokka" "$OUT/prodigal_faa" "$OUT/bakta" "$OUT/eggnog"
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate easywgs
+conda activate "${EASYWGS_ENV:-easywgs}"
 
 # ---- 1) Prokka batch annotation (set --genus per sample if needed; Bacteria is generic) ----
 for f in "$GEN"/*.fasta; do

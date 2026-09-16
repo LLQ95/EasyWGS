@@ -10,18 +10,27 @@ THREADS=8
 PROJECT=${PROJECT:-$(cd "$(dirname "$0")/.." && pwd)}
 GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/04_asm_qc"; mkdir -p "$OUT/quast" "$OUT/checkm2" "$OUT/gunc"
-DBROOT=${DBROOT:-$HOME/easywgs_db}
+source "$PROJECT/00_install/runtime.sh"
 GUNC_DB=$(ls "$DBROOT"/gunc_db/*progenomes*.dmnd 2>/dev/null | head -n1 || true)
+CHECKM2_DMND=$(easywgs_resolve_checkm2_db)
 source "$(conda info --base)/etc/profile.d/conda.sh"
 
 # ---- QUAST ----
-conda activate easywgs
+conda activate "$EASYWGS_ENV"
 quast.py -t "$THREADS" -o "$OUT/quast" "$GEN"/*.fasta
 
 # ---- CheckM2 ----
+# Reuse an existing database by exporting CHECKM2_DB (the uniref100.KO.1.dmnd
+# file or its CheckM2_database directory); otherwise fall back to DBROOT.
 conda activate checkm2
-checkm2 predict --threads "$THREADS" --input "$GEN" --output-directory "$OUT/checkm2" --force \
-  --database_path "$DBROOT/checkm2_db/CheckM2_database/uniref100.KO.1.dmnd"
+if [ -n "$CHECKM2_DMND" ] && [ -f "$CHECKM2_DMND" ]; then
+  checkm2 predict --threads "$THREADS" --input "$GEN" --output-directory "$OUT/checkm2" --force \
+    --database_path "$CHECKM2_DMND"
+else
+  echo "[warn] CheckM2 database not found (set CHECKM2_DB to uniref100.KO.1.dmnd or its directory); trying the registered default" >&2
+  checkm2 predict --threads "$THREADS" --input "$GEN" --output-directory "$OUT/checkm2" --force \
+    || echo "[warn] CheckM2 skipped; downstream CheckM2 fields will be NA" >&2
+fi
 conda deactivate
 
 # ---- GUNC ----
@@ -53,7 +62,12 @@ if [[ -f "$FCS_PY" && -d "$GXDB" ]]; then
 fi
 
 # ---- Gate: flag samples that need recheck/removal ----
-conda activate easywgs
-awk -F'\t' 'NR==1 || $3>5 {print $1, $2, $3}' "$OUT/checkm2/quality_report.tsv" > "$OUT/recheck_checkm2.tsv"
+conda activate "$EASYWGS_ENV"
+if [ -f "$OUT/checkm2/quality_report.tsv" ]; then
+  awk -F'\t' 'NR==1 || $3>5 {print $1, $2, $3}' "$OUT/checkm2/quality_report.tsv" > "$OUT/recheck_checkm2.tsv"
+else
+  echo -e "Name\tCompleteness\tContamination" > "$OUT/recheck_checkm2.tsv"
+  echo "[warn] $OUT/checkm2/quality_report.tsv missing; recheck_checkm2.tsv left empty" >&2
+fi
 awk -F'\t' 'NR==1 || $NF=="False" {print}' "$OUT/gunc_all.tsv" > "$OUT/recheck_gunc.tsv"
 echo "[done] QUAST/CheckM2/GUNC results in $OUT; recheck lists: recheck_*.tsv"

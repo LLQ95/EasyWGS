@@ -31,12 +31,18 @@ kraken2 --db $K2_DB --paired R1.fq.gz R2.fq.gz --threads 16 \
 BlobToolKit：
 
 ```bash
-checkm2 predict --threads 16 --input genomes/ --output-directory checkm2 -x fasta
+# --database_path 为可选项；模块 04 会用 $CHECKM2_DB 或 $DBROOT/checkm2_db 自动填入
+checkm2 predict --threads 16 --input genomes/ --output-directory checkm2 -x fasta \
+  --database_path "$CHECKM2_DB"
 gunc run genomes/${id}.fasta -d $GUNC_DB --threads 16 -o gunc
 # FCS-GX（库约470GB，需要大内存；条件不足时传 usegalaxy.org 在线运行）
 fcs.py screen genome --fasta ${id}.fasta --out-dir fcs --gx-db $GXDB
 fcs.py clean genome  --fasta ${id}.fasta --action-report fcs/*.txt --output cleaned.fasta
 ```
+
+`CHECKM2_DB` 可以指向 `uniref100.KO.1.dmnd` 文件或其 `CheckM2_database` 目录，从而直接
+复用共享数据库；未设置时模块 04 会在 `$DBROOT/checkm2_db` 下查找，再退回通过
+`checkm2 database --setdblocation` 注册的默认位置。
 
 ## 门控判据与处理
 

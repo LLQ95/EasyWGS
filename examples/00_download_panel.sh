@@ -20,7 +20,7 @@ if [[ "$TIER" != [123] ]]; then echo "TIER must be 1, 2 or 3 (got $TIER)"; exit 
 shift || true
 PROJECT=$(cd "$(dirname "$0")/.." && pwd); export PROJECT
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate easywgs
+conda activate "${EASYWGS_ENV:-easywgs}"
 
 python "$PROJECT/examples/scripts/make_samplesheets.py" "$TIER"
 python "$PROJECT/examples/scripts/download_panel.py" "$TIER" "$@"

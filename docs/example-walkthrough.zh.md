@@ -46,6 +46,9 @@ DBROOT=$HOME/easywgs_db bash 00_install/download_db.sh
 本面板需要 CheckM2、GUNC 与 Bakta 数据库。Kraken 2 标准库与 FCS-GX 在本示例中为可
 选项，模块 02 在缺少它们时仍可运行，只是跳过物种组成侦察。spike-in 实验使用
 `art_illumina`（Bioconda 包名为 `art`）与 `bwa`，二者均已包含在 `easywgs` 环境中。
+若集群上已有 CheckM2 数据库，可在运行 `download_db.sh` 前导出 `CHECKM2_DB`（指向
+`uniref100.KO.1.dmnd` 文件或其 `CheckM2_database` 目录）以跳过下载，模块 04 与
+spike-in 会直接使用该共享库；断点续传等细节见[安装](installation.md)一章。
 
 ## 运行面板
 

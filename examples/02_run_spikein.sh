@@ -14,7 +14,7 @@
 set -euo pipefail
 PROJECT=$(cd "$(dirname "$0")/.." && pwd); export PROJECT
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate easywgs
+conda activate "${EASYWGS_ENV:-easywgs}"
 
 python "$PROJECT/examples/spikein/spikein_run.py"
 python "$PROJECT/examples/spikein/make_spikein_figure.py"

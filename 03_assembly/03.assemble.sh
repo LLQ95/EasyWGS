@@ -55,7 +55,7 @@ tail -n +2 "$SHEET" | while IFS=',' read -r id platform species r1 r2 lr rest; d
       # Fallback: spades.py --isolate -1 R1 -2 R2 -o wd -t T -m MEM && cp wd/scaffolds.fasta ;;
       ;;
     nanopore|pacbio)
-      conda activate easywgs
+      conda activate "${EASYWGS_ENV:-easywgs}"
       L="$LR_DIR/${id}_L.fq.gz"; [[ -f "$L" ]] || L="$PROJECT/$lr"
       if [[ "$platform" == "pacbio" ]]; then
         flye --pacbio-hifi "$L" --genome-size 5m --threads "$THREADS" --out-dir "$wd/flye"
@@ -74,7 +74,7 @@ tail -n +2 "$SHEET" | while IFS=',' read -r id platform species r1 r2 lr rest; d
       seqkit seq -m "$MIN_CTG" "$OUT/genomes/${id}.raw.fasta" > "$OUT/genomes/${id}.fasta"
       ;;
     hybrid)
-      conda activate easywgs
+      conda activate "${EASYWGS_ENV:-easywgs}"
       L="$LR_DIR/${id}_L.fq.gz"; [[ -f "$L" ]] || L="$PROJECT/$lr"
       # Recommended: Unicycler bold, long reads scaffold and short reads correct, plasmid/circle friendly
       unicycler --mode bold -1 "$SR/${id}_R1.fq.gz" -2 "$SR/${id}_R2.fq.gz" -l "$L" \

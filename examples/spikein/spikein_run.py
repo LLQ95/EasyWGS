@@ -126,13 +126,30 @@ def assemble(r1, r2, tag):
         if os.path.exists(alt): shutil.copy(alt, fa)
     return fa if os.path.exists(fa) else None
 
+def resolve_checkm2_db():
+    # CHECKM2_DB may be the uniref100.KO.1.dmnd file or its CheckM2_database directory
+    p = os.environ.get("CHECKM2_DB", "").strip()
+    cands = []
+    if p:
+        cands.append(p if os.path.basename(p) == "uniref100.KO.1.dmnd"
+                     else os.path.join(p, "uniref100.KO.1.dmnd"))
+    cands += [
+        os.path.join(DBROOT, "checkm2_db", "CheckM2_database", "uniref100.KO.1.dmnd"),
+        os.path.join(DBROOT, "checkm2_db", "uniref100.KO.1.dmnd"),
+    ]
+    for c in cands:
+        if os.path.isfile(c):
+            return c
+    return ""
+
 def checkm2(fa, tag):
-    db = os.path.join(DBROOT, "checkm2_db")
+    db = resolve_checkm2_db()
     outd = os.path.join(WORK, "checkm2_" + tag)
     rep = os.path.join(outd, "quality_report.tsv")
     if not os.path.exists(rep) and have("conda"):
+        dbarg = f' --database_path "{db}"' if db else ""
         run(f'conda run -n checkm2 checkm2 predict --input "{fa}" -o "{outd}" '
-            f'-t {THREADS} --database_path "{db}"')
+            f'-t {THREADS}{dbarg}')
     if os.path.exists(rep):
         for r in csv.DictReader(open(rep), delimiter="\t"):
             return r.get("Completeness", "NA"), r.get("Contamination", "NA")

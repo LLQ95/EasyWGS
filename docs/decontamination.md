@@ -35,12 +35,19 @@ contamination, and GUNC detects chimeras where two species were merged into one 
 For thorough foreign-fragment removal, add NCBI FCS-GX or BlobToolKit:
 
 ```bash
-checkm2 predict --threads 16 --input genomes/ --output-directory checkm2 -x fasta
+# --database_path is optional; module 04 fills it from $CHECKM2_DB or $DBROOT/checkm2_db
+checkm2 predict --threads 16 --input genomes/ --output-directory checkm2 -x fasta \
+  --database_path "$CHECKM2_DB"
 gunc run genomes/${id}.fasta -d $GUNC_DB --threads 16 -o gunc
 # FCS-GX (about 470 GB database, large RAM; run on usegalaxy.org otherwise)
 fcs.py screen genome --fasta ${id}.fasta --out-dir fcs --gx-db $GXDB
 fcs.py clean genome  --fasta ${id}.fasta --action-report fcs/*.txt --output cleaned.fasta
 ```
+
+`CHECKM2_DB` may be the `uniref100.KO.1.dmnd` file or its `CheckM2_database` directory,
+which lets the workflow reuse a shared database; when it is unset, module 04 looks under
+`$DBROOT/checkm2_db` and otherwise falls back to the location registered with
+`checkm2 database --setdblocation`.
 
 ## Gate criteria and actions
 
