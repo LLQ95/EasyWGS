@@ -3,11 +3,14 @@
 This directory runs the whole EasyWGS workflow on real, public bacterial
 isolates so that every figure and table in the Application section can be
 reproduced with one command. The panel is deliberately small but broad: it
-covers five major pathogen groups rather than a single organism, includes both
+covers ten pathogen groups rather than a single organism, includes both
 short-read and hybrid (Illumina plus Oxford Nanopore) isolates, and adds a
 twelve-isolate temporal *Salmonella* collection for the collection-level
 analyses (pangenome, core-SNP phylogeny, time-scaled tree, genotype-phenotype
-association) that cannot be demonstrated with one genome.
+association) that cannot be demonstrated with one genome. Tier 4 adds five more
+groups, *V. parahaemolyticus*, *Y. enterocolitica*, *C. jejuni/C. coli*,
+*B. gladioli* and *C. botulinum*, for FastANI species confirmation and
+toxin/surface-locus typing.
 
 No sequencing reads are stored in git. The accessions in `panel.tsv` are
 verified against the ENA Portal API and are downloaded on demand, then
@@ -23,6 +26,20 @@ downsampled so the tutorial runs on an ordinary analysis server.
 | *Listeria monocytogenes* | `listeria` | LM_AT_2013 | LM_HY_DE_2019 | 3 | - |
 | *Shigella* spp. | `ecoli` | SS_FR_2010 (S. sonnei) | SD_HY_HU_1954 (S. dysenteriae) | 3 (sonnei, flexneri) | - |
 
+### Tier 4: five specialized pathogen groups
+
+Tier 4 adds three Illumina isolates from each of five groups without a single
+command-line serotyper; module 04.5 confirms species with FastANI and module 06.4
+screens toxin, surface and virulence loci.
+
+| Pathogen | `species` code | Reference | Three isolates |
+|---|---|---|---|
+| *Vibrio parahaemolyticus* | `vibrio` | RIMD 2210633 (GCF_000196095) | China, 2019-2020 (PRJEB55776) |
+| *Yersinia enterocolitica* | `yersinia` | 8081 (GCF_000009345) | Norway, 2006-2017 (PRJEB67986) |
+| *Campylobacter jejuni / C. coli* | `campylobacter` | NCTC 11168 (GCF_000009085) | Luxembourg 2019 (jejuni), Spain 2016 (coli) |
+| *Burkholderia gladioli* | `burkholderia` | ATCC 10248 (GCF_000959725) | USA, 1998-2019 (PRJNA475751, PRJNA720893) |
+| *Clostridium botulinum* | `clostridium` | ATCC 3502 (GCF_000063585) | Sweden 1946, Netherlands 2001, Finland 2010 |
+
 Tiers are nested.
 
 - Tier 1, 10 samples: one short-read and one hybrid isolate per group. This is
@@ -34,6 +51,8 @@ Tiers are nested.
   reads spanning 1992 to 2017 plus the hybrid) drive pangenome, core-SNP,
   TreeTime molecular-clock and ancestral-location analysis and the GWAS
   demonstration.
+- Tier 4, 44 samples: the five specialized groups above for FastANI identity
+  confirmation and custom toxin/surface-locus screening.
 
 Each row of `panel.tsv` records the Illumina and ONT run accessions, the
 BioSample that proves a hybrid pair is one isolate, country, collection date,
@@ -73,7 +92,7 @@ bash examples/01_run_panel.sh 1
 bash examples/02_run_spikein.sh
 ```
 
-Replace `1` with `2` or `3` for the broader tiers. `EXAMPLE_PAIRS` sets the
+Replace `1` with `2`, `3` or `4` for the broader tiers. `EXAMPLE_PAIRS` sets the
 number of matched read pairs kept per Illumina isolate (default 800000, roughly
 50-fold for a 5 Mb genome at 150 bp); set it higher for full-depth assemblies.
 ONT reads are kept whole because module 01b applies Filtlong target-base
@@ -141,6 +160,21 @@ genes span at least three distinct AMRFinderPlus drug classes; module 13 can
 then be rerun with `TRAIT=MDR_genotypic`. For a real study replace both with
 measured susceptibility results in `config/traits.csv`.
 
+## Species confirmation and single-species subsets (tier 4)
+
+The tier-4 groups do not share one reference, so the 44-isolate panel runs the
+per-isolate modules plus module 04.5 (the FastANI identity gate) and module 06.4 (the
+`easywgs_markers` toxin/surface/virulence screen, built once with
+`00_install/build_custom_db.sh`). The comparative modules 08 to 13 assume one species
+and one shared reference, so run them on a subset produced by
+`scripts/subset_samplesheet.py`; the Specialized pathogens chapter of the guidebook
+documents the per-pathogen markers and interpretation.
+
+```bash
+python examples/scripts/make_samplesheets.py 4
+python examples/scripts/subset_samplesheet.py 4 campylobacter
+```
+
 ## Using your own isolates
 
 Replace the panel with your own data by placing reads in `00_rawdata/`
@@ -158,11 +192,20 @@ building pangenomes and association tests.
 | *E. coli* | PRJDB5579, PRJDB5136, PRJDB3552 / DRP004119 |
 | *L. monocytogenes* | PRJEB56155 / ERP150987 |
 | *Shigella* spp. | PRJEB12097, PRJEB71076, PRJEB73590 / SRP292271 |
+| *V. parahaemolyticus* | PRJEB55776 |
+| *Y. enterocolitica* | PRJEB67986 |
+| *C. jejuni / C. coli* | PRJEB55463, PRJEB57556 |
+| *B. gladioli* | PRJNA475751, PRJNA720893 |
+| *C. botulinum* | PRJNA233459, PRJNA610151, PRJNA666195 |
 
 Reference genomes: *Salmonella* LT2 GCF_000006945, *K. pneumoniae* MGH78578
 GCF_000016305, *E. coli* K-12 MG1655 GCF_000005845, *L. monocytogenes* EGD-e
 GCF_000196035, *S. flexneri* GCF_000006925, *S. sonnei* GCF_000283715 and
 *S. dysenteriae* GCF_022354085. The Shigella references are recorded by species
 and accession only; see `panel.tsv` for the local label used by each isolate.
+Tier-4 references are *V. parahaemolyticus* RIMD 2210633 GCF_000196095,
+*Y. enterocolitica* 8081 GCF_000009345, *C. jejuni* NCTC 11168 GCF_000009085,
+*B. gladioli* ATCC 10248 GCF_000959725 and *C. botulinum* ATCC 3502
+GCF_000063585.
 PhiX is NC_001422. Please cite the original studies and the ENA/SRA accessions in
 addition to EasyWGS.

@@ -38,11 +38,12 @@ ensure_env() {
 #    (microbial GWAS) uses scoary, plink and pyseer
 #    The bioconda "iqtree" package now ships IQ-TREE 3 (binary iqtree3); version 2 used iqtree2
 #    "art" provides art_illumina for the controlled decontamination spike-in example.
+#    fastani powers module 04.5, the whole-genome ANI species-confirmation gate for a mixed multi-species panel.
 ensure_env "$EASYWGS_ENV" -c bioconda -c conda-forge \
   fastp fastqc multiqc seqkit \
   porechop chopper nanoplot filtlong \
   spades unicycler flye canu dragonflye racon circlator assembly-stats \
-  quast mash mummer minimap2 bowtie2 bwa samtools bcftools tabix qualimap vcf2phylip \
+  quast mash mummer fastani minimap2 bowtie2 bwa samtools bcftools tabix qualimap vcf2phylip \
   prokka prodigal panaroo roary mafft iqtree fasttree snp-sites snp-dists \
   snippy gubbins treetime \
   mlst abricate ncbi-amrfinderplus rgi mob-suite genomad \

@@ -1,0 +1,57 @@
+# easywgs_markers curated marker list for module 06.4 (abricate custom database).
+#
+# This file lists the gene/locus markers used to screen the five tier-4 pathogen
+# groups when no single maintained command-line serotyper exists. It is a
+# shopping list and provenance table, NOT the database itself: the sequences are
+# not shipped in git and are not auto-downloaded. Fetch each sequence from the
+# cited RefSeq reference genome, VFDB or PubMLST record, concatenate them into
+# one multi-FASTA whose headers start with marker_id, then build the database
+# with 00_install/build_custom_db.sh.
+#
+# Columns:
+#  marker_id     required FASTA header prefix (one sequence, or several alleles
+#                sharing the prefix, e.g. CB_bont|A, CB_bont|B)
+#  species_code  panel.tsv species_code the marker applies to
+#  locus_class   species / surface_O / surface_K / surface_capsule / toxin /
+#                virulence / T3SS / pYV_plasmid / discriminator
+#  gene_or_locus canonical gene symbol(s)
+#  description   what presence means and the typing limitation
+#  sequence_source authoritative reference to extract the sequence from
+#
+# Presence/absence of a generic gene does NOT assign a type. O/K groups, Penner
+# capsule types and BoNT subtypes require type-specific reference alleles; see
+# the surface_* rows and the guidebook page "Specialized pathogens".
+marker_id	species_code	locus_class	gene_or_locus	description	sequence_source
+VP_tlh	vibrio	species	tlh (ldh)	species-specific thermolabile hemolysin; expected present in essentially all V. parahaemolyticus	RefSeq GCF_000196095 (RIMD 2210633); VFDB
+VP_tdh	vibrio	toxin	tdh	thermostable direct hemolysin; classic pathogenic (Kanagawa-positive) marker	RefSeq GCF_000196095; VFDB
+VP_trh	vibrio	toxin	trh (trh1/trh2)	TDH-related hemolysin; urease-positive pathogenic lineages; add trh1 and trh2 alleles	RefSeq GCF_000196095; VFDB
+VP_orf8	vibrio	virulence	orf8	pandemic O3:K6/ST3 clone marker carried on a filamentous phage/plasmid region	RefSeq GCF_000196095; published pandemic-isolate references
+VP_vtrB	vibrio	T3SS	vtrB	T3SS2 transcriptional regulator; indicates the pathogenicity-associated T3SS2 region	RefSeq GCF_000196095; VFDB
+VP_vscN2	vibrio	T3SS	vscN2	T3SS2 ATPase / structural component	RefSeq GCF_000196095; VFDB
+VP_wzx	vibrio	surface_O	wzx	O-antigen flippase; O group needs type-specific wzx/wzy reference alleles, not one generic sequence	RefSeq GCF_000196095; PubMLST/published O-antigen references
+VP_wzy	vibrio	surface_O	wzy	O-antigen polymerase; O group needs type-specific wzx/wzy reference alleles	RefSeq GCF_000196095; PubMLST/published O-antigen references
+VP_wza	vibrio	surface_K	wza/wzb/wzc	capsular polysaccharide export; K type needs type-specific locus reference alleles	RefSeq GCF_000196095; published K-locus references
+YE_ail	yersinia	virulence	ail	attachment-invasion locus; chromosome marker of pathogenic Y. enterocolitica	RefSeq GCF_000009345 (8081); VFDB
+YE_ystA	yersinia	toxin	ystA	heat-stable enterotoxin of pathogenic biotypes (classical yst)	RefSeq GCF_000009345; VFDB
+YE_ystB	yersinia	toxin	ystB	heat-stable enterotoxin variant common in biotype 1A	RefSeq GCF_000009345; VFDB
+YE_inv	yersinia	virulence	inv	invasin; early-infection epithelial invasion	RefSeq GCF_000009345; VFDB
+YE_foxA	yersinia	virulence	foxA	ferrioxamine receptor; species-associated chromosomal marker	RefSeq GCF_000009345
+YE_yadA	yersinia	pYV_plasmid	yadA	pYV-encoded adhesin; marks the virulence plasmid	RefSeq GCF_000009345; VFDB
+YE_virF	yersinia	pYV_plasmid	virF (lcrF)	pYV-encoded transcriptional activator of the Ysc-Yop system	RefSeq GCF_000009345; VFDB
+YE_caf1	yersinia	discriminator	caf1	F1 capsular antigen; Y. pestis discriminator (absent in Y. enterocolitica)	Y. pestis CO92 reference, NCBI RefSeq; VFDB
+YE_pla	yersinia	discriminator	pla	plasminogen activator on pPCP1; Y. pestis discriminator	Y. pestis CO92 reference, NCBI RefSeq; VFDB
+CJ_cdtA	campylobacter	toxin	cdtA	subunit A of the cytolethal distending toxin	RefSeq GCF_000009085 (NCTC 11168); VFDB
+CJ_cdtB	campylobacter	toxin	cdtB	catalytic subunit of the cytolethal distending toxin	RefSeq GCF_000009085; VFDB
+CJ_cdtC	campylobacter	toxin	cdtC	subunit C of the cytolethal distending toxin	RefSeq GCF_000009085; VFDB
+CJ_cadF	campylobacter	virulence	cadF	fibronectin-binding outer-membrane adhesin	RefSeq GCF_000009085; VFDB
+CJ_flaA	campylobacter	virulence	flaA	major flagellin; fla typing uses flaA/flaB reference alleles	RefSeq GCF_000009085; PubMLST Campylobacter
+CJ_ciaB	campylobacter	virulence	ciaB	Campylobacter invasion antigen secreted by the flagellar apparatus	RefSeq GCF_000009085; VFDB
+CJ_porA	campylobacter	surface_capsule	porA	major outer-membrane protein MOMP; sequence-type target	RefSeq GCF_000009085; PubMLST Campylobacter
+CJ_hddA	campylobacter	surface_capsule	hddA	O-methyl phosphoramidate capsule-biosynthesis gene in the Penner (HS) capsule locus; Penner type needs the full type-specific capsule-locus reference	RefSeq GCF_000009085; PubMLST Campylobacter capsule references
+CB_bont	clostridium	toxin	bont (cnt)	botulinum neurotoxin; add one allele per toxin type/subtype (A-G, chimeric) as CB_bont|A etc.; the generic marker detects presence, not type	RefSeq GCF_000063585 (ATCC 3502); subtype references from NCBI GenBank (Bactopia GAMMA convention)
+CB_ntnh	clostridium	toxin	ntnh	non-toxic non-haemagglutinin flanking the neurotoxin in the toxin cluster	RefSeq GCF_000063585; VFDB
+CB_ha33	clostridium	toxin	ha33 (ha17/ha70)	haemagglutinin cluster component associated with the toxin complex	RefSeq GCF_000063585
+CB_botR	clostridium	toxin	botR	alternative sigma factor regulating the toxin cluster	RefSeq GCF_000063585
+BG_bonJ	burkholderia	toxin	bonJ	core gene of the bongkrekic-acid (bon) biosynthesis cluster; reported in B. gladioli pv. cocovenenans, typically absent from ordinary clinical B. gladioli	B. gladioli pv. cocovenenans Co14 reference; Moebius et al., 2012
+BG_bonF	burkholderia	toxin	bonF	oxidative tailoring gene of the bongkrekic-acid cluster	B. gladioli pv. cocovenenans Co14 reference; Moebius et al., 2012
+BG_toxA	burkholderia	toxin	toxA	toxoflavin biosynthesis (tox) cluster gene; toxoflavin is a second B. gladioli/B. glumae toxin	B. gladioli ATCC 10248 (GCF_000959725) and published toxoflavin-cluster references

@@ -5,7 +5,11 @@ Tiers are nested: tier 1 is the small core (one short-read isolate plus one
 hybrid isolate per pathogen, 10 samples), tier 2 adds typing breadth (three
 short-read isolates per pathogen, 20 samples) and tier 3 adds the full
 12-isolate Salmonella temporal collection used for pangenome, core-SNP,
-TreeTime and GWAS demonstrations (29 samples).
+TreeTime and GWAS demonstrations (29 samples). Tier 4 adds three Illumina
+isolates from each of five further pathogen groups, Vibrio parahaemolyticus,
+Yersinia enterocolitica, Campylobacter jejuni/C. coli, Burkholderia gladioli
+and Clostridium botulinum, giving a 44-sample panel for FastANI species
+confirmation and custom toxin/surface-locus screening.
 
 Outputs are written to examples/generated/ and copied into config/ by
 01_run_panel.sh. No sequencing data are fabricated: dates and countries are

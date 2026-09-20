@@ -1,6 +1,6 @@
 # Expected-result rules for the EasyWGS multi-pathogen panel.
 # scope   : per_isolate (rows of examples/results/panel_metrics.tsv) or collection
-# group   : all, or a panel.tsv group (shigella rows use group=shigella)
+# group   : all, or a panel.tsv group; tier-4 groups are vibrio/yersinia/campylobacter/burkholderia/clostridium
 # metric  : column name in panel_metrics.tsv, or metric key in collection_stats.tsv
 # operator: exists | nonempty | equals | >= | <= | == | in_range
 # threshold: number, text, or min..max for in_range
@@ -21,7 +21,17 @@ P11	per_isolate	kpneumoniae	ST	nonempty	-	MLST must return a sequence type
 P12	per_isolate	ecoli	ST	nonempty	-	MLST must return a sequence type
 P13	per_isolate	shigella	ST	nonempty	-	MLST must return a sequence type
 P14	per_isolate	listeria	ST	nonempty	-	MLST must return a sequence type
-C1	collection	all	n_samples	==	29	full tier-3 panel size
+P15	per_isolate	vibrio	length_bp	in_range	4700000..6000000	V. parahaemolyticus two chromosomes plus plasmids
+P16	per_isolate	yersinia	length_bp	in_range	4200000..5300000	Y. enterocolitica chromosome plus pYV
+P17	per_isolate	campylobacter	length_bp	in_range	1500000..2200000	C. jejuni/C. coli compact genome
+P18	per_isolate	burkholderia	length_bp	in_range	7000000..10500000	B. gladioli multipartite genome
+P19	per_isolate	clostridium	length_bp	in_range	3400000..5000000	C. botulinum chromosome plus plasmids
+# B. gladioli has no classic 7-gene MLST scheme in the mlst database; identity is confirmed by FastANI (04.5).
+P20	per_isolate	vibrio	ST	nonempty	-	MLST Vibrio scheme must return a sequence type
+P21	per_isolate	yersinia	ST	nonempty	-	MLST Yersinia scheme must return a sequence type
+P22	per_isolate	campylobacter	ST	nonempty	-	MLST Campylobacter scheme must return a sequence type
+P23	per_isolate	clostridium	ST	nonempty	-	MLST C. botulinum scheme must return a sequence type
+C1	collection	all	n_samples	>=	29	tier-3 panel at minimum (29); tier 4 expands it to 44
 C2	collection	all	completeness_median	>=	95	median completeness across panel
 C3	collection	all	contamination_max	<=	5	worst contamination across panel
 C4	collection	all	pangenome_gene_clusters	>=	1	Salmonella pangenome built

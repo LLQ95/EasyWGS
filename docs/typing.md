@@ -1,8 +1,9 @@
 # MLST, serotyping and cgMLST
 
-Module 06 has three steps: seven-gene MLST, species-specific serotyping or surface antigens,
-and core-genome multilocus sequence typing (cgMLST). The scripts are `06.1.mlst.sh`,
-`06.2.serotype.sh` and `06.3.cgmlst.sh`.
+Module 06 has four steps: seven-gene MLST, species-specific serotyping or surface antigens,
+core-genome multilocus sequence typing (cgMLST), and a custom screen of surface, toxin and
+virulence loci. The scripts are `06.1.mlst.sh`, `06.2.serotype.sh`, `06.3.cgmlst.sh` and
+`06.4.surface_toxin_loci.sh`.
 
 ## Seven-gene MLST
 
@@ -46,6 +47,22 @@ sistr -i ${id}.fasta -p cgmlst_profiles -n novel_alleles -o sistr/$id
 
 Listeria monocytogenes has no classical O/H serotype and uses molecular serogroups together
 with cgMLST.
+
+## Pathogens without a unified command-line serotyper
+
+For *V. parahaemolyticus*, *Y. enterocolitica*, *C. jejuni/C. coli*, *B. gladioli* and
+*C. botulinum*, no single maintained command-line serotyper exists. Module 06.1 still returns
+the MLST sequence type through the Vibrio, Yersinia, Campylobacter and *C. botulinum* schemes
+(*B. gladioli* has no classic seven-gene scheme), and module 06.4 screens a curated abricate
+database named `easywgs_markers` for species, toxin, surface and virulence loci such as
+tlh/tdh/trh/orf8, ail/yst/yadA/virF, cdt/cadF/flaA and the capsule locus, the bongkrekic-acid
+`bon` and toxoflavin `tox` clusters, and bont/ntnh. Build that database once with
+`00_install/build_custom_db.sh` from the marker list in `examples/customdb/`; when it is absent,
+module 06.4 writes empty tables and continues. Generic markers establish presence or absence,
+while O/K groups, Penner capsule types and BoNT subtypes need type-specific reference alleles.
+Species identity for these groups is confirmed beforehand by the FastANI gate (module 04.5).
+The per-pathogen markers, references and interpretation rules are on the
+[Specialized pathogens](specialized-pathogens.md) page.
 
 ## cgMLST unified through chewBBACA
 

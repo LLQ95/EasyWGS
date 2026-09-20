@@ -1,11 +1,12 @@
 # EasyWGS multi-pathogen demonstration panel (curated and accession-verified).
-# All run accessions were verified against the ENA Portal API on 2026-09-16; each
-# row carries real WGS reads with public FASTQ links. No reads are shipped in git:
+# All run accessions were verified against the ENA Portal API (tiers 1-3 on 2026-09-16, tier 4 on
+# 2026-09-20); each row carries real WGS reads with public FASTQ links. No reads are shipped in git:
 # examples/00_download_panel.sh fetches them by run accession and downsamples.
 #
 # Columns:
 #  id            EasyWGS sample id (no spaces / extra dots); also the 00_rawdata prefix
-#  group         pathogen group used in the text (salmonella/kpneumoniae/ecoli/listeria/shigella)
+#  group         pathogen group (salmonella/kpneumoniae/ecoli/listeria/shigella and the tier-4 groups
+#                vibrio/yersinia/campylobacter/burkholderia/clostridium)
 #  species_code  value for the samplesheet 'species' column that drives module 06
 #  platform      illumina or hybrid (hybrid rows give BOTH an Illumina and an ONT run)
 #  illumina_run  ENA/SRA Illumina paired-end run accession (empty for none)
@@ -17,7 +18,8 @@
 #  scientific_name
 #  reference_gcf verified RefSeq complete-genome accession used for module 09/12
 #  ref_label     local reference file produced under ref/
-#  tier          smallest tier the sample belongs to (1 core, 2 typing breadth, 3 Salmonella temporal)
+#  tier          smallest tier the sample belongs to (1 core=10, 2 typing breadth=20,
+#                3 Salmonella temporal=29, 4 five additional pathogen groups=44); nested, filtered as tier<=N
 #  note
 id	group	species_code	platform	illumina_run	ont_run	biosample	bioproject	country	date	scientific_name	reference_gcf	ref_label	tier	note
 SE_IT_2011_1	salmonella	salm	illumina	DRR107076		-	PRJDB6430	Italy	2011	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	1	Salmonella temporal core; smallest Illumina run
@@ -49,3 +51,18 @@ KP_HY_JP_2015	kpneumoniae	kpsc	hybrid	DRR120574	DRR193884	DRS117601	DRP004119	Ja
 EC_HY_JP_2015	ecoli	ecoli	hybrid	DRR192219	DRR193923	DRS119519	DRP004119	Japan:Osaka	2015-12	Escherichia coli	GCF_000005845	Ec_ref.gbk	1	paired Illumina+GridION of one isolate
 LM_HY_DE_2019	listeria	listeria	hybrid	ERR12028755	ERR12165303	ERS16327337	ERP150987	Germany	2019	Listeria monocytogenes	GCF_000196035	Lm_ref.gbk	1	paired Illumina+MinION of one isolate
 SD_HY_HU_1954	shigella	ecoli	hybrid	SRR13039590	SRR13039589	SRS7698471	SRP292271	Hungary	1954	Shigella dysenteriae	GCF_022354085	Sd_ref.gbk	1	paired Illumina+MinION of one S. dysenteriae isolate
+VP_CN_2019a	vibrio	vibrio	illumina	ERR12422388		-	PRJEB55776	China	2019	Vibrio parahaemolyticus	GCF_000196095	VP_ref.gbk	4	China surveillance; tlh species marker and tdh/trh/orf8 screened in 06.4
+VP_CN_2019b	vibrio	vibrio	illumina	ERR12422395		-	PRJEB55776	China	2019	Vibrio parahaemolyticus	GCF_000196095	VP_ref.gbk	4	China surveillance; tlh species marker and tdh/trh/orf8 screened in 06.4
+VP_CN_2020	vibrio	vibrio	illumina	ERR12422462		-	PRJEB55776	China	2020	Vibrio parahaemolyticus	GCF_000196095	VP_ref.gbk	4	China surveillance; tlh species marker and tdh/trh/orf8 screened in 06.4
+YE_NO_2006	yersinia	yersinia	illumina	ERR12257635		-	PRJEB67986	Norway	2006-02-16	Yersinia enterocolitica	GCF_000009345	YE_ref.gbk	4	Norway surveillance; pYV plasmid virulence markers (ail/yst/yadA/virF) screened in 06.4
+YE_NO_2013	yersinia	yersinia	illumina	ERR12257659		-	PRJEB67986	Norway	2013-05-02	Yersinia enterocolitica	GCF_000009345	YE_ref.gbk	4	Norway surveillance; pYV plasmid virulence markers (ail/yst/yadA/virF) screened in 06.4
+YE_NO_2017	yersinia	yersinia	illumina	ERR12257696		-	PRJEB67986	Norway	2017-01-22	Yersinia enterocolitica	GCF_000009345	YE_ref.gbk	4	Norway surveillance; pYV plasmid virulence markers (ail/yst/yadA/virF) screened in 06.4
+CJ_LU_2019a	campylobacter	campylobacter	illumina	ERR10093350		-	PRJEB55463	Luxembourg	2019-07-15	Campylobacter jejuni	GCF_000009085	CJ_ref.gbk	4	C. jejuni; FastANI confirms species against NCTC 11168; cdt/cadF/flaA in 06.4
+CJ_LU_2019b	campylobacter	campylobacter	illumina	ERR10093367		-	PRJEB55463	Luxembourg	2019-10-22	Campylobacter jejuni	GCF_000009085	CJ_ref.gbk	4	C. jejuni; FastANI confirms species against NCTC 11168; cdt/cadF/flaA in 06.4
+CC_ES_2016	campylobacter	campylobacter	illumina	ERR10497164		-	PRJEB57556	Spain	2016	Campylobacter coli	GCF_000009085	CJ_ref.gbk	4	C. coli; FastANI separates it from C. jejuni (add a C. coli reference for within-species comparison)
+BG_US_1998	burkholderia	burkholderia	illumina	SRR14871770		-	PRJNA720893	USA	1998	Burkholderia gladioli	GCF_000959725	BG_ref.gbk	4	B. gladioli environmental/clinical; bongkrekic-acid bon locus screened in 06.4 (positive only in pv. cocovenenans)
+BG_US_2017	burkholderia	burkholderia	illumina	SRR8199283		-	PRJNA475751	USA	2017	Burkholderia gladioli	GCF_000959725	BG_ref.gbk	4	B. gladioli clinical isolate; bongkrekic-acid bon and toxoflavin tox loci screened in 06.4
+BG_US_2019	burkholderia	burkholderia	illumina	SRR14871683		-	PRJNA720893	USA	2019	Burkholderia gladioli	GCF_000959725	BG_ref.gbk	4	B. gladioli clinical isolate; bongkrekic-acid bon and toxoflavin tox loci screened in 06.4
+CB_SE_1946	clostridium	clostridium	illumina	SRR13781781		-	PRJNA666195	Sweden	1946	Clostridium botulinum	GCF_000063585	CB_ref.gbk	4	historical isolate; bont neurotoxin locus screened in 06.4; plasmid/chromosome location by Mob-suite
+CB_NL_2001	clostridium	clostridium	illumina	SRR1190182		-	PRJNA233459	Netherlands	2001	Clostridium botulinum	GCF_000063585	CB_ref.gbk	4	C. botulinum type D str. 16868; bont locus screened in 06.4; location by Mob-suite
+CB_FI_2010	clostridium	clostridium	illumina	SRR11249076		-	PRJNA610151	Finland	2010	Clostridium botulinum	GCF_000063585	CB_ref.gbk	4	Finland surveillance; bont neurotoxin locus screened in 06.4; location by Mob-suite

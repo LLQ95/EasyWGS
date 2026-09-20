@@ -44,6 +44,16 @@ fcs.py clean genome  --fasta ${id}.fasta --action-report fcs/*.txt --output clea
 复用共享数据库；未设置时模块 04 会在 `$DBROOT/checkm2_db` 下查找，再退回通过
 `checkm2 database --setdblocation` 注册的默认位置。
 
+## 用 FastANI 做物种确认（模块 04.5）
+
+完整度与污染率数值本身并不能证明组装就是目标物种。在混合的多物种面板上，模块 04.5
+用 FastANI 把每个组装对全部面板参考逐一计算，保留 ANI 最高的匹配，写入
+`04_asm_qc/fastani/fastani_best.tsv`。对期望参考 ANI 不低于 95% 判为同一物种，
+90% 到 95% 表示同属近缘种且缺少物种级参考，更低或为空则提示样本标签可能有误或
+存在残留污染。FastANI 对约 80% ANI 以下的配对不输出结果，因此无关污染会给出空
+结果，而不是误导性的低分。该门控是 CheckM2、GUNC 在物种身份维度的对应环节，
+其在专化病原类群中的用法见[专化病原](specialized-pathogens.zh.md)页。
+
 ## 门控判据与处理
 
 完整度高、污染率低于约 1%、GUNC 无 clade 分离的组装才直接进入下游。污染轻微时

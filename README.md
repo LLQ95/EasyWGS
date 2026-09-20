@@ -41,8 +41,9 @@ Hybrid
   01 + 01b -> 02 (clean short reads) -> 03 Unicycler --mode bold / SPAdes hybrid + Pilon -> ...
 
 04  QUAST + CheckM2 + GUNC + (optional) FCS-GX assembly-level decontamination gate
+04.5 FastANI whole-genome ANI species confirmation for the mixed multi-species panel
 05  Prokka/Bakta, Prodigal, eggNOG (GO/KEGG/COG)
-06  6.1 MLST, 6.2 species-specific serotyping, 6.3 chewBBACA cgMLST
+06  6.1 MLST, 6.2 species-specific serotyping, 6.3 chewBBACA cgMLST, 6.4 custom toxin/surface-locus screen
 07  abricate databases + AMRFinder/RGI/PointFinder + geNomad/Mob-suite/IntegronFinder
 08  Panaroo (Roary alternative) pangenome
 09  snippy -> Gubbins -> IQ-TREE -> snp-dists core-SNP phylogeny
@@ -67,16 +68,21 @@ bash run_all.sh config/my_samples.csv 06          # or resume from a given step
 ```
 
 The samplesheet field `platform` is one of illumina / nanopore / pacbio / hybrid and selects
-the assembly route; `species` is one of kpsc / ecoli / salm / listeria / other and selects the
+the assembly route; `species` is one of kpsc / ecoli / salm / listeria / vibrio / yersinia /
+campylobacter / burkholderia / clostridium / other and selects the
 typing schedule. Final assemblies are standardized to `03_assembly/genomes/{id}.fasta`
 (fragments shorter than 200 nt removed), which every later module consumes.
 
 ## Worked example on a multi-pathogen public panel
 
 [`examples/`](examples/) runs the complete workflow end to end on real, accession-verified
-public isolates spanning five pathogen groups (Salmonella, K. pneumoniae, E. coli,
-L. monocytogenes and Shigella), with a twelve-isolate temporal Salmonella collection and five
-matched Illumina/Nanopore hybrid isolates, organized as nested tiers of 10, 20 and 29 samples.
+public isolates spanning ten pathogen groups (Salmonella, K. pneumoniae, E. coli,
+L. monocytogenes, Shigella, V. parahaemolyticus, Y. enterocolitica, C. jejuni/C. coli,
+B. gladioli and C. botulinum), with a twelve-isolate temporal Salmonella collection, five
+matched Illumina/Nanopore hybrid isolates, and five specialized groups, organized as nested
+tiers of 10, 20, 29 and 44 samples. Tier 4 adds FastANI species confirmation (module 04.5)
+and a custom toxin/surface-locus screen (module 06.4), and the comparative modules are run
+on single-species subsets.
 Reads are downloaded from ENA/NCBI on demand and downsampled so the tutorial runs on an ordinary
 server; an expected-result checker reports PASS/WARN/FAIL and a controlled PhiX plus
 near-neighbour spike-in validates the two decontamination layers.
@@ -99,6 +105,11 @@ for the panel accessions, outputs and collection-level analysis.
 | E. coli / Shigella (ecoli) | mlst | ECTyper (O:H) + ShigEiFinder (Shigella/EIEC) | EnteroBase E./Shigella |
 | Salmonella (salm) | mlst | SeqSero2 + SISTR | INNUENDO cgMLST99 |
 | L. monocytogenes (listeria) | mlst | molecular serogroup via cgMLST | Pasteur cgMLST |
+| V. parahaemolyticus (vibrio) | mlst (Vibrio) | module 06.4 tlh/tdh/trh/orf8, T3SS2 and O/K loci | PubMLST via PrepExternalSchema |
+| Y. enterocolitica (yersinia) | mlst (Yersinia) | module 06.4 ail/yst, pYV yadA/virF | PrepExternalSchema |
+| C. jejuni / C. coli (campylobacter) | mlst (Campylobacter) | module 06.4 cdt/cadF/flaA and capsule locus | PubMLST jejuni-coli |
+| B. gladioli (burkholderia) | none; FastANI identity | module 06.4 bongkrekic-acid bon and toxoflavin tox | PrepExternalSchema |
+| C. botulinum (clostridium) | mlst (C. botulinum) | module 06.4 bont/ntnh; MOB-suite locus location | PrepExternalSchema |
 | other | mlst auto-detect | extend as needed | PrepExternalSchema |
 
 ## WGS tool catalog
@@ -165,6 +176,7 @@ Prokka to Bakta, Roary to Panaroo, SEER to pyseer). The machine-readable table i
 | Mash | A | fast genome distance and clustering | [GitHub](https://github.com/marbl/Mash) |
 | cd-hit | A | cluster/dereplicate similar sequences | [GitHub](https://github.com/weizhongli/cdhit) |
 | MUMmer | A | whole-genome alignment and synteny | [GitHub](https://github.com/mummer4/mummer) |
+| FastANI | A | whole-genome ANI species confirmation (module 04.5) | [GitHub](https://github.com/ParBLiSS/FastANI) |
 
 ### Structural and functional annotation
 

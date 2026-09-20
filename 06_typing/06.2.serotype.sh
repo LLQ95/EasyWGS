@@ -6,6 +6,8 @@
 #   ecoli    : ECTyper (O:H antigens, species, stx) + ShigEiFinder (Shigella/EIEC)
 #   salm     : SeqSero2 (O/H) + SISTR (serovar prediction, includes cgMLST)
 #   listeria : molecular serogroup placeholder (main typing via 06.3 cgMLST)
+#   vibrio/yersinia/campylobacter/burkholderia/clostridium: no single CLI serotyper;
+#     MLST (06.1) plus the custom surface/toxin marker screen (06.4)
 # Note: Kleborate v3 uses -p presets; v2 is equivalent to kleborate --all
 # =============================================================================
 set -euo pipefail
@@ -15,7 +17,7 @@ GEN="$PROJECT/03_assembly/genomes"
 OUT="$PROJECT/06_typing/serotype"; mkdir -p "$OUT"
 SHEET="$PROJECT/config/my_samples.csv"
 
-while IFS=',' read -r id species r1 r2 lr ref date country pheno taxid; do
+while IFS=',' read -r id platform species r1 r2 lr ref date country pheno; do
   [[ "$id" == "id" || "$id" == \#* || -z "$id" ]] && continue
   f="$GEN/${id}.fasta"; [[ -f "$f" ]] || { echo "Assembly missing: $f"; continue; }
   echo ">>> $id [$species]"
@@ -42,6 +44,11 @@ while IFS=',' read -r id species r1 r2 lr ref date country pheno taxid; do
       ;;
     listeria)
       echo "  Classical Listeria serotyping is limited; molecular typing is in 06.3.cgmlst.sh (Pasteur schema)" ;;
+    vibrio|yersinia|campylobacter|burkholderia|clostridium)
+      # No single maintained command-line serotyper for these groups. Module 06.1
+      # gives the MLST sequence type and module 06.4 screens the easywgs_markers
+      # database for surface-antigen loci, toxin genes and virulence markers.
+      echo "  no dedicated CLI serotyper; see 06.1 (MLST) and 06.4 (surface/toxin loci)" ;;
     other)
       echo "  other: serotyping skipped; extend with abricate as needed" ;;
     *) echo "  Unknown species=$species (expected kpsc/ecoli/salm/listeria/other)" ;;

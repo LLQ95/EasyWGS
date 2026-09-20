@@ -2,6 +2,31 @@
 
 This project follows semantic versioning; dates use ISO format.
 
+## [0.4.0] - 2026-09-20
+
+### Added
+
+- Tier 4 of the worked-example panel: 15 accession-verified Illumina isolates
+  across five specialized pathogen groups (*V. parahaemolyticus*,
+  *Y. enterocolitica*, *C. jejuni/C. coli*, *B. gladioli* and *C. botulinum*),
+  extending the panel to 44 isolates across ten groups.
+- Module 04.5 FastANI whole-genome ANI species-confirmation gate for mixed
+  multi-species panels, writing `fastani_best.tsv` with confirmed,
+  close-relative, review and no-hit status labels.
+- Module 06.4 custom abricate screen of toxin, surface and virulence loci
+  (`easywgs_markers`), with `00_install/build_custom_db.sh` and the curated
+  `examples/customdb` marker list carrying authoritative sources.
+- `examples/scripts/subset_samplesheet.py` to split a tier by `species_code` or
+  panel `group` for the single-species comparative modules (08 to 13).
+- Bilingual Specialized pathogens guidebook page and matching README,
+  installation, typing, decontamination and walkthrough updates; FastANI added
+  to the main conda environment and the tool catalog.
+
+### Fixed
+
+- Modules 06.2 and 06.3 now read the samplesheet with the `platform` column, so
+  species dispatch and cgMLST schema selection apply the intended species.
+
 ## [0.3.0] - 2026-09-14
 
 ### Added

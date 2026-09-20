@@ -12,7 +12,7 @@
 set -euo pipefail
 TIER=${1:-1}
 START=${2:-00}
-if [[ "$TIER" != [123] ]]; then echo "TIER must be 1, 2 or 3 (got $TIER)"; exit 1; fi
+if [[ "$TIER" != [1234] ]]; then echo "TIER must be 1, 2, 3 or 4 (got $TIER)"; exit 1; fi
 PROJECT=$(cd "$(dirname "$0")/.." && pwd); export PROJECT
 G=examples/generated
 

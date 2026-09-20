@@ -2,6 +2,15 @@
 
 See the root CHANGELOG.md for the full history.
 
+## 0.4.0 (2026-09-20)
+
+Tier 4 of the panel adds five specialized pathogen groups (15 Illumina isolates, 44 in
+total): *V. parahaemolyticus*, *Y. enterocolitica*, *C. jejuni/C. coli*, *B. gladioli* and
+*C. botulinum*. Added module 04.5 (FastANI species-confirmation gate), module 06.4 (a
+custom abricate toxin/surface/virulence-locus screen with a database builder and a curated
+marker list), a single-species subset helper for the comparative modules, and a bilingual
+Specialized pathogens guidebook page.
+
 ## 0.2.0 (2026-09-14)
 
 Added module 11_visualization (merged metadata, ggtree static trees, GrapeTree minimum spanning

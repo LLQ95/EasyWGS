@@ -1,7 +1,8 @@
 # MLST、血清型与 cgMLST
 
-06 模块分三步：7 基因 MLST、分物种的血清型/表面抗原、全基因组核心多位点序列
-分型（cgMLST）。对应 `06.1.mlst.sh`、`06.2.serotype.sh`、`06.3.cgmlst.sh`。
+06 模块分四步：7 基因 MLST、分物种的血清型/表面抗原、全基因组核心多位点序列
+分型（cgMLST），以及自定义的表面位点、毒素与毒力位点筛查。对应 `06.1.mlst.sh`、
+`06.2.serotype.sh`、`06.3.cgmlst.sh` 与 `06.4.surface_toxin_loci.sh`。
 
 ## 7 基因 MLST
 
@@ -41,6 +42,19 @@ sistr -i ${id}.fasta -p cgmlst_profiles -n novel_alleles -o sistr/$id
 ```
 
 单核增生李斯特菌没有传统 O/H 血清型，走分子血清群与 cgMLST。
+
+## 没有统一命令行分型工具的病原
+
+副溶血性弧菌、小肠结肠炎耶尔森菌、空肠/结肠弯曲菌、唐菖蒲伯克霍尔德菌和肉毒梭菌
+缺少单一、持续维护的命令行血清型工具。模块 06.1 仍会通过弧菌、耶尔森菌、弯曲菌和
+肉毒梭菌的 MLST scheme 给出序列型（唐菖蒲伯克霍尔德菌没有经典七基因 scheme），
+模块 06.4 则用名为 `easywgs_markers` 的 abricate 自定义库筛查物种、毒素、表面与
+毒力位点，例如 tlh/tdh/trh/orf8、ail/yst/yadA/virF、cdt/cadF/flaA 与荚膜位点、
+米酵菌酸 `bon` 与毒黄素 `tox` 簇、以及 bont/ntnh。该库用
+`00_install/build_custom_db.sh` 依据 `examples/customdb/` 中的清单一次性构建；
+库缺失时模块 06.4 写出空表并继续。通用标记只能判断有无，O/K 群、Penner 荚膜型和
+BoNT 亚型需要型别特异的参考等位。这些类群的物种身份事先由 FastANI 门控（模块
+04.5）确认，各类病原的标记、参考与判读规则见[专化病原](specialized-pathogens.zh.md)页。
 
 ## cgMLST 统一用 chewBBACA
 

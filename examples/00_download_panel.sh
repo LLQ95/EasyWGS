@@ -7,6 +7,7 @@
 # TIER 1 (default): one short-read and one hybrid isolate per pathogen (10)
 # TIER 2: three short-read isolates per pathogen (20)
 # TIER 3: full panel incl. the 12-isolate Salmonella temporal set (29)
+# TIER 4: add five more pathogen groups (Vibrio/Yersinia/Campylobacter/Burkholderia/Clostridium; 44)
 #
 # Useful flags passed through to download_panel.py:
 #   --refs   download only the reference genomes   --reads only the reads
@@ -16,7 +17,7 @@
 # =============================================================================
 set -euo pipefail
 TIER=${1:-1}
-if [[ "$TIER" != [123] ]]; then echo "TIER must be 1, 2 or 3 (got $TIER)"; exit 1; fi
+if [[ "$TIER" != [1234] ]]; then echo "TIER must be 1, 2, 3 or 4 (got $TIER)"; exit 1; fi
 shift || true
 PROJECT=$(cd "$(dirname "$0")/.." && pwd); export PROJECT
 source "$(conda info --base)/etc/profile.d/conda.sh"

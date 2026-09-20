@@ -32,8 +32,9 @@ de novo 重建基因组，并从 contig 得到基因内容、泛基因组与核�
   01 + 01b -> 02(清洁短读) -> 03 Unicycler --mode bold / SPAdes hybrid + Pilon -> …
 
 04  QUAST + CheckM2 + GUNC +(可选)FCS-GX 组装层去污染门控
+04.5 FastANI 全基因组 ANI 物种确认（用于混合多物种面板）
 05  Prokka/Bakta、Prodigal、eggNOG(GO/KEGG/COG)
-06  6.1 MLST；6.2 分物种血清型；6.3 chewBBACA cgMLST
+06  6.1 MLST；6.2 分物种血清型；6.3 chewBBACA cgMLST；6.4 自定义毒素/表面位点筛查
 07  abricate多库 + AMRFinder/RGI/PointFinder + geNomad/Mob-suite/IntegronFinder
 08  Panaroo(备选 Roary)泛基因组
 09  snippy -> Gubbins -> IQ-TREE -> snp-dists 核心SNP系统发育
@@ -58,15 +59,18 @@ bash run_all.sh config/my_samples.csv 06          # 或从指定步骤恢复
 ```
 
 样本表 `platform` 取 illumina / nanopore / pacbio / hybrid，决定组装路线；`species` 取
-kpsc / ecoli / salm / listeria / other，决定分型调度。最终组装统一为
+kpsc / ecoli / salm / listeria / vibrio / yersinia / campylobacter / burkholderia /
+clostridium / other，决定分型调度。最终组装统一为
 `03_assembly/genomes/{id}.fasta`（已去除 200 nt 以下短片段），供后续所有模块读取。
 
 ## 多病原公共数据实战示例
 
 [`examples/`](examples/) 用真实、accession 已核实的公开分离株端到端跑通整个流程，覆盖
-五大类病原（沙门菌、肺克、大肠埃希菌、单增李斯特菌、志贺菌），包含一个 12 株的沙门菌
-时间序列集合和 5 株 Illumina/Nanopore 严格配对的 hybrid 样本，并组织为 10、20、29 三个
-嵌套 tier。读段按需从 ENA/NCBI 下载并下采样，普通服务器即可运行；预期结果检查器输出
+十大类病原（沙门菌、肺克、大肠埃希菌、单增李斯特菌、志贺菌、副溶血性弧菌、小肠结肠炎
+耶尔森菌、空肠/结肠弯曲菌、唐菖蒲伯克霍尔德菌、肉毒梭菌），包含一个 12 株的沙门菌
+时间序列集合、5 株 Illumina/Nanopore 严格配对的 hybrid 样本，以及五类专化病原，并组织为
+10、20、29、44 四个嵌套 tier。tier 4 新增 FastANI 物种确认门控（模块 04.5）与自定义
+毒素/表面位点筛查（模块 06.4），比较类模块按单物种子集运行。读段按需从 ENA/NCBI 下载并下采样，普通服务器即可运行；预期结果检查器输出
 PASS/WARN/FAIL，受控的 PhiX 与近缘菌 spike-in 实验用于验证两层去污染。
 
 ```bash
@@ -86,6 +90,11 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 | 大肠/志贺 ecoli | mlst | ECTyper(O:H)+ShigEiFinder(志贺/EIEC) | EnteroBase 大肠/志贺 |
 | 沙门 salm | mlst | SeqSero2+SISTR | INNUENDO cgMLST99 |
 | 李斯特 listeria | mlst | 分子血清群(走 cgMLST) | Pasteur cgMLST |
+| 副溶 vibrio | mlst(弧菌) | 06.4 tlh/tdh/trh/orf8、T3SS2 与 O/K 位点 | PubMLST 经 PrepExternalSchema |
+| 耶尔森 yersinia | mlst(耶尔森菌) | 06.4 ail/yst、pYV yadA/virF | PrepExternalSchema |
+| 空弯/结弯 campylobacter | mlst(弯曲菌) | 06.4 cdt/cadF/flaA 与荚膜位点 | PubMLST jejuni-coli |
+| 唐菖蒲 burkholderia | 无；FastANI 确认 | 06.4 米酵菌酸 bon 与毒黄素 tox 簇 | PrepExternalSchema |
+| 肉毒 clostridium | mlst(肉毒梭菌) | 06.4 bont/ntnh；MOB-suite 判定位点 | PrepExternalSchema |
 | other | mlst 自动识别 | 按需扩展 | PrepExternalSchema |
 
 ## WGS 工具清单
@@ -148,6 +157,7 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 | Mash | A | 快速基因组距离与聚类 | [GitHub](https://github.com/marbl/Mash) |
 | cd-hit | A | 相似序列聚类/去冗余 | [GitHub](https://github.com/weizhongli/cdhit) |
 | MUMmer | A | 全基因组比对与共线性 | [GitHub](https://github.com/mummer4/mummer) |
+| FastANI | A | 全基因组 ANI 物种确认（模块 04.5） | [GitHub](https://github.com/ParBLiSS/FastANI) |
 
 ### 结构与功能注释
 

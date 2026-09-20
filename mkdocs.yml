@@ -58,6 +58,7 @@ plugins:
             "Reference mapping (module 12)": "参考比对流程（模块 12）"
             Modules: 分析模块
             "MLST, serotyping, cgMLST": "MLST、血清型与 cgMLST"
+            "Specialized pathogens (toxins & surface loci)": "专化病原（毒素与表面位点）"
             Annotation, AMR and MGE: 注释、耐药、毒力与可移动元件
             Pangenome: 泛基因组
             Phylogeny and time tree: 系统发育与时间树
@@ -85,6 +86,7 @@ nav:
       - Reference mapping (module 12): mapping-pipeline.md
   - Modules:
       - MLST, serotyping, cgMLST: typing.md
+      - "Specialized pathogens (toxins & surface loci)": specialized-pathogens.md
       - Annotation, AMR and MGE: annotation-amr-mge.md
       - Pangenome: pangenome.md
       - Phylogeny and time tree: phylogeny-timetree.md

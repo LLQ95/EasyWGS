@@ -98,6 +98,20 @@ checkm2 database --setdblocation "$PWD/CheckM2_database"
 其他大型数据库同理：把 `DBROOT` 指向共享位置，只补缺失的部分；也可以在网络更好的
 机器上下载 GUNC、Bakta、eggNOG 后，把目录拷贝到 `DBROOT`。
 
+### 自定义毒素与表面位点数据库（模块 06.4）
+
+五类专化病原使用一个名为 `easywgs_markers` 的小型 abricate 数据库，覆盖表面抗原、
+毒素与毒力位点。其序列不自动下载，需依据 `examples/customdb/easywgs_markers.tsv`
+中的 curated 清单（给出基因符号与权威来源）一次性构建：把获取到的序列拼接成一个
+多 FASTA 文件，文件头以 `marker_id` 开头，然后运行：
+
+```bash
+MARKER_FASTA=/path/to/easywgs_markers.fa bash 00_install/build_custom_db.sh
+```
+
+模块 04.5 用于物种确认的 FastANI 已随主环境自动安装，无需单独数据库；自定义库缺失
+时模块 06.4 会写出空表并继续。
+
 ## 4. 硬件与可选组件
 
 常规几百个分离株的二代分析，16 线程、64 GB 内存即可。组装 Flye、运行 CheckM2 时
@@ -109,7 +123,7 @@ usegalaxy.org 在线运行 FCS-GX 即可，流程已预留这一路径。
 
 ```bash
 conda activate easywgs
-fastp --version; unicycler --version; flye --version; mlst --version
+fastp --version; unicycler --version; flye --version; mlst --version; fastANI --version
 conda activate checkm2 && checkm2 --version
 ```
 

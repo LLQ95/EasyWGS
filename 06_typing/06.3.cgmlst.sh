@@ -26,7 +26,7 @@ pick_schema () {
   esac
 }
 
-while IFS=',' read -r id species rest; do
+while IFS=',' read -r id platform species rest; do
   [[ "$id" == "id" || "$id" == \#* || -z "$id" ]] && continue
   schema=$(pick_schema "$species")
   [[ -z "$schema" || ! -d "$schema" ]] && { echo "[$id] no cgMLST schema for $species, skip (build one with PrepExternalSchema)"; continue; }

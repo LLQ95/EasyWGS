@@ -49,6 +49,19 @@ which lets the workflow reuse a shared database; when it is unset, module 04 loo
 `$DBROOT/checkm2_db` and otherwise falls back to the location registered with
 `checkm2 database --setdblocation`.
 
+## Species confirmation with FastANI (module 04.5)
+
+Completeness and contamination scores do not by themselves prove that an assembly is the
+intended species. On a mixed multi-species panel, module 04.5 screens every assembly against
+all panel references with FastANI and keeps the highest-ANI match in
+`04_asm_qc/fastani/fastani_best.tsv`. An ANI of at least 95% to the expected reference
+confirms the species, 90 to 95% indicates a congeneric close relative and a missing
+species-level reference, and a lower or empty result flags a possible sample-label error or
+residual contamination. FastANI reports no pair below roughly 80% ANI, so an unrelated
+contaminant yields an empty result rather than a misleading low score. This gate is the
+identity counterpart of CheckM2 and GUNC; its use for the specialized pathogen groups is
+described on the [Specialized pathogens](specialized-pathogens.md) page.
+
 ## Gate criteria and actions
 
 Only assemblies with high completeness, contamination below about 1% and no GUNC clade

@@ -107,6 +107,23 @@ The same shared-database idea applies to the other large resources: point `DBROO
 shared location and keep only the missing pieces, or download GUNC, Bakta and eggNOG on a
 machine with a better connection and copy the directories into `DBROOT`.
 
+### Custom toxin and surface-locus database (module 06.4)
+
+The five specialized pathogen groups use a small abricate database named `easywgs_markers`
+for surface-antigen, toxin and virulence loci. Its sequences are not downloaded
+automatically; build it once from the curated list in
+`examples/customdb/easywgs_markers.tsv`, which gives the gene symbols and authoritative
+sources. Concatenate the fetched sequences into one multi-FASTA whose headers start with
+the `marker_id`, then run:
+
+```bash
+MARKER_FASTA=/path/to/easywgs_markers.fa bash 00_install/build_custom_db.sh
+```
+
+FastANI, used by module 04.5 for species confirmation, is installed automatically in the
+main environment and needs no separate database. Module 06.4 writes empty tables and
+continues when the custom database is absent.
+
 ## 4. Hardware and optional components
 
 Short-read analysis of several hundred isolates runs on 16 threads and 64 GB RAM. Flye and
@@ -119,7 +136,7 @@ usegalaxy.org instead; this route is already anticipated by the workflow.
 
 ```bash
 conda activate easywgs
-fastp --version; unicycler --version; flye --version; mlst --version
+fastp --version; unicycler --version; flye --version; mlst --version; fastANI --version
 conda activate checkm2 && checkm2 --version
 ```
 

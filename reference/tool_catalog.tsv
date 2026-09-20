@@ -184,7 +184,7 @@ order	stage_en	stage_zh	tool	status	lineage	platform	role_en	role_zh	repo
 19	Sequence alignment	序列比对	progressiveMauve / Mauve	A	maintenance limited	shared	whole-genome alignment and synteny view	全基因组比对与共线性查看	
 19	Sequence alignment	序列比对	T-Coffee	A	-	shared	high-accuracy but slower MSA	高精度但较慢	
 19	Sequence alignment	序列比对	ClustalW	L	-> MAFFT/Clustal Omega	shared	classic early progressive aligner	经典早期渐进比对	
-20	Distance, ANI, dereplication	距离/ANI/去冗余	FastANI	R	-	shared	fast whole-genome ANI	快速全基因组 ANI	ParBLiSS/FastANI
+20	Distance, ANI, dereplication	距离/ANI/去冗余	FastANI	R	-	shared	fast whole-genome ANI; module 04.5 species-confirmation gate	快速全基因组 ANI；模块 04.5 物种确认门控	ParBLiSS/FastANI
 20	Distance, ANI, dereplication	距离/ANI/去冗余	Mash	R	-	shared	MinHash genome/reads distance	MinHash 基因组距离	marbl/Mash
 20	Distance, ANI, dereplication	距离/ANI/去冗余	snp-dists	R	-	shared	pairwise SNP distance matrix	两两 SNP 距离矩阵	tseemann/snp-dists
 20	Distance, ANI, dereplication	距离/ANI/去冗余	dRep	R	-	shared	genome/MAG dereplication and selection	基因组去冗余与代表挑选	MrOlm/drep

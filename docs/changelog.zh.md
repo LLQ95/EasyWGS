@@ -2,6 +2,14 @@
 
 完整变更见根目录 [CHANGELOG.md](https://github.com/LLQ95/EasyWGS/blob/main/CHANGELOG.md)。
 
+## 0.4.0（2026-09-20）
+
+示范面板新增 tier 4：为副溶血性弧菌、小肠结肠炎耶尔森菌、空肠/结肠弯曲菌、唐菖蒲伯克霍尔德菌、
+肉毒梭菌五类专化病原各加入 3 株 accession 已核实的 Illumina 样本（共 15 株，面板扩至 44 株、
+覆盖十类病原）。新增模块 04.5（FastANI 物种确认门控）、模块 06.4（基于 abricate 的自定义
+毒素/表面/毒力位点筛查，含建库脚本与带来源的 curated 标记清单）、面向单物种比较模块的子集
+拆分辅助脚本，以及中英双语“专化病原”指南页。
+
 ## 0.2.0（2026-09-14）
 
 新增 11_visualization 模块（合并元数据、ggtree 静态树、GrapeTree 最小生成树、iTOL 数据集、
