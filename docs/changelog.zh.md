@@ -2,6 +2,17 @@
 
 完整变更见根目录 [CHANGELOG.md](https://github.com/LLQ95/EasyWGS/blob/main/CHANGELOG.md)。
 
+## 0.6.0（2026-09-20）
+
+新增跨域扩展性评估与中英双语指南页“超越细菌：病毒、真菌与益生菌”。该页给出以比对和共识为中心的
+病毒轨道（SARS-CoV-2 用 iVar、Nextclade、Pangolin、UShER；HIV 用 HAPHPIPE/V-pipe、HIV-TRACE、
+HyPhy、HIVdb；诺如病毒用 VADR 与 ORF1/ORF2 双分型），面向致病真菌的长读/混合真核轨道（AAFTF、
+BUSCO、funannotate/BRAKER3、ITSx/UNITE、OrthoFinder、Control-FREEC 与 antiSMASH 真菌模式），
+以及叠加在细菌轨道上的益生菌安全与有益性配置（EFSA QPS/FEEDAP、获得性耐药可转移性检查、BAGEL4）；
+并提供共享核心表、韦恩图与“阶段 × 类群”矩阵图（EasyWGS_domains）以及分阶段路线。工具百科由
+235 条扩至 276 条、覆盖 31 个阶段（新增第 26–31 阶段），生态图与中英 README 同步重生成。本版本
+仅落地可行性评估与工具选型；可运行的病毒/真菌模块待公共数据面板验证后按路线推进。
+
 ## 0.5.0（2026-09-20）
 
 示范面板新增 tier 5：为金黄色葡萄球菌、阪崎克罗诺杆菌、痢疾志贺菌、霍乱弧菌、炭疽杆菌、

@@ -1,5 +1,5 @@
 site_name: EasyWGS Guidebook
-site_description: "Reproducible bacterial isolate WGS workflow: short/long/hybrid assembly, decontamination, typing, comparison and time-scaled trees"
+site_description: "Reproducible WGS workflow for bacterial isolates with cross-domain profiles for viruses, pathogenic fungi and probiotics: short/long/hybrid assembly, decontamination, typing, comparison and time-scaled trees"
 site_author: EasyWGS contributors
 repo_url: https://github.com/LLQ95/EasyWGS
 repo_name: EasyWGS
@@ -64,6 +64,7 @@ plugins:
             Phylogeny and time tree: 系统发育与时间树
             "GWAS and post-GWAS": "GWAS 与 post-GWAS"
             Visualization: 可视化
+            "Beyond bacteria: viruses, fungi, probiotics": "超越细菌：病毒、真菌与益生菌"
             Tool map: 工具地图(二代/三代对照)
             "Tool encyclopedia (alternatives & legacy)": 工具百科(备选与旧代工具)
             Software versions: 软件版本与时效性
@@ -92,6 +93,7 @@ nav:
       - Phylogeny and time tree: phylogeny-timetree.md
       - GWAS and post-GWAS: gwas-postgwas.md
       - Visualization: visualization.md
+  - "Beyond bacteria: viruses, fungi, probiotics": extensibility.md
   - Tool map: toolmap.md
   - "Tool encyclopedia (alternatives & legacy)": alternative-tools.md
   - Software versions: versions.md

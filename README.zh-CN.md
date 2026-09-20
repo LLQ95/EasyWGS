@@ -116,7 +116,10 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 除下列默认工具外，[工具百科](https://easywgs.readthedocs.io/zh/latest/alternative-tools/)按阶段补充仍在活跃维护的
 备选工具，以及出现较早、如今多有继任者但仍可运行的经典旧代工具，并标注被谁替代
 （如 Trimmomatic→fastp、CheckM→CheckM2、Prokka→Bakta、Roary→Panaroo、SEER→pyseer）；
-机读主数据表为 `reference/tool_catalog.tsv`。
+机读主数据表为 `reference/tool_catalog.tsv`。指南还在
+[超越细菌：病毒、真菌与益生菌](https://easywgs.readthedocs.io/en/latest/zh/extensibility/)中评估了同一设计向细菌之外的迁移，
+给出共用与类群特异工具的韦恩图，以及病毒（HIV、SARS-CoV-2、诺如病毒）、致病真菌（曲霉、念珠菌）
+与益生菌安全评价的配置（百科第 26–31 阶段）。
 
 ### 质控与读段处理
 
@@ -276,6 +279,32 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 | NCBI datasets | A | 下载基因组、基因与元数据 | [GitHub](https://github.com/ncbi/datasets) |
 | SRA toolkit | A | 获取并转换 SRA 数据 | [GitHub](https://github.com/ncbi/sra-tools) |
 | Nextflow | A | 运行 CLEAN 所用的流程引擎 | [GitHub](https://github.com/nextflow-io/nextflow) |
+
+### 超越细菌：病毒、真菌与益生菌
+
+约一半流程（reads 质控、宿主去除、比对、变异检测、覆盖度、序列比对、极大似然树与报告）与类群无关。
+[超越细菌](https://easywgs.readthedocs.io/en/latest/zh/extensibility/)指南页给出完整韦恩图、“阶段 × 类群”矩阵与分阶段扩展路线。
+下表为代表性类群特异程序（收录于第 26–31 阶段）；共用程序（minimap2、bcftools、mosdepth、IQ-TREE 3 等）见上方各表。
+
+| 工具 | 类群 | 说明 | 来源 |
+| --- | --- | --- | --- |
+| nf-core/viralrecon | 病毒 | 病毒 Illumina/ONT 参考流程模板 | [GitHub](https://github.com/nf-core/viralrecon) |
+| iVar | 病毒 | 扩增子引物修剪与共识 | [GitHub](https://github.com/andersen-lab/ivar) |
+| Nextclade / Pangolin | 病毒 | SARS-CoV-2 分支与谱系判定 | [GitHub](https://github.com/nextstrain/nextclade) |
+| CheckV / VADR | 病毒 | 病毒完整度与参考引导注释 | [GitHub](https://github.com/chklovski/CheckV) |
+| HAPHPIPE / V-pipe | 病毒 | HIV 宿主体内单倍型与准种 | [GitHub](https://github.com/gwcbi/haphpipe) |
+| HIV-TRACE / HyPhy | 病毒 | TN93 传播簇与选择压力 | [GitHub](https://github.com/veg/hivtrace) |
+| AAFTF | 真菌 | 单倍体真菌组装与打磨 | [GitHub](https://github.com/stajichlab/AAFTF) |
+| BUSCO | 真菌 | 真核单拷贝直系同源完整度 | [GitLab](https://gitlab.com/ezlab/busco) |
+| funannotate / BRAKER3 | 真菌 | 含内含子的真核基因注释 | [GitHub](https://github.com/nextgenusfs/funannotate) |
+| ITSx / UNITE | 真菌 | ITS 条形码提取与参考库 | [UNITE](https://unite.ut.ee/) |
+| OrthoFinder / GET_HOMOLOGUES | 真菌 | 基于直系同源群的比较基因组 | [GitHub](https://github.com/davidemms/OrthoFinder) |
+| Control-FREEC | 真菌 | 拷贝数与非整倍体检测 | [GitHub](https://github.com/BoevaLab/FREEC) |
+| antiSMASH / run_dbcan | 真菌 | 真菌次级代谢与 CAZyme | [GitHub](https://github.com/antismash/antismash) |
+| EFSA QPS / FEEDAP | 益生菌 | 菌株安全框架（获得性耐药、产毒） | [EFSA](https://www.efsa.europa.eu/) |
+| BAGEL4 / CRISPRCasFinder | 益生菌 | 细菌素、RiPP 与 CRISPR 有益证据 | [BAGEL4](http://bagel4.molgenrug.nl/) |
+
+益生菌是叠加在细菌轨道上的安全与有益性配置（布拉氏酵母走真菌轨道），并非第四个生物学域。
 
 ## 硬件提示
 

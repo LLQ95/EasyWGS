@@ -31,6 +31,10 @@ def platform_group(v):
     v = v.strip()
     if v == "shared":
         return "Shared / any input"
+    # Cross-domain programs are tagged by domain (viral/fungal) or as web
+    # resources rather than by a short-/long-read sequencing platform.
+    if "viral" in v or "fungal" in v or v.endswith("/web"):
+        return "Domain-specific / web"
     if "long" in v or "ONT" in v or "PacBio" in v:
         return "Long-read focused"
     if "short" in v:
@@ -63,7 +67,7 @@ def main():
     axA.set_yticks(y); axA.set_yticklabels(ordered, fontsize=8.5)
     axA.invert_yaxis()
     axA.set_xlabel("number of tools catalogued", fontsize=10)
-    axA.set_title("A. Tools across 25 workflow stages (recommended, alternative and legacy)",
+    axA.set_title(f"A. Tools across {len(ordered)} workflow stages (recommended, alternative and legacy)",
                   fontsize=12, loc="left")
     axA.legend(fontsize=9, ncol=3, loc="lower right", frameon=False)
     for sp in ("top", "right"): axA.spines[sp].set_visible(False)
@@ -87,19 +91,23 @@ def main():
     for r in rows:
         g = platform_group(r["platform"]); pg[g] = pg.get(g, 0) + 1
     order_p = ["Short-read focused", "Long-read focused", "Assembly / FASTA input",
-               "Shared / any input"]
+               "Shared / any input", "Domain-specific / web"]
     vals = [pg.get(k, 0) for k in order_p]
-    cols_p = ["#4393c3", "#d6604d", "#7b3294", "#5aae61"]
+    cols_p = ["#4393c3", "#d6604d", "#7b3294", "#5aae61", "#e08e0b"]
     axC.barh(range(len(order_p)), vals, color=cols_p)
     for i, v in enumerate(vals): axC.text(v + 1, i, str(v), va="center", fontsize=9)
     axC.set_yticks(range(len(order_p))); axC.set_yticklabels(order_p, fontsize=8.5)
     axC.invert_yaxis(); axC.set_xlabel("number of tools", fontsize=10)
-    axC.set_title("C. Sequencing platform coverage", fontsize=12, loc="left")
+    axC.set_title("C. Input, platform and domain coverage", fontsize=12, loc="left")
     for sp in ("top", "right"): axC.spines[sp].set_visible(False)
 
     # D: environments and databases
     axD = fig.add_subplot(gs[1, 2]); axD.axis("off")
-    n_env = len(re.findall(r"mamba create -y -n (\S+)", open(INSTALL, encoding="utf-8").read()))
+    install_txt = open(INSTALL, encoding="utf-8").read()
+    # Each conda environment is declared once with ensure_env NAME (the main
+    # environment uses the $EASYWGS_ENV variable); the function definition
+    # itself is ensure_env() and is not matched by the trailing whitespace.
+    n_env = len(re.findall(r"(?m)^ensure_env\s+", install_txt))
     required_db = ["CheckM2", "GUNC (proGenomes 2.1)", "Bakta (full)", "eggNOG",
                    "PubMLST", "abricate databases", "AMRFinderPlus", "CARD / RGI",
                    "chewBBACA schemas"]

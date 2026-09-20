@@ -121,7 +121,7 @@
 | GUNC | 推荐默认 | - | assembly | 嵌合基因组/谱系不一致检测 |
 | FCS-GX | 推荐默认 | - | assembly | NCBI 外源片段污染筛查 |
 | BlobToolKit (BlobTools2) | 活跃备选 | - | assembly | 覆盖度/分类/GC 交互排查 |
-| BUSCO | 活跃备选 | - | shared | 单拷贝直系同源完整度 |
+| BUSCO | 活跃备选 | - | shared | 单拷贝直系同源完整度（真核为主；真菌用 fungi_odb10/ascomycota_odb10） |
 | Merqury | 活跃备选 | - | assembly | 基于 k-mer 的一致性 Q 值 |
 | CheckM (v1) | 活跃备选 | succeeded by CheckM2 | assembly | 谱系 marker 质检，仍可用可解释 |
 | RefineM | 经典旧代（仍可运行） | -> CheckM2/GUNC | assembly | 旧版 bin/污染精炼 |
@@ -171,6 +171,11 @@
 | Kaptive (standalone) | 活跃备选 | - | shared | 表面多糖位点分型 |
 | LisSero / emm typer | 活跃备选 | - | shared | 李斯特血清群与链球菌 emm |
 | SeqSero | 经典旧代（仍可运行） | -> SeqSero2 | shared | 一代沙门血清型工具 |
+| spaTyper (CGE) | 活跃备选 | - | shared | 金葡 spa 重复序列排序与 spa 型 |
+| SCCmecFinder (CGE) | 活跃备选 | - | shared | 金葡 SCCmec 盒与 mec 复合体（staphopia-sccmec 为开源替代） |
+| BTyper3 | 活跃备选 | - | shared | 蜡样芽胞杆菌群 panC 系统群、毒力与次级代谢位点 |
+| fast-lineage-caller | 活跃备选 | - | shared | 结核基于组装/VCF 的快速谱系分型 |
+| MTBseq | 活跃备选 | - | short | 结核基于 reads 的谱系、耐药与 SNP/indel 流程 |
 
 ## 12. 核心/全基因组 MLST
 
@@ -294,7 +299,7 @@
 
 | 工具 | 状态 | 替代/继任关系 | 平台 | 作用 |
 | --- | --- | --- | --- | --- |
-| FastANI | 推荐默认 | - | shared | 快速全基因组 ANI |
+| FastANI | 推荐默认 | - | shared | 快速全基因组 ANI；模块 04.5 物种确认门控 |
 | Mash | 推荐默认 | - | shared | MinHash 基因组距离 |
 | snp-dists | 推荐默认 | - | shared | 两两 SNP 距离矩阵 |
 | dRep | 推荐默认 | - | shared | 基因组去冗余与代表挑选 |
@@ -364,6 +369,77 @@
 | Nextflow | 活跃备选 | - | shared | 可移植容器化流程语言 |
 | Conda / Mamba (Bioconda) | 推荐默认 | - | shared | 包与环境管理 |
 | GNU parallel | 活跃备选 | - | shared | 简单的多样本并行 |
+
+## 26. 跨域覆盖度与完整度
+
+| 工具 | 状态 | 替代/继任关系 | 平台 | 作用 |
+| --- | --- | --- | --- | --- |
+| mosdepth | 推荐默认 | - | shared | 面向映射、病毒与真菌的快速覆盖度统计 |
+| CheckV | 推荐默认 | - | viral | 病毒基因组完整度与宿主/前病毒污染 |
+| vClean | 活跃备选 | - | viral | MIUViG 标准下病毒基因组污染与质量评估 |
+
+## 27. 病毒共识、谱系与注释
+
+| 工具 | 状态 | 替代/继任关系 | 平台 | 作用 |
+| --- | --- | --- | --- | --- |
+| nf-core/viralrecon | 推荐默认 | - | viral | 病毒 WGS 参考流程（二代/三代，域模板） |
+| iVar | 推荐默认 | - | viral | 扩增子引物修剪、变异与共识检测 |
+| artic (fieldbioinformatics) | 推荐默认 | - | viral | ONT 平铺扩增子共识流程 |
+| ViralConsensus | 推荐默认 | - | viral | 从 BAM 快速生成共识序列 |
+| ViralMSA | 活跃备选 | - | viral | 参考引导的病毒多序列比对 |
+| Nextclade / Nextalign | 推荐默认 | - | viral | 分支判定、突变检测与序列质控 |
+| Pangolin | 推荐默认 | - | viral | 新冠病毒谱系判定 |
+| UShER / matUtils | 活跃备选 | - | viral | 突变注释树上的超快样本放置 |
+| augur (Nextstrain) | 活跃备选 | - | viral | 面向 Auspice 的系统动力学流程构建 |
+| Freyja | 活跃备选 | - | viral | 污水与混合样本的谱系去卷积 |
+| VADR | 推荐默认 | - | viral | GenBank 级病毒注释与提交质控 |
+| VAPiD | 活跃备选 | - | viral | 轻量病毒基因组注释与鉴定 |
+| VIGOR | 活跃备选 | - | viral | 病毒基因与蛋白注释 |
+| SnpEff / SnpSift | 活跃备选 | - | shared | 小基因组或自定义库的变异效应注释 |
+
+## 28. 宿主体内多样性、HIV 与传播
+
+| 工具 | 状态 | 替代/继任关系 | 平台 | 作用 |
+| --- | --- | --- | --- | --- |
+| HAPHPIPE | 推荐默认 | - | viral | HIV 单倍型重组与系统动力学流程 |
+| V-pipe | 推荐默认 | - | viral | 宿主体内多样性与准种的 Snakemake 流程 |
+| shiver | 活跃备选 | - | viral | HIV/HCV/RSV 去宿主、de novo 组装与共识 |
+| HIV-TRACE / tn93 | 推荐默认 | - | viral | TN93 两两距离与传播簇识别 |
+| HyPhy | 推荐默认 | - | viral | 选择压力与重组分析 |
+| CliqueSNV | 活跃备选 | - | viral | 基于连锁 SNV 重组宿主体内单倍型 |
+| Stanford HIVdb / HyDRA | 活跃备选 | - | viral/web | 在线 HIV 耐药突变评分 |
+| Phyloscanner | 活跃备选 | - | viral | 宿主体内/间污染剔除与传播推断 |
+| PredictHaplo | 经典旧代（仍可运行） | -> CliqueSNV/V-pipe | viral | 旧版准种单倍型重组 |
+
+## 29. 真菌组装、质检与注释
+
+| 工具 | 状态 | 替代/继任关系 | 平台 | 作用 |
+| --- | --- | --- | --- | --- |
+| AAFTF | 推荐默认 | - | fungal | 单倍体真菌组装、载体过滤与打磨 |
+| FGMP | 活跃备选 | - | fungal | 基于编码与非编码标记的真菌完整度评估 |
+| funannotate | 推荐默认 | - | fungal | 真菌基因组注释、比较与提交准备 |
+| BRAKER3 | 推荐默认 | - | fungal | 基于 GeneMark-ETP/AUGUSTUS/miniprot 的真核基因预测 |
+| MAKER / MAKER2 | 活跃备选 | - | fungal | 经典证据驱动的真核注释流程 |
+| FunGAP | 活跃备选 | - | fungal | 基于证据模型评分的真菌基因注释 |
+| ITSx | 推荐默认 | - | fungal | 提取 ITS1/5.8S/ITS2 条形码区（配 UNITE） |
+
+## 30. 真菌比较基因组、拷贝数与代谢
+
+| 工具 | 状态 | 替代/继任关系 | 平台 | 作用 |
+| --- | --- | --- | --- | --- |
+| nPhase | 活跃备选 | - | fungal | 不依赖倍性的长读单倍型定相 |
+| Control-FREEC | 活跃备选 | - | fungal | 从比对读段检测拷贝数变异与非整倍体 |
+| antiSMASH (fungal mode) | 推荐默认 | - | shared | 次级代谢生物合成基因簇（细菌与真菌） |
+| run_dbcan | 推荐默认 | - | shared | 碳水活性酶与 CAZyme 基因簇注释 |
+| SMURF | 活跃备选 | - | fungal/web | 在线真菌次级代谢基因簇预测 |
+
+## 31. 益生菌安全与有益评价
+
+| 工具 | 状态 | 替代/继任关系 | 平台 | 作用 |
+| --- | --- | --- | --- | --- |
+| EFSA QPS / FEEDAP guidance | 推荐默认 | - | shared/web | 法规框架：分类身份、获得性耐药、毒力、产毒 |
+| Probio / ProbioMinServer | 活跃备选 | - | shared/web | 益生菌安全与功能在线评价平台 |
+| BAGEL4 | 活跃备选 | - | shared/web | 在线细菌素与 RiPP 挖掘 |
 
 ## 选择原则
 

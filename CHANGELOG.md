@@ -2,6 +2,39 @@
 
 This project follows semantic versioning; dates use ISO format.
 
+## [0.6.0] - 2026-09-20
+
+### Added
+
+- Cross-domain extension assessment and a bilingual guidebook page,
+  "Beyond bacteria: viruses, fungi and probiotics" (`docs/extensibility.md`
+  and `docs/extensibility.zh.md`), covering a mapping/consensus-first viral
+  track, a long/hybrid eukaryotic fungal track and a probiotic safety-and-benefit
+  profile, with a shared-core table and a phased roadmap.
+- Viral track tool selection for SARS-CoV-2 (iVar, ARTIC fieldbioinformatics,
+  ViralConsensus, Nextclade, Pangolin, UShER, augur/Auspice, Freyja), HIV
+  (HAPHPIPE, V-pipe, shiver, CliqueSNV, HIV-TRACE/tn93, HyPhy, HIVdb/HyDRA) and
+  norovirus (VADR, dual ORF1/ORF2 typing), plus CheckV, VAPiD, VIGOR and
+  nf-core/viralrecon as references.
+- Fungal track tool selection for *Aspergillus* and *Candida* (AAFTF, BUSCO,
+  funannotate, BRAKER3, MAKER, ITSx/UNITE, OrthoFinder, GET_HOMOLOGUES, nPhase,
+  Control-FREEC, antiSMASH fungal mode, run_dbcan) and probiotic resources
+  (EFSA QPS/FEEDAP, EUCAST, BAGEL4, Probio).
+- `figures/make_domains_figure.py` and the EasyWGS_domains Venn plus
+  stage-by-domain matrix figure (PNG, PDF, SVG), copied into `docs/assets/`.
+- Catalogue stages 26 to 31, expanding `reference/tool_catalog.tsv` from 235 to
+  276 entries across 31 stages; the tool encyclopedia and the ecosystem figure
+  (31 stages, six conda environments) are regenerated.
+- Bilingual README cross-domain sections and the MkDocs navigation entry.
+
+### Notes
+
+- This release documents feasibility and tool selection only; runnable viral and
+  fungal modules are deferred to the phased roadmap and require validated public
+  panels. Cross-domain material is for in silico teaching on public data, and
+  genotype calls are not a substitute for phenotypic, regulatory or clinical
+  judgement.
+
 ## [0.5.0] - 2026-09-20
 
 ### Added

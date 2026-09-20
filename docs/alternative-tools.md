@@ -121,7 +121,7 @@ In the lineage column an arrow runs from the older generation toward its success
 | GUNC | Recommended default | - | assembly | chimeric-genome / taxonomic inconsistency detection |
 | FCS-GX | Recommended default | - | assembly | NCBI foreign-fragment contamination screener |
 | BlobToolKit (BlobTools2) | Alternative | - | assembly | coverage/taxonomy/GC interactive contamination view |
-| BUSCO | Alternative | - | shared | single-copy ortholog completeness (mainly eukaryotes) |
+| BUSCO | Alternative | - | shared | single-copy ortholog completeness (mainly eukaryotes; fungi_odb10/ascomycota_odb10) |
 | Merqury | Alternative | - | assembly | k-mer based consensus QV |
 | CheckM (v1) | Alternative | succeeded by CheckM2 | assembly | lineage-marker quality, still accepted and interpretable |
 | RefineM | Legacy (still usable) | -> CheckM2/GUNC | assembly | older bin/contamination refinement |
@@ -171,6 +171,11 @@ In the lineage column an arrow runs from the older generation toward its success
 | Kaptive (standalone) | Alternative | - | shared | surface polysaccharide locus typing |
 | LisSero / emm typer | Alternative | - | shared | Listeria serogroup and Streptococcus emm |
 | SeqSero | Legacy (still usable) | -> SeqSero2 | shared | first-generation Salmonella serotyper |
+| spaTyper (CGE) | Alternative | - | shared | S. aureus spa repeat succession and spa type |
+| SCCmecFinder (CGE) | Alternative | - | shared | S. aureus SCCmec cassette and mec complex; staphopia-sccmec is an open alternative |
+| BTyper3 | Alternative | - | shared | B. cereus group panC phylogenetic group, virulence and secondary-metabolite loci |
+| fast-lineage-caller | Alternative | - | shared | rapid M. tuberculosis lineage assignment from assemblies or VCF |
+| MTBseq | Alternative | - | short | M. tuberculosis lineage, resistance and SNP/indel workflow from reads |
 
 ## 12. cg/wgMLST
 
@@ -294,7 +299,7 @@ In the lineage column an arrow runs from the older generation toward its success
 
 | Tool | Status | Lineage | Platform | Role |
 | --- | --- | --- | --- | --- |
-| FastANI | Recommended default | - | shared | fast whole-genome ANI |
+| FastANI | Recommended default | - | shared | fast whole-genome ANI; module 04.5 species-confirmation gate |
 | Mash | Recommended default | - | shared | MinHash genome/reads distance |
 | snp-dists | Recommended default | - | shared | pairwise SNP distance matrix |
 | dRep | Recommended default | - | shared | genome/MAG dereplication and selection |
@@ -364,6 +369,77 @@ In the lineage column an arrow runs from the older generation toward its success
 | Nextflow | Alternative | - | shared | portable workflow language with containers |
 | Conda / Mamba (Bioconda) | Recommended default | - | shared | package and environment management |
 | GNU parallel | Alternative | - | shared | simple per-sample parallelization |
+
+## 26. Coverage and completeness across domains
+
+| Tool | Status | Lineage | Platform | Role |
+| --- | --- | --- | --- | --- |
+| mosdepth | Recommended default | - | shared | fast BAM/CRAM depth for mapping, viral and fungal QC |
+| CheckV | Recommended default | - | viral | viral genome completeness and host/proviral contamination |
+| vClean | Alternative | - | viral | viral genome contamination and quality under MIUViG standards |
+
+## 27. Viral consensus, lineage and annotation
+
+| Tool | Status | Lineage | Platform | Role |
+| --- | --- | --- | --- | --- |
+| nf-core/viralrecon | Recommended default | - | viral | reference viral WGS workflow for Illumina and ONT (domain template) |
+| iVar | Recommended default | - | viral | amplicon primer trimming, variant and consensus calling |
+| artic (fieldbioinformatics) | Recommended default | - | viral | ONT tiling-amplicon consensus workflow |
+| ViralConsensus | Recommended default | - | viral | fast consensus generation directly from a BAM |
+| ViralMSA | Alternative | - | viral | reference-guided viral multiple sequence alignment |
+| Nextclade / Nextalign | Recommended default | - | viral | clade assignment, mutation calling and sequence QC |
+| Pangolin | Recommended default | - | viral | SARS-CoV-2 lineage assignment |
+| UShER / matUtils | Alternative | - | viral | ultrafast sample placement on a mutation-annotated tree |
+| augur (Nextstrain) | Alternative | - | viral | phylodynamic workflow build for Auspice |
+| Freyja | Alternative | - | viral | lineage deconvolution of wastewater and mixed samples |
+| VADR | Recommended default | - | viral | GenBank-grade viral annotation and submission QC |
+| VAPiD | Alternative | - | viral | lightweight viral genome annotation and identification |
+| VIGOR | Alternative | - | viral | viral gene and protein annotation (JCVI) |
+| SnpEff / SnpSift | Alternative | - | shared | annotate variant effects on small or custom genomes |
+
+## 28. Intrahost diversity, HIV and transmission
+
+| Tool | Status | Lineage | Platform | Role |
+| --- | --- | --- | --- | --- |
+| HAPHPIPE | Recommended default | - | viral | HIV haplotype reconstruction and phylodynamics pipeline |
+| V-pipe | Recommended default | - | viral | Snakemake pipeline for intrahost diversity and quasispecies |
+| shiver | Alternative | - | viral | HIV/HCV/RSV host removal, de novo assembly and consensus |
+| HIV-TRACE / tn93 | Recommended default | - | viral | TN93 pairwise distances and transmission-cluster detection |
+| HyPhy | Recommended default | - | viral | selection (SLAC/FEL/MEME/FUBAR) and recombination (GARD) |
+| CliqueSNV | Alternative | - | viral | intrahost haplotype reconstruction from linked SNVs |
+| Stanford HIVdb / HyDRA | Alternative | - | viral/web | web HIV drug-resistance mutation scoring (Sierra, HyDRA) |
+| Phyloscanner | Alternative | - | viral | within- and between-host contamination and transmission inference |
+| PredictHaplo | Legacy (still usable) | -> CliqueSNV/V-pipe | viral | legacy quasispecies haplotype reconstruction |
+
+## 29. Fungal assembly, QC and annotation
+
+| Tool | Status | Lineage | Platform | Role |
+| --- | --- | --- | --- | --- |
+| AAFTF | Recommended default | - | fungal | haploid fungal assembly, vector filtering and polishing |
+| FGMP | Alternative | - | fungal | fungal genome completeness using coding and non-coding markers |
+| funannotate | Recommended default | - | fungal | fungal genome annotation, comparison and submission preparation |
+| BRAKER3 | Recommended default | - | fungal | eukaryotic gene prediction with GeneMark-ETP, AUGUSTUS and miniprot |
+| MAKER / MAKER2 | Alternative | - | fungal | classic evidence-driven eukaryotic annotation pipeline |
+| FunGAP | Alternative | - | fungal | fungal gene annotation with evidence-based model scoring |
+| ITSx | Recommended default | - | fungal | extract ITS1/5.8S/ITS2 barcode regions (used with UNITE) |
+
+## 30. Fungal comparative genomics, CNV and metabolism
+
+| Tool | Status | Lineage | Platform | Role |
+| --- | --- | --- | --- | --- |
+| nPhase | Alternative | - | fungal | ploidy-agnostic long-read haplotype phasing |
+| Control-FREEC | Alternative | - | fungal | copy-number and aneuploidy detection from mapped reads |
+| antiSMASH (fungal mode) | Recommended default | - | shared | secondary-metabolite biosynthetic gene clusters (bacteria and fungi) |
+| run_dbcan | Recommended default | - | shared | CAZyme and CAZyme gene cluster annotation |
+| SMURF | Alternative | - | fungal/web | web fungal secondary-metabolite cluster prediction |
+
+## 31. Probiotic safety and benefit profiling
+
+| Tool | Status | Lineage | Platform | Role |
+| --- | --- | --- | --- | --- |
+| EFSA QPS / FEEDAP guidance | Recommended default | - | shared/web | regulatory framework: identity, acquired AMR, virulence, toxigenicity |
+| Probio / ProbioMinServer | Alternative | - | shared/web | in silico probiotic safety and functional annotation platform |
+| BAGEL4 | Alternative | - | shared/web | web bacteriocin and RiPP mining |
 
 ## Selection notes
 

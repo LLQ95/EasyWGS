@@ -136,7 +136,12 @@ Beyond the defaults below, the
 maintained alternatives and older but still usable legacy tools for every stage, with the
 successor of each legacy tool marked (for example Trimmomatic to fastp, CheckM to CheckM2,
 Prokka to Bakta, Roary to Panaroo, SEER to pyseer). The machine-readable table is
-`reference/tool_catalog.tsv`.
+`reference/tool_catalog.tsv`. The guidebook also evaluates how the same design transfers
+beyond bacteria in
+[Beyond bacteria: viruses, fungi and probiotics](https://easywgs.readthedocs.io/en/latest/extensibility/),
+with a Venn comparison of shared and domain-specific tools and profiles for viruses
+(HIV, SARS-CoV-2, norovirus), pathogenic fungi (*Aspergillus*, *Candida*) and probiotic
+safety assessment (catalogue stages 26 to 31).
 
 ### Quality control and read processing
 
@@ -297,6 +302,36 @@ Platform column: A = applies to any tree, alignment or matrix.
 | NCBI datasets | A | download genomes, genes and metadata | [GitHub](https://github.com/ncbi/datasets) |
 | SRA toolkit | A | fetch and convert Sequence Read Archive data | [GitHub](https://github.com/ncbi/sra-tools) |
 | Nextflow | A | workflow engine used to run CLEAN | [GitHub](https://github.com/nextflow-io/nextflow) |
+
+### Beyond bacteria: viruses, fungi and probiotics
+
+About half of the workflow (read QC, host removal, mapping, variant calling, coverage,
+alignments, maximum-likelihood trees and reporting) is domain-agnostic. The
+[Beyond bacteria](https://easywgs.readthedocs.io/en/latest/extensibility/) guidebook page
+gives the full Venn comparison, the stage-by-domain matrix and a phased extension roadmap.
+The representative domain-specific programs below are catalogued in stages 26 to 31; the
+shared programs (minimap2, bcftools, mosdepth, IQ-TREE 3 and so on) are listed above.
+
+| Tool | Domain | Purpose | Source |
+| --- | --- | --- | --- |
+| nf-core/viralrecon | Viral | reference Illumina/ONT viral workflow template | [GitHub](https://github.com/nf-core/viralrecon) |
+| iVar | Viral | amplicon primer trimming and consensus | [GitHub](https://github.com/andersen-lab/ivar) |
+| Nextclade / Pangolin | Viral | SARS-CoV-2 clade and lineage assignment | [GitHub](https://github.com/nextstrain/nextclade) |
+| CheckV / VADR | Viral | viral completeness and reference-guided annotation | [GitHub](https://github.com/chklovski/CheckV) |
+| HAPHPIPE / V-pipe | Viral | HIV intrahost haplotypes and quasispecies | [GitHub](https://github.com/gwcbi/haphpipe) |
+| HIV-TRACE / HyPhy | Viral | TN93 transmission clusters and selection | [GitHub](https://github.com/veg/hivtrace) |
+| AAFTF | Fungal | haploid fungal assembly and polishing | [GitHub](https://github.com/stajichlab/AAFTF) |
+| BUSCO | Fungal | eukaryotic single-copy orthologue completeness | [GitLab](https://gitlab.com/ezlab/busco) |
+| funannotate / BRAKER3 | Fungal | eukaryotic gene annotation with introns | [GitHub](https://github.com/nextgenusfs/funannotate) |
+| ITSx / UNITE | Fungal | ITS barcode extraction and reference database | [UNITE](https://unite.ut.ee/) |
+| OrthoFinder / GET_HOMOLOGUES | Fungal | orthogroup-based comparative genomics | [GitHub](https://github.com/davidemms/OrthoFinder) |
+| Control-FREEC | Fungal | copy-number and aneuploidy detection | [GitHub](https://github.com/BoevaLab/FREEC) |
+| antiSMASH / run_dbcan | Fungal | fungal secondary metabolites and CAZymes | [GitHub](https://github.com/antismash/antismash) |
+| EFSA QPS / FEEDAP | Probiotic | strain safety frame (acquired AMR, toxigenicity) | [EFSA](https://www.efsa.europa.eu/) |
+| BAGEL4 / CRISPRCasFinder | Probiotic | bacteriocin, RiPP and CRISPR benefit evidence | [BAGEL4](http://bagel4.molgenrug.nl/) |
+
+Probiotics are a safety-and-benefit configuration over the bacterial track (the yeast
+*Saccharomyces boulardii* uses the fungal track), not a fourth biological domain.
 
 ## Hardware note
 

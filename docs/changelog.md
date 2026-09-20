@@ -2,6 +2,22 @@
 
 See the root CHANGELOG.md for the full history.
 
+## 0.6.0 (2026-09-20)
+
+Added a cross-domain extension assessment and a bilingual guidebook page,
+"Beyond bacteria: viruses, fungi and probiotics". The page sets out a mapping- and
+consensus-first viral track (SARS-CoV-2 with iVar, Nextclade, Pangolin and UShER; HIV
+with HAPHPIPE/V-pipe, HIV-TRACE, HyPhy and HIVdb; norovirus with VADR and dual ORF
+typing), a long/hybrid eukaryotic track for pathogenic fungi (AAFTF, BUSCO,
+funannotate/BRAKER3, ITSx/UNITE, OrthoFinder, Control-FREEC and the fungal mode of
+antiSMASH), and a probiotic safety-and-benefit profile layered over the bacterial track
+(EFSA QPS/FEEDAP, acquired-resistance mobility checks and BAGEL4). It includes a
+shared-core table, a Venn and stage-by-domain matrix figure (EasyWGS_domains) and a
+phased roadmap. The tool catalogue grows from 235 to 276 entries across 31 stages (new
+stages 26 to 31), and the ecosystem figure and the bilingual README are regenerated.
+This release documents feasibility and tool selection; runnable viral and fungal modules
+are deferred to the roadmap pending validated public panels.
+
 ## 0.5.0 (2026-09-20)
 
 Tier 5 of the panel adds nine further pathogen groups (27 Illumina isolates, 71 in total):
