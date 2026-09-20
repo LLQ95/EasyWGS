@@ -1,12 +1,13 @@
 # EasyWGS multi-pathogen demonstration panel (curated and accession-verified).
-# All run accessions were verified against the ENA Portal API (tiers 1-3 on 2026-09-16, tier 4 on
+# All run accessions were verified against the ENA Portal API (tiers 1-3 on 2026-09-16, tiers 4-5 on
 # 2026-09-20); each row carries real WGS reads with public FASTQ links. No reads are shipped in git:
 # examples/00_download_panel.sh fetches them by run accession and downsamples.
 #
 # Columns:
 #  id            EasyWGS sample id (no spaces / extra dots); also the 00_rawdata prefix
-#  group         pathogen group (salmonella/kpneumoniae/ecoli/listeria/shigella and the tier-4 groups
-#                vibrio/yersinia/campylobacter/burkholderia/clostridium)
+#  group         pathogen group (salmonella/kpneumoniae/ecoli/listeria/shigella, the tier-4 groups
+#                vibrio/yersinia/campylobacter/burkholderia/clostridium, and the tier-5 groups
+#                saureus/cronobacter/dysenteriae/cholerae/anthracis/mallei/cereus/mtuberculosis/brucella)
 #  species_code  value for the samplesheet 'species' column that drives module 06
 #  platform      illumina or hybrid (hybrid rows give BOTH an Illumina and an ONT run)
 #  illumina_run  ENA/SRA Illumina paired-end run accession (empty for none)
@@ -19,7 +20,8 @@
 #  reference_gcf verified RefSeq complete-genome accession used for module 09/12
 #  ref_label     local reference file produced under ref/
 #  tier          smallest tier the sample belongs to (1 core=10, 2 typing breadth=20,
-#                3 Salmonella temporal=29, 4 five additional pathogen groups=44); nested, filtered as tier<=N
+#                3 Salmonella temporal=29, 4 five additional pathogen groups=44,
+#                5 nine additional pathogen groups=71); nested, filtered as tier<=N
 #  note
 id	group	species_code	platform	illumina_run	ont_run	biosample	bioproject	country	date	scientific_name	reference_gcf	ref_label	tier	note
 SE_IT_2011_1	salmonella	salm	illumina	DRR107076		-	PRJDB6430	Italy	2011	Salmonella enterica subsp. enterica	GCF_000006945	Se_ref.gbk	1	Salmonella temporal core; smallest Illumina run
@@ -66,3 +68,30 @@ BG_US_2019	burkholderia	burkholderia	illumina	SRR14871683		-	PRJNA720893	USA	201
 CB_SE_1946	clostridium	clostridium	illumina	SRR13781781		-	PRJNA666195	Sweden	1946	Clostridium botulinum	GCF_000063585	CB_ref.gbk	4	historical isolate; bont neurotoxin locus screened in 06.4; plasmid/chromosome location by Mob-suite
 CB_NL_2001	clostridium	clostridium	illumina	SRR1190182		-	PRJNA233459	Netherlands	2001	Clostridium botulinum	GCF_000063585	CB_ref.gbk	4	C. botulinum type D str. 16868; bont locus screened in 06.4; location by Mob-suite
 CB_FI_2010	clostridium	clostridium	illumina	SRR11249076		-	PRJNA610151	Finland	2010	Clostridium botulinum	GCF_000063585	CB_ref.gbk	4	Finland surveillance; bont neurotoxin locus screened in 06.4; location by Mob-suite
+SA_AU_2013	saureus	saureus	illumina	ERR10212452		SAMEA111363107	PRJEB56111	Australia	2013	Staphylococcus aureus	GCF_000009645	SA_ref.gbk	5	tier 5 S. aureus (N315 reference group); nuc/mecA/PVL/tst markers in 06.4; saureus MLST
+SA_FI_1991	saureus	saureus	illumina	ERR10212145		SAMEA111362800	PRJEB56111	Finland	1991	Staphylococcus aureus	GCF_000009645	SA_ref.gbk	5	tier 5 S. aureus historical isolate; spa and SCCmec typing documented in the guidebook; saureus MLST
+SA_PL_2020	saureus	saureus	illumina	ERR10035233		SAMEA110468582	PRJEB55240	Poland	2020-09-13	Staphylococcus aureus	GCF_000009645	SA_ref.gbk	5	tier 5 S. aureus modern isolate; spa and SCCmec typing documented in the guidebook; saureus MLST
+CS_CN_2013	cronobacter	cronobacter	illumina	SRR17658887		SAMN25079005	PRJNA798519	China	2013	Cronobacter sakazakii	GCF_000017665	CS_ref.gbk	5	tier 5 C. sakazakii (ATCC BAA-894 reference group); ompA/zpx/cpa markers in 06.4; genus-level cronobacter MLST
+CS_MX_2006	cronobacter	cronobacter	illumina	SRR11140585		SAMN14112904	PRJNA399551	Mexico	2006-06-14	Cronobacter sakazakii	GCF_000017665	CS_ref.gbk	5	tier 5 C. sakazakii historical isolate; ompA/zpx/cpa markers in 06.4; genus-level cronobacter MLST
+CS_GB_2019	cronobacter	cronobacter	illumina	SRR16847998		SAMN22968146	PRJNA778615	United Kingdom	2019-09-16	Cronobacter sakazakii	GCF_000017665	CS_ref.gbk	5	tier 5 C. sakazakii modern isolate; ompA/zpx/cpa markers in 06.4; genus-level cronobacter MLST
+DY_CO_2019	dysenteriae	ecoli	illumina	SRR23609136		SAMN33406718	PRJNA937403	Colombia	2019-09-20	Shigella dysenteriae	GCF_000012005	SDy_ref.gbk	5	tier 5 S. dysenteriae (Sd197 reference group); ipaH/stxA/virF in 06.4; ecoli MLST and ShigEiFinder subtype
+DY_ET_2020	dysenteriae	ecoli	illumina	SRR36655276		SAMN54407171	PRJNA1396916	Ethiopia	2020-11-12	Shigella dysenteriae	GCF_000012005	SDy_ref.gbk	5	tier 5 S. dysenteriae modern isolate; ipaH/stxA/virF in 06.4; ecoli MLST and ShigEiFinder subtype
+DY_IN_2009	dysenteriae	ecoli	illumina	ERR6006254		SAMEA8903725	PRJEB45383	India	2009-06-02	Shigella dysenteriae	GCF_000012005	SDy_ref.gbk	5	tier 5 S. dysenteriae historical isolate; ipaH/stxA/virF in 06.4; ecoli MLST and ShigEiFinder subtype
+VC_CD_2016	cholerae	cholerae	illumina	ERR10149430		SAMEA5559690	PRJEB55717	Democratic Republic of the Congo	2016	Vibrio cholerae	GCF_000006745	VC_ref.gbk	5	tier 5 V. cholerae (N16961 reference group); ompW/ctxA/tcpA/toxR in 06.4; vcholerae MLST
+VC_LB_2022	cholerae	cholerae	illumina	ERR11876344		SAMEA114298211	PRJEB65303	Lebanon	2022	Vibrio cholerae	GCF_000006745	VC_ref.gbk	5	tier 5 V. cholerae modern isolate; ctxA/tcpA and O-antigen loci in 06.4; vcholerae MLST
+VC_NO_2022	cholerae	cholerae	illumina	ERR12264644		SAMEA114617079	PRJEB69478	Norway	2022	Vibrio cholerae	GCF_000006745	VC_ref.gbk	5	tier 5 V. cholerae modern isolate; ctxA/tcpA and O-antigen loci in 06.4; vcholerae MLST
+BA_CN_1952	anthracis	anthracis	illumina	SRR24728100		SAMN35356475	PRJNA975971	China	1952	Bacillus anthracis	GCF_000008445	BA_ref.gbk	5	tier 5 B. anthracis (Ames Ancestor reference, pXO1+pXO2); pagA/cya/lef and capA/B/C in 06.4; bcereus MLST
+BA_DK_1966	anthracis	anthracis	illumina	ERR930296		SAMEA3735924	PRJEB9705	Denmark	1966	Bacillus anthracis	GCF_000008445	BA_ref.gbk	5	tier 5 B. anthracis historical isolate; pXO1/pXO2 virulence plasmids screened in 06.4; bcereus MLST
+BA_US_2023	anthracis	anthracis	illumina	SRR28339979		SAMN40399311	PRJNA1086569	USA	2023	Bacillus anthracis	GCF_000008445	BA_ref.gbk	5	tier 5 B. anthracis modern isolate; pXO1/pXO2 virulence plasmids screened in 06.4; bcereus MLST
+BM_BH_2011	mallei	mallei	illumina	SRR14674213		SAMN19373980	PRJNA733297	Bahrain	2011	Burkholderia mallei	GCF_000011705	BM_ref.gbk	5	tier 5 B. mallei (ATCC 23344 reference group); bimA/bsa T3SS markers in 06.4; bpseudomallei MLST
+BM_BR_2019	mallei	mallei	illumina	SRR19621772		SAMN28964121	PRJNA789772	Brazil	2019-06-13	Burkholderia mallei	GCF_000011705	BM_ref.gbk	5	tier 5 B. mallei modern isolate; bimA/bsa T3SS markers in 06.4; bpseudomallei MLST
+BM_FR_1964	mallei	mallei	illumina	SRR948447		SAMN02303032	PRJNA214255	France	1964	Burkholderia mallei	GCF_000011705	BM_ref.gbk	5	tier 5 B. mallei historical isolate A193; bimA/bsa T3SS markers in 06.4; bpseudomallei MLST
+BC_BE_2022	cereus	cereus	illumina	ERR13821236		SAMEA116144809	PRJEB81290	Belgium	2022	Bacillus cereus	GCF_000007825	BC_ref.gbk	5	tier 5 B. cereus (ATCC 14579 reference group); nhe/hbl/cytK/ces markers in 06.4; bcereus MLST shared with B. anthracis
+BC_CN_2017	cereus	cereus	illumina	SRR10015306		SAMN11514273	PRJNA539852	China	2017-09-17	Bacillus cereus	GCF_000007825	BC_ref.gbk	5	tier 5 B. cereus clinical isolate; cereulide ces and enterotoxin loci in 06.4; bcereus MLST
+BC_CZ_2017	cereus	cereus	illumina	ERR14660405		SAMEA117763550	PRJEB86181	Czechia	2017	Bacillus cereus	GCF_000007825	BC_ref.gbk	5	tier 5 B. cereus isolate; cereulide ces and enterotoxin loci in 06.4; bcereus MLST
+MT_IN_2019	mtuberculosis	mtuberculosis	illumina	ERR10225473		SAMEA111366166	PRJEB56100	India	2019	Mycobacterium tuberculosis	GCF_000195955.2	MT_ref.gbk	5	tier 5 M. tuberculosis (H37Rv reference); no classic 7-gene MLST, FastANI identity; TB-Profiler/Mykrobe lineage in guidebook; RD1 esx markers in 06.4
+MT_MG_2019	mtuberculosis	mtuberculosis	illumina	ERR10225513		SAMEA111366138	PRJEB56100	Madagascar	2019	Mycobacterium tuberculosis	GCF_000195955.2	MT_ref.gbk	5	tier 5 M. tuberculosis isolate; no classic 7-gene MLST, FastANI identity; TB-Profiler/Mykrobe lineage and resistance in guidebook
+MT_ZA_2013	mtuberculosis	mtuberculosis	illumina	ERR10610343		SAMEA112181327	PRJEB57919	South Africa	2013-11-04	Mycobacterium tuberculosis	GCF_000195955.2	MT_ref.gbk	5	tier 5 M. tuberculosis historical isolate; map to H37Rv then TB-Profiler/Mykrobe; RD1 esx markers in 06.4
+BR_AL_2015	brucella	brucella	illumina	SRR4436622		SAMN05932954	PRJNA347914	Albania	2015	Brucella melitensis	GCF_000250795	BR_ref.gbk	5	tier 5 B. melitensis (bv.1 16M reference, two chromosomes); no classic MLST, FastANI identity; bcsp31/IS711/omp2b/virB in 06.4
+BR_CN_2023	brucella	brucella	illumina	SRR35797333		SAMN49920723	PRJNA1290416	China	2023-09-02	Brucella melitensis	GCF_000250795	BR_ref.gbk	5	tier 5 B. melitensis modern isolate; bcsp31/IS711/omp2b and O-antigen wbk loci in 06.4; cgMLST documented in guidebook
+BR_IQ_2015	brucella	brucella	illumina	SRR27874762		SAMN39743377	PRJNA1070976	Iraq	2015	Brucella melitensis	GCF_000250795	BR_ref.gbk	5	tier 5 B. melitensis isolate; bcsp31/IS711/omp2b and T4SS virB loci in 06.4; genus-level cgMLST documented in guidebook

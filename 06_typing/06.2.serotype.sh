@@ -6,8 +6,13 @@
 #   ecoli    : ECTyper (O:H antigens, species, stx) + ShigEiFinder (Shigella/EIEC)
 #   salm     : SeqSero2 (O/H) + SISTR (serovar prediction, includes cgMLST)
 #   listeria : molecular serogroup placeholder (main typing via 06.3 cgMLST)
-#   vibrio/yersinia/campylobacter/burkholderia/clostridium: no single CLI serotyper;
-#     MLST (06.1) plus the custom surface/toxin marker screen (06.4)
+#   vibrio/yersinia/campylobacter/burkholderia/clostridium and the tier-5 codes
+#     saureus/cronobacter/cholerae/anthracis/cereus/mallei/mtuberculosis/brucella:
+#     no single CLI serotyper in the core environment; MLST (06.1) plus the
+#     custom surface/toxin marker screen (06.4). spaTyper and SCCmecFinder
+#     (S. aureus), BTyper3 (B. cereus group) and TB-Profiler/Mykrobe
+#     (M. tuberculosis) are optional external tools documented in the guidebook
+#   dysenteriae shares the ecoli branch (ECTyper + ShigEiFinder)
 # Note: Kleborate v3 uses -p presets; v2 is equivalent to kleborate --all
 # =============================================================================
 set -euo pipefail
@@ -44,10 +49,11 @@ while IFS=',' read -r id platform species r1 r2 lr ref date country pheno; do
       ;;
     listeria)
       echo "  Classical Listeria serotyping is limited; molecular typing is in 06.3.cgmlst.sh (Pasteur schema)" ;;
-    vibrio|yersinia|campylobacter|burkholderia|clostridium)
-      # No single maintained command-line serotyper for these groups. Module 06.1
-      # gives the MLST sequence type and module 06.4 screens the easywgs_markers
-      # database for surface-antigen loci, toxin genes and virulence markers.
+    vibrio|yersinia|campylobacter|burkholderia|clostridium|saureus|cronobacter|cholerae|anthracis|cereus|mallei|mtuberculosis|brucella)
+      # No single maintained command-line serotyper for these groups in the core
+      # environment. Module 06.1 gives the MLST sequence type (where a scheme
+      # exists) and module 06.4 screens the easywgs_markers database for
+      # surface-antigen loci, toxin, virulence and resistance markers.
       echo "  no dedicated CLI serotyper; see 06.1 (MLST) and 06.4 (surface/toxin loci)" ;;
     other)
       echo "  other: serotyping skipped; extend with abricate as needed" ;;

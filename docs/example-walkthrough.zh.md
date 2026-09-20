@@ -1,12 +1,14 @@
 # 实战示例：多病原公共数据面板
 
 本章用真实、公开的细菌分离株数据跑通整个 EasyWGS 流程，使配套论文 Application
-部分的每一项结果都能用少量命令复现。面板刻意做到小而全：覆盖十大类常见病原，而
+部分的每一项结果都能用少量命令复现。面板刻意做到小而全：覆盖 19 类常见病原，而
 不是只针对单一物种；既包含二代样本，也包含 Illumina 与 Oxford Nanopore 严格配对
 的 hybrid 样本；另外加入一个含 12 株沙门菌、跨年份的时间序列集合，用于演示单基
 因组无法完成的集合级分析（泛基因组、核心 SNP 系统发育、时间树、基因型与表型关联）。
 tier 4 再加入副溶血性弧菌、小肠结肠炎耶尔森菌、空肠/结肠弯曲菌、唐菖蒲伯克霍尔德菌
-和肉毒梭菌五类，用于 FastANI 物种确认与毒素/表面位点分型。
+和肉毒梭菌五类，用于 FastANI 物种确认与毒素/表面位点分型；tier 5 再加入金黄色葡萄
+球菌、阪崎克罗诺杆菌、痢疾志贺菌、霍乱弧菌、炭疽杆菌、蜡样芽胞杆菌、鼻疽伯克霍尔德
+菌、结核分枝杆菌和羊种布鲁菌九类，使面板扩展到 19 类、共 71 株。
 
 仓库中不存储任何测序读段。[`examples/panel.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/panel.tsv)
 中的所有 accession 均已通过 ENA Portal 与 NCBI 核实，读段按需下载后再下采样，因此
@@ -35,7 +37,25 @@ FastANI 确认物种，模块 06.4 筛查毒素、表面与毒力位点。
 | 唐菖蒲伯克霍尔德菌 | `burkholderia` | ATCC 10248（GCF_000959725） | 美国，1998-2019（PRJNA475751、PRJNA720893） |
 | 肉毒梭菌 | `clostridium` | ATCC 3502（GCF_000063585） | 瑞典 1946、荷兰 2001、芬兰 2010 |
 
-四个 tier 是同一面板的嵌套子集。
+### Tier 5：新增九类病原
+
+tier 5 为九类新病原各加入 3 株 Illumina 样本，复用 FastANI（04.5）、MLST（06.1）与
+自定义标记筛查（06.4）模块；结核分枝杆菌和布鲁菌没有经典七基因 MLST scheme，依靠
+FastANI 身份确认并配合专门的谱系工具。
+
+| 病原 | `species` 代码 | 参考基因组 | 3 株样本 |
+| --- | --- | --- | --- |
+| 金黄色葡萄球菌 | `saureus` | N315（GCF_000009645） | 澳大利亚 2013、芬兰 1991、波兰 2020 |
+| 阪崎克罗诺杆菌 | `cronobacter` | ATCC BAA-894（GCF_000017665） | 中国 2013、墨西哥 2006、英国 2019 |
+| 痢疾志贺菌 | `ecoli` | Sd197（GCF_000012005） | 哥伦比亚 2019、埃塞俄比亚 2020、印度 2009 |
+| 霍乱弧菌 | `cholerae` | N16961（GCF_000006745） | 刚果（金）2016、黎巴嫩 2022、挪威 2022 |
+| 炭疽杆菌 | `anthracis` | Ames Ancestor（GCF_000008445） | 中国 1952、丹麦 1966、美国 2023 |
+| 蜡样芽胞杆菌 | `cereus` | ATCC 14579（GCF_000007825） | 比利时 2022、中国 2017、捷克 2017 |
+| 鼻疽伯克霍尔德菌 | `mallei` | ATCC 23344（GCF_000011705） | 巴林 2011、巴西 2019、法国 1964 |
+| 结核分枝杆菌 | `mtuberculosis` | H37Rv（GCF_000195955.2） | 印度 2019、马达加斯加 2019、南非 2013 |
+| 羊种布鲁菌 | `brucella` | 16M（GCF_000250795） | 阿尔巴尼亚 2015、中国 2023、伊拉克 2015 |
+
+五个 tier 是同一面板的嵌套子集。
 
 - Tier 1 含 10 个样本，每类病原 1 株二代与 1 株 hybrid，速度最快，可跑通每个单菌
   模块以及两条分析路线。
@@ -46,6 +66,9 @@ FastANI 确认物种，模块 06.4 筛查毒素、表面与毒力位点。
   演示。
 - Tier 4 含 44 个样本，在上述五类专化病原上做 FastANI 身份确认与自定义毒素/表面
   位点筛查。
+- Tier 5 含 71 个样本，在相同的身份确认、MLST 与标记筛查流程下再加入九类病原（金葡、
+  阪崎克罗诺、痢疾志贺、霍乱、炭疽/蜡样、鼻疽、结核、布鲁菌），结核与蜡样群另配合专门
+  的谱系判定工具。
 
 `panel.tsv` 的每一行记录 Illumina 与 ONT 的 run accession、用于证明 hybrid 配对来自
 同一分离株的 BioSample、国家、采集日期、学名，以及经 accession 核实的 RefSeq 完成
@@ -81,7 +104,7 @@ bash examples/01_run_panel.sh 1
 bash examples/02_run_spikein.sh
 ```
 
-把命令末尾的 `1` 换成 `2`、`3` 或 `4` 即可运行更大的 tier。`EXAMPLE_PAIRS` 设置每个
+把命令末尾的 `1` 换成 `2`、`3`、`4` 或 `5` 即可运行更大的 tier。`EXAMPLE_PAIRS` 设置每个
 Illumina 样本保留的配对读段数（默认 800,000 对，对 5 Mb 基因组、150 bp 读长约为 50
 倍）；如需满深度组装可调高。ONT 读段全部保留，因为模块 01b 会用 Filtlong 按目标碱
 基数过滤。下载过程可断点续跑，已完成的文件会自动跳过。
@@ -134,16 +157,16 @@ pyseer。ENA 中只有年份的日期在 `metadata_dates.csv` 中按年中处理
 不同的 AMRFinderPlus 药物类别时记为 1；随后可用 `TRAIT=MDR_genotypic` 重跑模块
 13。在真实研究中，应在 `config/traits.csv` 中用实测药敏结果替换这两个性状。
 
-## 物种确认与单物种子集（tier 4）
+## 物种确认与单物种子集（tier 4 与 5）
 
-tier 4 的各类病原不共用同一参考，因此完整的 44 株面板只运行逐样本模块和一道明确的
-身份门控：模块 04.5 把每个组装对全部参考计算 FastANI，ANI 不低于 95% 判为同一物种，
-并把结肠弯曲菌与空肠弯曲菌参考区分为近缘种。除唐菖蒲伯克霍尔德菌外，模块 06.1 都会
-给出 MLST 序列型；模块 06.4 在 `easywgs_markers` 库构建后完成位点筛查（见
-[专化病原](specialized-pathogens.zh.md)与[安装](installation.zh.md)）。
+tier 4 和 tier 5 的各类病原不共用同一参考，因此完整的 71 株面板只运行逐样本模块和一
+道明确的身份门控：模块 04.5 把每个组装对全部参考计算 FastANI，ANI 不低于 95% 判为同
+一物种，并把结肠弯曲菌与空肠弯曲菌参考区分为近缘种。除唐菖蒲伯克霍尔德菌、结核分枝
+杆菌和布鲁菌外，模块 06.1 都会给出 MLST 序列型；模块 06.4 在 `easywgs_markers` 库构
+建后完成位点筛查（见[专化病原](specialized-pathogens.zh.md)与[安装](installation.zh.md)）。
 
 比较类模块（08 泛基因组、09 核心 SNP、10 TreeTime、12 参考比对、13 GWAS）假定单一
-物种和一个共享参考，因此在 tier 4 上应按单物种子集运行，而不是一次性对全部样本运行：
+物种和一个共享参考，因此在 tier 4 或 5 上应按单物种子集运行，而不是一次性对全部样本运行：
 
 ```bash
 python examples/scripts/make_samplesheets.py 4
@@ -152,6 +175,9 @@ cp examples/generated/subset_species_campylobacter/samplesheet.csv  config/my_sa
 cp examples/generated/subset_species_campylobacter/metadata_dates.csv config/metadata_dates.csv
 cp examples/generated/subset_species_campylobacter/traits.csv        config/traits.csv
 bash run_all.sh config/my_samples.csv 08
+# tier 5 用法相同，例如对金葡分组：
+#   python examples/scripts/make_samplesheets.py 5
+#   python examples/scripts/subset_samplesheet.py 5 saureus
 ```
 
 ## 使用你自己的分离株
@@ -174,6 +200,15 @@ bash run_all.sh config/my_samples.csv 08
 | 空肠/结肠弯曲菌 | PRJEB55463、PRJEB57556 |
 | 唐菖蒲伯克霍尔德菌 | PRJNA475751、PRJNA720893 |
 | 肉毒梭菌 | PRJNA233459、PRJNA610151、PRJNA666195 |
+| 金黄色葡萄球菌 | PRJEB56111、PRJEB55240 |
+| 阪崎克罗诺杆菌 | PRJNA798519、PRJNA399551、PRJNA778615 |
+| 痢疾志贺菌 | PRJNA937403、PRJNA1396916、PRJEB45383 |
+| 霍乱弧菌 | PRJEB55717、PRJEB65303、PRJEB69478 |
+| 炭疽杆菌 | PRJNA975971、PRJEB9705、PRJNA1086569 |
+| 蜡样芽胞杆菌 | PRJEB81290、PRJNA539852、PRJEB86181 |
+| 鼻疽伯克霍尔德菌 | PRJNA733297、PRJNA789772、PRJNA214255 |
+| 结核分枝杆菌 | PRJEB56100、PRJEB57919 |
+| 羊种布鲁菌 | PRJNA347914、PRJNA1290416、PRJNA1070976 |
 
 参考基因组与 PhiX 对照的 RefSeq、GenBank accession 列于
 [`examples/panel.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/panel.tsv)。

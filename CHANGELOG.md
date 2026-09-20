@@ -2,6 +2,36 @@
 
 This project follows semantic versioning; dates use ISO format.
 
+## [0.5.0] - 2026-09-20
+
+### Added
+
+- Tier 5 of the worked-example panel: 27 accession-verified Illumina isolates
+  across nine further pathogen groups (*S. aureus*, *C. sakazakii*,
+  *S. dysenteriae*, *V. cholerae*, *B. anthracis*, *B. cereus*, *B. mallei*,
+  *M. tuberculosis* and *B. melitensis*), extending the panel to 71 isolates
+  across 19 groups.
+- The tier-5 groups reuse the FastANI identity gate (04.5), MLST (06.1) and
+  custom marker screen (06.4) without new workflow logic; module 06.2 now
+  dispatches the new species codes and documents spaTyper/SCCmecFinder for
+  *S. aureus*, BTyper3 for the *B. cereus* group, and TB-Profiler/Mykrobe for
+  *M. tuberculosis* as optional external tools.
+- 47 curated markers in `easywgs_markers` (species, toxin, surface, resistance,
+  plasmid and secretion loci, including the pXO1/pXO2 plasmids), expected-result
+  rules P24 to P39, and tool-catalog rows for the optional specialized callers.
+- Shared-database support documented for CheckM2, eggNOG, Bakta and GUNC,
+  including manual CheckM2 `setdblocation` paths for clusters where the one-click
+  download is interrupted; bilingual specialized-pathogen, walkthrough and
+  README updates.
+
+### Notes
+
+- *M. tuberculosis* and *Brucella* have no classic seven-gene MLST scheme in the
+  mlst database; they are confirmed by FastANI and analyzed with dedicated
+  lineage or cgMLST tools. High-consequence pathogens are covered for in silico
+  teaching on public data only, with genotype-not-phenotype and biosecurity
+  caveats in the guidebook.
+
 ## [0.4.0] - 2026-09-20
 
 ### Added

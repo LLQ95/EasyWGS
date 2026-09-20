@@ -2,6 +2,18 @@
 
 See the root CHANGELOG.md for the full history.
 
+## 0.5.0 (2026-09-20)
+
+Tier 5 of the panel adds nine further pathogen groups (27 Illumina isolates, 71 in total):
+*S. aureus*, *C. sakazakii*, *S. dysenteriae*, *V. cholerae*, *B. anthracis*, *B. cereus*,
+*B. mallei*, *M. tuberculosis* and *B. melitensis*. They reuse the FastANI gate (04.5), MLST
+(06.1) and custom marker screen (06.4); module 06.2 documents spaTyper/SCCmecFinder, BTyper3
+and TB-Profiler/Mykrobe as optional callers. Added 47 curated markers, expected-result rules
+P24 to P39, specialized tool rows, and shared-database (CheckM2/eggNOG/Bakta/GUNC) paths with
+manual CheckM2 database setup. *M. tuberculosis* and *Brucella* have no seven-gene MLST scheme
+and use FastANI plus dedicated lineage tools; high-consequence pathogens are covered for in
+silico teaching on public data only.
+
 ## 0.4.0 (2026-09-20)
 
 Tier 4 of the panel adds five specialized pathogen groups (15 Illumina isolates, 44 in

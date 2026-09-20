@@ -1,7 +1,7 @@
 # easywgs_markers curated marker list for module 06.4 (abricate custom database).
 #
-# This file lists the gene/locus markers used to screen the five tier-4 pathogen
-# groups when no single maintained command-line serotyper exists. It is a
+# This file lists the gene/locus markers used to screen the tier-4 and tier-5
+# pathogen groups when no single maintained command-line serotyper exists. It is a
 # shopping list and provenance table, NOT the database itself: the sequences are
 # not shipped in git and are not auto-downloaded. Fetch each sequence from the
 # cited RefSeq reference genome, VFDB or PubMLST record, concatenate them into
@@ -12,8 +12,9 @@
 #  marker_id     required FASTA header prefix (one sequence, or several alleles
 #                sharing the prefix, e.g. CB_bont|A, CB_bont|B)
 #  species_code  panel.tsv species_code the marker applies to
-#  locus_class   species / surface_O / surface_K / surface_capsule / toxin /
-#                virulence / T3SS / pYV_plasmid / discriminator
+#  locus_class   species / surface_O / surface_K / surface_capsule / surface_protein / toxin /
+#                virulence / resistance / T3SS / T4SS / pYV_plasmid / pXO1_plasmid /
+#                pXO2_plasmid / discriminator
 #  gene_or_locus canonical gene symbol(s)
 #  description   what presence means and the typing limitation
 #  sequence_source authoritative reference to extract the sequence from
@@ -55,3 +56,50 @@ CB_botR	clostridium	toxin	botR	alternative sigma factor regulating the toxin clu
 BG_bonJ	burkholderia	toxin	bonJ	core gene of the bongkrekic-acid (bon) biosynthesis cluster; reported in B. gladioli pv. cocovenenans, typically absent from ordinary clinical B. gladioli	B. gladioli pv. cocovenenans Co14 reference; Moebius et al., 2012
 BG_bonF	burkholderia	toxin	bonF	oxidative tailoring gene of the bongkrekic-acid cluster	B. gladioli pv. cocovenenans Co14 reference; Moebius et al., 2012
 BG_toxA	burkholderia	toxin	toxA	toxoflavin biosynthesis (tox) cluster gene; toxoflavin is a second B. gladioli/B. glumae toxin	B. gladioli ATCC 10248 (GCF_000959725) and published toxoflavin-cluster references
+SA_nuc	saureus	species	nuc	thermostable nuclease; species-specific S. aureus marker	RefSeq GCF_000009645 (N315); VFDB
+SA_mecA	saureus	resistance	mecA	penicillin-binding protein 2a (PBP2a) conferring methicillin resistance (MRSA), carried on SCCmec	RefSeq GCF_000009645; SCCmecFinder/NCBI
+SA_mecC	saureus	resistance	mecC	mecA homologue conferring methicillin resistance in livestock-associated lineages	RefSeq; SCCmecFinder
+SA_lukSPV	saureus	toxin	lukS-PV (lukF-PV)	S component of the Panton-Valentine leukocidin; fetch lukF-PV alongside	RefSeq GCF_000009645; VFDB
+SA_tst	saureus	toxin	tst	toxic shock syndrome toxin 1	RefSeq GCF_000009645; VFDB
+SA_eta	saureus	toxin	eta	exfoliative toxin A (staphylococcal scalded-skin syndrome)	RefSeq; VFDB
+SA_etb	saureus	toxin	etb	exfoliative toxin B	RefSeq; VFDB
+SA_sea	saureus	toxin	sea	staphylococcal enterotoxin A; extend with seb/sec/see/seg as needed	RefSeq GCF_000009645; VFDB
+SA_spa	saureus	surface_protein	spa	protein A with the Xr repeat region; spa TYPE needs the repeat succession from spaTyper, not one generic sequence	RefSeq GCF_000009645; PubMLST Staphylococcus
+CS_ompA	cronobacter	virulence	ompA	outer membrane protein A associated with invasion and neonatal meningitis	RefSeq GCF_000017665 (ATCC BAA-894); VFDB
+CS_zpx	cronobacter	species	zpx	Cronobacter genus-specific zinc metalloprotease	RefSeq GCF_000017665
+CS_cpa	cronobacter	virulence	cpa	Cronobacter plasminogen activator	RefSeq GCF_000017665; VFDB
+DY_ipaH	ecoli	species	ipaH	multicopy invasion-plasmid antigen H; Shigella/EIEC marker	RefSeq GCF_000012005 (Sd197); VFDB
+DY_stxA	ecoli	toxin	stxA (stx1A)	Shiga toxin subunit A; characteristic of S. dysenteriae serotype 1	RefSeq GCF_000012005; VFDB
+DY_virF	ecoli	virulence	virF	invasion-plasmid transcriptional activator	RefSeq GCF_000012005; VFDB
+DY_icsA	ecoli	virulence	icsA (virG)	actin-polymerization protein for intracellular and intercellular spread	RefSeq GCF_000012005; VFDB
+VC_ompW	cholerae	species	ompW	species-specific outer membrane protein	RefSeq GCF_000006745 (N16961); VFDB
+VC_ctxA	cholerae	toxin	ctxA	cholera toxin A subunit carried on the CTX prophage	RefSeq GCF_000006745; VFDB
+VC_ctxB	cholerae	toxin	ctxB	cholera toxin B subunit; classical and El Tor variants need allele references	RefSeq GCF_000006745; VFDB
+VC_tcpA	cholerae	virulence	tcpA	major subunit of the toxin-coregulated pilus; biotype-specific alleles	RefSeq GCF_000006745; VFDB
+VC_toxR	cholerae	virulence	toxR	membrane-bound master regulator of ctx and tcp expression	RefSeq GCF_000006745; VFDB
+VC_hlyA	cholerae	toxin	hlyA	El Tor hemolysin	RefSeq GCF_000006745; VFDB
+VC_zot	cholerae	toxin	zot	zonula occludens toxin carried on the CTX prophage	RefSeq GCF_000006745; VFDB
+VC_wbeT	cholerae	surface_O	wbeT (rfbT)	O1 Ogawa/Inaba determinant; the O group needs type-specific locus references	RefSeq GCF_000006745; PubMLST Vibrio
+VC_wbf	cholerae	surface_O	wbf cluster	O139 O-antigen/capsule region distinguishing O139 from O1 isolates	RefSeq GCF_000006745; published O139 references
+BA_pagA	anthracis	pXO1_plasmid	pagA	protective antigen toxin component on virulence plasmid pXO1	RefSeq GCF_000008445 (Ames Ancestor); VFDB
+BA_cya	anthracis	pXO1_plasmid	cya	edema factor adenylate cyclase on pXO1	RefSeq GCF_000008445; VFDB
+BA_lef	anthracis	pXO1_plasmid	lef	lethal factor zinc metalloprotease on pXO1	RefSeq GCF_000008445; VFDB
+BA_atxA	anthracis	pXO1_plasmid	atxA	anthrax toxin activator regulating the pXO1 toxin genes	RefSeq GCF_000008445
+BA_capA	anthracis	pXO2_plasmid	capA	poly-D-glutamate capsule biosynthesis gene on pXO2	RefSeq GCF_000008445; VFDB
+BA_capB	anthracis	pXO2_plasmid	capB	capsule biosynthesis gene on pXO2	RefSeq GCF_000008445; VFDB
+BA_capC	anthracis	pXO2_plasmid	capC	capsule biosynthesis gene on pXO2; both pXO1 and pXO2 markers define classic virulent B. anthracis	RefSeq GCF_000008445; VFDB
+BCe_nheA	cereus	toxin	nheA	non-haemolytic enterotoxin complex component A	RefSeq GCF_000007825 (ATCC 14579); VFDB
+BCe_nheC	cereus	toxin	nheC	non-haemolytic enterotoxin complex component C	RefSeq GCF_000007825; VFDB
+BCe_hblA	cereus	toxin	hblA	haemolysin BL binding component	RefSeq GCF_000007825; VFDB
+BCe_cytK	cereus	toxin	cytK	cytotoxin K necrotizing enterotoxin	RefSeq GCF_000007825; VFDB
+BCe_cesA	cereus	toxin	cesA	cereulide peptide synthetase of the emetic toxin on plasmid pCER270	RefSeq; BTyper3 and published emetic-isolate references
+BCe_piplc	cereus	virulence	piplc	phosphatidylinositol-specific phospholipase C	RefSeq GCF_000007825; VFDB
+BMa_bimA	mallei	virulence	bimA	Burkholderia intracellular motility A driving actin-based spread	RefSeq GCF_000011705 (ATCC 23344); VFDB
+BMa_bsaU	mallei	T3SS	bsaU	structural component of the bsa (T3SS-3) secretion system; no single B. mallei-specific WGS marker exists, so use FastANI and the bpseudomallei MLST scheme	RefSeq GCF_000011705; VFDB
+MT_esxA	mtuberculosis	virulence	esxA (ESAT-6)	early secreted antigenic target 6 kDa in the RD1 region; lineage and resistance come from mapping to H37Rv plus TB-Profiler/Mykrobe, not from 06.4	RefSeq GCF_000195955 (H37Rv)
+MT_esxB	mtuberculosis	virulence	esxB (CFP-10)	culture filtrate protein 10 kDa in the RD1 region; 06.4 is auxiliary and is not a lineage caller	RefSeq GCF_000195955 (H37Rv)
+BR_bcsp31	brucella	species	bcsp31	31-kDa immunodominant outer-membrane protein; Brucella genus marker	RefSeq GCF_000250795 (bv.1 16M)
+BR_IS711	brucella	discriminator	IS711 (IS6501)	multicopy insertion sequence used in Brucella species and biovar PCR assays	RefSeq GCF_000250795; published IS711 assays
+BR_omp2b	brucella	virulence	omp2b	outer membrane protein 2b	RefSeq GCF_000250795
+BR_virB5	brucella	T4SS	virB5	component of the VirB type IV secretion system	RefSeq GCF_000250795; VFDB
+BR_wbkA	brucella	surface_O	wbkA	smooth LPS O-antigen biosynthesis gene in the wbk region	RefSeq GCF_000250795; published Brucella LPS references

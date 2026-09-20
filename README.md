@@ -69,20 +69,23 @@ bash run_all.sh config/my_samples.csv 06          # or resume from a given step
 
 The samplesheet field `platform` is one of illumina / nanopore / pacbio / hybrid and selects
 the assembly route; `species` is one of kpsc / ecoli / salm / listeria / vibrio / yersinia /
-campylobacter / burkholderia / clostridium / other and selects the
+campylobacter / burkholderia / clostridium / saureus / cronobacter / cholerae /
+anthracis / cereus / mallei / mtuberculosis / brucella / other and selects the
 typing schedule. Final assemblies are standardized to `03_assembly/genomes/{id}.fasta`
 (fragments shorter than 200 nt removed), which every later module consumes.
 
 ## Worked example on a multi-pathogen public panel
 
 [`examples/`](examples/) runs the complete workflow end to end on real, accession-verified
-public isolates spanning ten pathogen groups (Salmonella, K. pneumoniae, E. coli,
-L. monocytogenes, Shigella, V. parahaemolyticus, Y. enterocolitica, C. jejuni/C. coli,
-B. gladioli and C. botulinum), with a twelve-isolate temporal Salmonella collection, five
-matched Illumina/Nanopore hybrid isolates, and five specialized groups, organized as nested
-tiers of 10, 20, 29 and 44 samples. Tier 4 adds FastANI species confirmation (module 04.5)
-and a custom toxin/surface-locus screen (module 06.4), and the comparative modules are run
-on single-species subsets.
+public isolates spanning 19 pathogen groups (the ten tier 1-4 groups plus
+S. aureus, C. sakazakii, S. dysenteriae, V. cholerae, B. anthracis, B. cereus,
+B. mallei, M. tuberculosis and B. melitensis), with a twelve-isolate temporal
+Salmonella collection, five matched Illumina/Nanopore hybrid isolates and
+fourteen specialized groups, organized as nested tiers of 10, 20, 29, 44 and
+71 samples. Tier 4 adds FastANI species confirmation (module 04.5) and a custom
+toxin/surface-locus screen (module 06.4); tier 5 extends both to nine further
+pathogen groups, with dedicated lineage callers for M. tuberculosis and the
+B. cereus group, and the comparative modules are run on single-species subsets.
 Reads are downloaded from ENA/NCBI on demand and downsampled so the tutorial runs on an ordinary
 server; an expected-result checker reports PASS/WARN/FAIL and a controlled PhiX plus
 near-neighbour spike-in validates the two decontamination layers.
@@ -110,6 +113,15 @@ for the panel accessions, outputs and collection-level analysis.
 | C. jejuni / C. coli (campylobacter) | mlst (Campylobacter) | module 06.4 cdt/cadF/flaA and capsule locus | PubMLST jejuni-coli |
 | B. gladioli (burkholderia) | none; FastANI identity | module 06.4 bongkrekic-acid bon and toxoflavin tox | PrepExternalSchema |
 | C. botulinum (clostridium) | mlst (C. botulinum) | module 06.4 bont/ntnh; MOB-suite locus location | PrepExternalSchema |
+| S. aureus (saureus) | mlst (S. aureus) | module 06.4 nuc/mecA/PVL/tst; spaTyper and SCCmecFinder optional | PubMLST Staph |
+| C. sakazakii (cronobacter) | mlst (Cronobacter genus) | module 06.4 ompA/zpx/cpa; PubMLST O-antigen resources | PrepExternalSchema |
+| S. dysenteriae (ecoli) | mlst (E. coli) | ECTyper + ShigEiFinder; module 06.4 ipaH/stxA/virF | EnteroBase E./Shigella |
+| V. cholerae (cholerae) | mlst (V. cholerae) | module 06.4 ompW/ctx/tcpA and O1/O139 loci | PubMLST Vibrio |
+| B. anthracis (anthracis) | mlst (B. cereus group) | module 06.4 pXO1 pag/cya/lef and pXO2 cap; BTyper3 optional | PrepExternalSchema |
+| B. cereus (cereus) | mlst (B. cereus group) | module 06.4 nhe/hbl/cytK/ces; BTyper3 panC optional | PrepExternalSchema |
+| B. mallei (mallei) | mlst (B. pseudomallei group) | module 06.4 bimA/bsa; curated SNP phylogeny for species split | PrepExternalSchema |
+| M. tuberculosis (mtuberculosis) | none; FastANI identity | map to H37Rv then TB-Profiler/Mykrobe; module 06.4 esx auxiliary | lineage callers |
+| B. melitensis (brucella) | none; FastANI identity | module 06.4 bcsp31/IS711/omp2b/wbkA; external cgMLST/MLVA | Brucella cgMLST |
 | other | mlst auto-detect | extend as needed | PrepExternalSchema |
 
 ## WGS tool catalog
@@ -198,6 +210,10 @@ Prokka to Bakta, Roary to Panaroo, SEER to pyseer). The machine-readable table i
 | SeqSero2 | A | Salmonella antigenic formula from reads or assembly | [GitHub](https://github.com/denglab/SeqSero2) |
 | SISTR | A | Salmonella serovar prediction with cgMLST | [GitHub](https://github.com/phac-nml/sistr_cmd) |
 | chewBBACA | A | cgMLST schema building, allele calling and evaluation | [GitHub](https://github.com/B-UMMI/chewBBACA) |
+| spaTyper / SCCmecFinder | A | S. aureus spa repeat and SCCmec cassette typing (optional) | [CGE website](https://www.genomicepidemiology.org/) |
+| BTyper3 | A | B. cereus group panC group and virulence typing (optional) | [GitHub](https://github.com/lmc297/BTyper3) |
+| TB-Profiler | A | M. tuberculosis lineage and drug resistance (optional) | [GitHub](https://github.com/jodyphelan/TBProfiler) |
+| Mykrobe | A | rapid k-mer AMR for M. tuberculosis and S. aureus (optional) | [GitHub](https://github.com/Mykrobe-tools/mykrobe) |
 
 ### Antimicrobial resistance, virulence and mobile elements
 

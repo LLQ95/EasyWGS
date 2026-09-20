@@ -1,9 +1,9 @@
 # 专化病原：物种确认、毒素与表面位点分型
 
-EasyWGS 最早纳入的几类病原（沙门菌、肺炎克雷伯菌、大肠埃希菌/志贺菌、单增李斯特菌）都有持续维护的命令行血清型工具，而另外几类常见病原并非如此。对于副溶血性弧菌、小肠结肠炎耶尔森菌、空肠/结肠弯曲菌、唐菖蒲伯克霍尔德菌和肉毒梭菌，血清型或毒素型别仍主要依据表面多糖位点、毒素基因和毒力标记来判定，缺少统一的分型软件。EasyWGS 因此为这些病原组合了三个可复现的环节：FastANI 全基因组物种确认（模块 04.5）、模块 06.1 的七基因 MLST 序列型，以及模块 06.4 基于 abricate 的表面位点、毒素与毒力位点筛查。带权威来源的标记清单见
+EasyWGS 最早纳入的几类病原（沙门菌、肺炎克雷伯菌、大肠埃希菌/志贺菌、单增李斯特菌）都有持续维护的命令行血清型工具，而另外许多常见病原并非如此。对于 tier 4 的副溶血性弧菌、小肠结肠炎耶尔森菌、空肠/结肠弯曲菌、唐菖蒲伯克霍尔德菌和肉毒梭菌，以及 tier 5 新增的金黄色葡萄球菌、阪崎克罗诺杆菌、痢疾志贺菌、霍乱弧菌、炭疽杆菌、蜡样芽胞杆菌、鼻疽伯克霍尔德菌、结核分枝杆菌和羊种布鲁菌，血清型、谱系或毒素型别主要依据表面多糖位点、毒素基因、毒力与耐药标记，或借助专门的谱系判定工具来确定，缺少一个统一的分型软件。EasyWGS 因此为这些病原组合了三个可复现的环节：FastANI 全基因组物种确认（模块 04.5）、模块 06.1 的七基因 MLST 序列型，以及模块 06.4 基于 abricate 的表面位点、毒素与毒力位点筛查。带权威来源的标记清单见
 [`examples/customdb/easywgs_markers.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/customdb/easywgs_markers.tsv)。
 
-示范面板的第 4 层（tier 4）为这五类病原各加入 3 株 Illumina 样本，使整个面板从 29 株扩展到 44 株、覆盖十个病原类群。所有测序登录号和参考基因组均已在 ENA 与 NCBI 核实， accession 表见
+示范面板的第 4 层（tier 4）为上述五类病原各加入 3 株 Illumina 样本，第 5 层（tier 5）再为九类新病原各加入 3 株，使面板从 29 株先后扩展到 44 株和 71 株、覆盖 19 个病原类群。所有测序登录号和参考基因组均已在 ENA 与 NCBI 核实，accession 表见
 [`examples/panel.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/panel.tsv)。
 
 ## 用 FastANI 做物种确认（模块 04.5）
@@ -52,9 +52,41 @@ PROJECT=$PWD bash 06_typing/06.4.surface_toxin_loci.sh
 
 参考为 ATCC 3502 株（GCF_000063585；taxid 1491），`mlst` 使用肉毒梭菌 scheme。肉毒神经毒素位点 `bont`（也注释为 `cnt`）决定 A 至 G 型、嵌合毒素及众多亚型；标记筛查只能判断有无，型别需要为每个亚型加入一条 curated 参考等位。其侧翼的无毒非血凝素 `ntnh`、血凝素组分 `ha33` 和毒素簇调控因子 `botR` 可提供基因簇上下文。亚型级毒素判定的一个成熟替代方案是 Bactopia 项目的 GAMMA 模块，配合 curated 的神经毒素参考集。由于 `bont` 可位于染色体或质粒上，模块 07 已运行 [MOB-suite](https://github.com/phac-nml/mob-suite) 重建并分型质粒 contig，标记结果应与该重建结果一起判读。
 
+### 金黄色葡萄球菌（Staphylococcus aureus）
+
+参考为 N315（GCF_000009645；taxid 1280），是一株 MRSA，`mlst` 使用金黄色葡萄球菌 scheme。耐热核酸酶基因 `nuc` 是物种特异标记。甲氧西林耐药通过 `mecA` 及其同源基因 `mecC` 判断，二者位于 SCCmec 盒上；模块 07 报告基因，盒型与 mec 复合体需用 SCCmecFinder 或开源的 staphopia-sccmec。毒素标记包括潘顿-瓦伦丁杀白细胞素（`lukS-PV` 与 `lukF-PV`）、中毒性休克毒素 `tst`、剥脱性毒素 `eta` 与 `etb`，以及葡萄球菌肠毒素 `sea`（需要时可扩展 `seb/sec/see/seg`）。`spa` 型由 Xr 重复序列的排列决定，因此模块 06.4 中通用的 `spa` 阳性命中不能直接定型，需用 spaTyper 做重复序列判定。spaTyper 与 SCCmecFinder 仅在本指南中说明，不装入核心环境。
+
+### 阪崎克罗诺杆菌（Cronobacter sakazakii）
+
+参考为 ATCC BAA-894（GCF_000017665；taxid 28141）。`mlst` 提供克罗诺杆菌属级 scheme，覆盖阪崎克罗诺杆菌及属内其他种。模块 06.4 的标准身份与毒力标记为外膜蛋白 `ompA`、属特异的锌金属蛋白酶 `zpx` 和克罗诺杆菌纤溶酶原激活因子 `cpa`。目前没有统一维护的开源血清型工具；属内物种判定与 O 抗原血清群宜结合属级 MLST、FastANI 身份和 PubMLST Cronobacter O 抗原资源综合判断。
+
+### 痢疾志贺菌（Shigella dysenteriae）
+
+参考为 Sd197（GCF_000012005），为 1 型菌株。志贺菌在物种上归属于大肠埃希菌，因此 `mlst` 使用大肠埃希菌 scheme，模块 06.2 也将其走大肠分支，运行 ECTyper 和 ShigEiFinder。模块 06.4 另加入多拷贝侵袭质粒标记 `ipaH`、1 型特征性的志贺毒素基因 `stxA`、侵袭调控因子 `virF` 和驱动肌动蛋白扩散的 `icsA`（`virG`）。ShigEiFinder 可将痢疾志贺菌与其他志贺菌及 EIEC 区分。`stxA` 阳性只代表基因型，不能仅凭此判定产毒表型。
+
+### 霍乱弧菌（Vibrio cholerae）
+
+参考为 O1 El Tor 株 N16961（GCF_000006745；taxid 666），`mlst` 使用霍乱弧菌 scheme。外膜蛋白 `ompW` 为物种特异标记。霍乱毒素基因 `ctxA` 与 `ctxB`、毒素共调菌毛 `tcpA`（其等位具有生物型特异性）、主调控因子 `toxR`、El Tor 溶血素 `hlyA` 和紧密连接毒素 `zot`，部分位于 CTX 前噬菌体及其相关区域。O1 的 Ogawa/Inaba 决定位点 `wbeT`（`rfbT`）以及 O139 的 `wbf` 区域以 `surface_O` 标注；判定 O1 亚型或 O139 需要型别特异参考，单条通用序列无法定型，也没有统一的命令行工具。`ctxA` 基因型须结合前噬菌体与生物型上下文判读，不能直接作为产毒株的证据。
+
+### 炭疽杆菌与蜡样芽胞杆菌群
+
+炭疽杆菌参考为 Ames Ancestor（GCF_000008445；taxid 1392），同时携带两个毒力质粒；蜡样芽胞杆菌参考为 ATCC 14579（GCF_000007825；taxid 1396）。`mlst` 数据库对二者使用同一个蜡样芽胞杆菌群 scheme，没有单独的炭疽 scheme。典型致病炭疽杆菌需同时具备 pXO1 上的毒素基因 `pagA`、`cya`、`lef` 及调控因子 `atxA`，以及 pXO2 上的荚膜基因 `capA`、`capB`、`capC`；要求两个质粒齐全可将其与多数广义蜡样芽胞杆菌以及丢失质粒的 Ames 株区分。蜡样芽胞杆菌标记包括非溶血肠毒素 `nheA/nheC`、溶血素 BL `hblA`、细胞毒素 `cytK`、磷脂酰肌醇磷脂酶 `piplc`，以及位于呕吐株 pCER270 质粒上的蜡样环肽合成酶 `cesA`。BTyper3 可作为可选外部工具，提供 panC 系统群以及毒力和次级代谢位点判定。pXO1/pXO2 基因型仅为 in silico 教学结果，不构成管制因子认定。
+
+### 鼻疽伯克霍尔德菌（Burkholderia mallei）
+
+参考为 ATCC 23344（GCF_000011705；taxid 13373）。鼻疽菌是类鼻疽伯克霍尔德菌的克隆性、宿主适应近缘种，`mlst` 数据库因其没有独立 scheme 而映射到类鼻疽 scheme。模块 06.4 报告驱动肌动蛋白运动的 `bimA` 和 bsa III 型分泌组分 `bsaU`。不存在单一的鼻疽菌特异 WGS 标记；物种身份依靠对参考的 FastANI、特征性的双染色体基因组大小以及类鼻疽 scheme 的 ST 综合确认。将鼻疽菌与类鼻疽菌区分并做种下鉴定，通常需要 curated 的 SNP 系统发育，而非存在性筛查。
+
+### 结核分枝杆菌（Mycobacterium tuberculosis）
+
+参考为 H37Rv（GCF_000195955.2；taxid 1773）。`mlst` 数据库没有结核分枝杆菌复合群的经典七基因 scheme，因此模块 06.1 不产生 ST，身份通过对 H37Rv 的 FastANI 确认。推荐路线是先用参考比对流程（模块 12）比对到 H37Rv，再用 TB-Profiler 或 Mykrobe 做谱系和耐药判定；fast-lineage-caller 和 MTBseq 是另外的命令行选择。模块 06.4 中的 RD1 抗原 `esxA`（ESAT-6）和 `esxB`（CFP-10）仅作辅助身份标记。该种耐药主要由 SNP 和特定等位驱动，基因有无筛查不足以判定，应使用感知 SNP 的工具。
+
+### 羊种布鲁菌（Brucella melitensis）
+
+参考为生物型 1 株 16M（GCF_000250795），含两条染色体。`mlst` 数据库没有布鲁菌的经典七基因 scheme，身份依靠 FastANI 和特征性的双染色体基因组大小确认，而非 ST。模块 06.4 报告属特异的 31-kDa 蛋白 `bcsp31`、用于物种和生物型 PCR 检测的多拷贝插入序列 IS711（IS6501）、外膜蛋白 `omp2b`、VirB IV 型分泌组分 `virB5` 以及光滑型 LPS O 抗原基因 `wbkA`。区分羊种布鲁菌生物型或布鲁菌属内物种，宜使用已发表的 cgMLST 或 MLVA scheme 以及 IS711 检测并配合 curated 参考，而非单一通用标记。
+
 ## 在面板上运行比较模块
 
-模块 08（泛基因组）、09（核心 SNP）、10（TreeTime）、12（参考比对）和 13（GWAS）都假定单一物种和一个共享参考。在混合的 44 株面板上，这些模块应在单物种子集上运行，而不是一次性对全部样本运行。辅助脚本
+模块 08（泛基因组）、09（核心 SNP）、10（TreeTime）、12（参考比对）和 13（GWAS）都假定单一物种和一个共享参考。在混合的 71 株面板上，这些模块应在单物种子集上运行，而不是一次性对全部样本运行。辅助脚本
 [`examples/scripts/subset_samplesheet.py`](https://github.com/LLQ95/EasyWGS/blob/main/examples/scripts/subset_samplesheet.py)
 按 `species_code`（默认）或面板 `group` 过滤指定层级生成的样本表、日期和性状文件，并打印后续复制与运行命令。
 
@@ -72,3 +104,5 @@ bash run_all.sh config/my_samples.csv 08
 ## 范围与局限
 
 自定义筛查是基于透明、用户自备参考序列的存在性判断层，不能替代 PubMLST 等 curated 服务在权威定型或监测报送中的作用。型别特异的判定（O/K、Penner、BoNT 亚型）需要相应参考等位，并需人工检查覆盖度与位点上下文。毒素基因阳性只代表基因型层面的潜能，必须结合表型、质粒或染色体定位以及相关生物安全规定共同解释。示范样本来自公开监测或临床株，并不保证为产毒株；流程报告的是基因型，不直接断言产毒表型。
+
+tier 5 中有若干高后果或受管制病原，包括炭疽杆菌、鼻疽伯克霍尔德菌、布鲁菌、结核分枝杆菌、产毒霍乱弧菌和痢疾志贺菌 1 型。EasyWGS 仅对公开测序数据做用于教学与监测生物信息学的 in silico 分析，不含任何湿实验、培养或操作步骤；基因型结果既不是风险分级，也不是许可或管制认定。任何针对这些生物的实体工作都必须遵守所在国家的生物安全与管制病原规定。

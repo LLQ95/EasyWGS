@@ -9,7 +9,11 @@ TreeTime and GWAS demonstrations (29 samples). Tier 4 adds three Illumina
 isolates from each of five further pathogen groups, Vibrio parahaemolyticus,
 Yersinia enterocolitica, Campylobacter jejuni/C. coli, Burkholderia gladioli
 and Clostridium botulinum, giving a 44-sample panel for FastANI species
-confirmation and custom toxin/surface-locus screening.
+confirmation and custom toxin/surface-locus screening. Tier 5 adds three
+Illumina isolates from each of nine further groups, Staphylococcus aureus,
+Cronobacter sakazakii, Shigella dysenteriae, Vibrio cholerae, Bacillus
+anthracis, Bacillus cereus, Burkholderia mallei, Mycobacterium tuberculosis and
+Brucella melitensis, giving a 71-sample panel that spans 19 pathogen groups.
 
 Outputs are written to examples/generated/ and copied into config/ by
 01_run_panel.sh. No sequencing data are fabricated: dates and countries are

@@ -1,6 +1,6 @@
 # Expected-result rules for the EasyWGS multi-pathogen panel.
 # scope   : per_isolate (rows of examples/results/panel_metrics.tsv) or collection
-# group   : all, or a panel.tsv group; tier-4 groups are vibrio/yersinia/campylobacter/burkholderia/clostridium
+# group   : all, or a panel.tsv group; tier-4 groups are vibrio/yersinia/campylobacter/burkholderia/clostridium; tier-5 groups are saureus/cronobacter/dysenteriae/cholerae/anthracis/cereus/mallei/mtuberculosis/brucella
 # metric  : column name in panel_metrics.tsv, or metric key in collection_stats.tsv
 # operator: exists | nonempty | equals | >= | <= | == | in_range
 # threshold: number, text, or min..max for in_range
@@ -31,7 +31,26 @@ P20	per_isolate	vibrio	ST	nonempty	-	MLST Vibrio scheme must return a sequence t
 P21	per_isolate	yersinia	ST	nonempty	-	MLST Yersinia scheme must return a sequence type
 P22	per_isolate	campylobacter	ST	nonempty	-	MLST Campylobacter scheme must return a sequence type
 P23	per_isolate	clostridium	ST	nonempty	-	MLST C. botulinum scheme must return a sequence type
-C1	collection	all	n_samples	>=	29	tier-3 panel at minimum (29); tier 4 expands it to 44
+P24	per_isolate	saureus	length_bp	in_range	2600000..3400000	S. aureus chromosome plus plasmids
+P25	per_isolate	cronobacter	length_bp	in_range	4000000..5000000	C. sakazakii chromosome plus plasmids
+P26	per_isolate	dysenteriae	length_bp	in_range	3800000..5200000	S. dysenteriae chromosome plus invasion plasmid
+P27	per_isolate	cholerae	length_bp	in_range	3800000..4800000	V. cholerae two chromosomes plus plasmids
+P28	per_isolate	anthracis	length_bp	in_range	5000000..6000000	B. anthracis chromosome plus pXO1/pXO2
+P29	per_isolate	cereus	length_bp	in_range	5000000..6500000	B. cereus sensu lato chromosome plus plasmids
+P30	per_isolate	mallei	length_bp	in_range	5500000..6300000	B. mallei two chromosomes
+P31	per_isolate	mtuberculosis	length_bp	in_range	4100000..4800000	M. tuberculosis H37Rv-like chromosome
+P32	per_isolate	brucella	length_bp	in_range	3100000..3600000	Brucella two chromosomes
+P33	per_isolate	saureus	ST	nonempty	-	MLST S. aureus scheme must return a sequence type
+P34	per_isolate	cronobacter	ST	nonempty	-	MLST Cronobacter genus scheme must return a sequence type
+P35	per_isolate	dysenteriae	ST	nonempty	-	MLST Escherichia/Shigella scheme must return a sequence type
+P36	per_isolate	cholerae	ST	nonempty	-	MLST V. cholerae scheme must return a sequence type
+P37	per_isolate	anthracis	ST	nonempty	-	MLST B. cereus group scheme must return a sequence type
+P38	per_isolate	cereus	ST	nonempty	-	MLST B. cereus group scheme must return a sequence type
+P39	per_isolate	mallei	ST	nonempty	-	MLST B. pseudomallei group scheme must return a sequence type
+# M. tuberculosis and Brucella have no classic 7-gene MLST scheme in the mlst database; identity is
+# confirmed by FastANI (04.5), and TB-Profiler/Mykrobe lineage calls or Brucella cgMLST are documented
+# in the guidebook page "Specialized pathogens".
+C1	collection	all	n_samples	>=	29	tier-3 panel at minimum (29); tier 4 expands to 44 and tier 5 to 71
 C2	collection	all	completeness_median	>=	95	median completeness across panel
 C3	collection	all	contamination_max	<=	5	worst contamination across panel
 C4	collection	all	pangenome_gene_clusters	>=	1	Salmonella pangenome built

@@ -3,13 +3,16 @@
 This chapter runs the whole EasyWGS workflow on real, public bacterial isolates so
 that every result in the Application section of the accompanying manuscript can be
 reproduced with a small number of commands. The panel is deliberately small but
-broad. It covers ten pathogen groups rather than a single organism, includes
+broad. It covers 19 pathogen groups rather than a single organism, includes
 both short-read and matched hybrid (Illumina plus Oxford Nanopore) isolates, and adds
 a twelve-isolate temporal *Salmonella* collection for the collection-level analyses
 (pangenome, core-SNP phylogeny, time-scaled tree and genotype-phenotype association)
 that cannot be demonstrated with one genome. Tier 4 adds five further groups,
 *V. parahaemolyticus*, *Y. enterocolitica*, *C. jejuni/C. coli*, *B. gladioli* and
-*C. botulinum*, for FastANI species confirmation and toxin/surface-locus typing.
+*C. botulinum*, for FastANI species confirmation and toxin/surface-locus typing,
+and tier 5 adds nine more, *S. aureus*, *C. sakazakii*, *S. dysenteriae*, *V.
+cholerae*, *B. anthracis*, *B. cereus*, *B. mallei*, *M. tuberculosis* and *B.
+melitensis*, bringing the panel to 71 isolates across 19 groups.
 
 No sequencing reads are stored in the repository. All accessions in
 [`examples/panel.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/panel.tsv)
@@ -40,7 +43,26 @@ screens toxin, surface and virulence loci.
 | *Burkholderia gladioli* | `burkholderia` | ATCC 10248 (GCF_000959725) | USA, 1998-2019 (PRJNA475751, PRJNA720893) |
 | *Clostridium botulinum* | `clostridium` | ATCC 3502 (GCF_000063585) | Sweden 1946, Netherlands 2001, Finland 2010 |
 
-The four tiers are nested subsets of one panel.
+### Tier 5: nine additional pathogen groups
+
+Tier 5 adds three Illumina isolates from each of nine more groups. They reuse
+the FastANI (04.5), MLST (06.1) and custom marker (06.4) modules; *M.
+tuberculosis* and *Brucella* have no classic seven-gene MLST scheme and are
+confirmed by FastANI plus dedicated lineage tools.
+
+| Pathogen | `species` code | Reference | Three isolates |
+| --- | --- | --- | --- |
+| *Staphylococcus aureus* | `saureus` | N315 (GCF_000009645) | Australia 2013, Finland 1991, Poland 2020 |
+| *Cronobacter sakazakii* | `cronobacter` | ATCC BAA-894 (GCF_000017665) | China 2013, Mexico 2006, United Kingdom 2019 |
+| *Shigella dysenteriae* | `ecoli` | Sd197 (GCF_000012005) | Colombia 2019, Ethiopia 2020, India 2009 |
+| *Vibrio cholerae* | `cholerae` | N16961 (GCF_000006745) | DR Congo 2016, Lebanon 2022, Norway 2022 |
+| *Bacillus anthracis* | `anthracis` | Ames Ancestor (GCF_000008445) | China 1952, Denmark 1966, USA 2023 |
+| *Bacillus cereus* | `cereus` | ATCC 14579 (GCF_000007825) | Belgium 2022, China 2017, Czechia 2017 |
+| *Burkholderia mallei* | `mallei` | ATCC 23344 (GCF_000011705) | Bahrain 2011, Brazil 2019, France 1964 |
+| *Mycobacterium tuberculosis* | `mtuberculosis` | H37Rv (GCF_000195955.2) | India 2019, Madagascar 2019, South Africa 2013 |
+| *Brucella melitensis* | `brucella` | 16M (GCF_000250795) | Albania 2015, China 2023, Iraq 2015 |
+
+The five tiers are nested subsets of one panel.
 
 - Tier 1 contains ten samples, one short-read and one hybrid isolate per group; it is
   the fastest route and exercises every per-isolate module and both analysis routes.
@@ -52,6 +74,10 @@ The four tiers are nested subsets of one panel.
   demonstration.
 - Tier 4 contains forty-four samples and adds the five specialized groups above for
   FastANI identity confirmation and custom toxin/surface-locus screening.
+- Tier 5 contains seventy-one samples and adds nine further groups (Staph,
+  Cronobacter, dysentery Shigella, cholera, anthrax/cereus, mallei, tuberculosis,
+  Brucella) under the same identity, MLST and marker workflow, with dedicated
+  lineage callers for *M. tuberculosis* and the *B. cereus* group.
 
 Each row of `panel.tsv` records the Illumina and ONT run accessions, the BioSample
 that confirms a hybrid pair is one isolate, country, collection date, scientific name
@@ -90,7 +116,7 @@ bash examples/01_run_panel.sh 1
 bash examples/02_run_spikein.sh
 ```
 
-Replace the trailing `1` with `2`, `3` or `4` for the broader tiers. `EXAMPLE_PAIRS` sets
+Replace the trailing `1` with `2`, `3`, `4` or `5` for the broader tiers. `EXAMPLE_PAIRS` sets
 the number of matched read pairs kept per Illumina isolate (the default of 800,000 is
 roughly 50-fold for a 5 Mb genome at 150 bp); raise it for full-depth assemblies. ONT
 reads are kept whole because module 01b applies Filtlong target-base filtering.
@@ -152,19 +178,19 @@ genes span at least three distinct AMRFinderPlus drug classes, and module 13 can
 be rerun with `TRAIT=MDR_genotypic`. For a real study, replace both traits with
 measured susceptibility results in `config/traits.csv`.
 
-## Species confirmation and single-species subsets (tier 4)
+## Species confirmation and single-species subsets (tier 4 and 5)
 
-The tier-4 groups do not share one reference, so the full 44-isolate panel runs the
+The tier-4 and tier-5 groups do not share one reference, so the full 71-isolate panel runs the
 per-isolate modules and an explicit identity gate. Module 04.5 screens each assembly
 against every reference with FastANI, confirming same-species matches at ANI of at least
 95% and separating the *C. coli* isolate from the *C. jejuni* reference as a close
 relative. Module 06.1 returns the MLST sequence type for every group except
-*B. gladioli*, and module 06.4 screens the curated `easywgs_markers` database once it is
+*B. gladioli*, *M. tuberculosis* and *Brucella*, and module 06.4 screens the curated `easywgs_markers` database once it is
 built (see [Specialized pathogens](specialized-pathogens.md) and
 [Installation](installation.md)).
 
 The comparative modules (08 pangenome, 09 core-SNP, 10 TreeTime, 12 mapping, 13 GWAS)
-assume one species and one shared reference, so on tier 4 they are run on a
+assume one species and one shared reference, so on tier 4 or 5 they are run on a
 single-species subset rather than on all isolates:
 
 ```bash
@@ -174,6 +200,9 @@ cp examples/generated/subset_species_campylobacter/samplesheet.csv  config/my_sa
 cp examples/generated/subset_species_campylobacter/metadata_dates.csv config/metadata_dates.csv
 cp examples/generated/subset_species_campylobacter/traits.csv        config/traits.csv
 bash run_all.sh config/my_samples.csv 08
+# tier 5 works the same way, for example with the saureus group:
+#   python examples/scripts/make_samplesheets.py 5
+#   python examples/scripts/subset_samplesheet.py 5 saureus
 ```
 
 ## Using your own isolates
@@ -197,6 +226,15 @@ collection-level run when building pangenomes and association tests.
 | *C. jejuni / C. coli* | PRJEB55463, PRJEB57556 |
 | *B. gladioli* | PRJNA475751, PRJNA720893 |
 | *C. botulinum* | PRJNA233459, PRJNA610151, PRJNA666195 |
+| *S. aureus* | PRJEB56111, PRJEB55240 |
+| *C. sakazakii* | PRJNA798519, PRJNA399551, PRJNA778615 |
+| *S. dysenteriae* | PRJNA937403, PRJNA1396916, PRJEB45383 |
+| *V. cholerae* | PRJEB55717, PRJEB65303, PRJEB69478 |
+| *B. anthracis* | PRJNA975971, PRJEB9705, PRJNA1086569 |
+| *B. cereus* | PRJEB81290, PRJNA539852, PRJEB86181 |
+| *B. mallei* | PRJNA733297, PRJNA789772, PRJNA214255 |
+| *M. tuberculosis* | PRJEB56100, PRJEB57919 |
+| *B. melitensis* | PRJNA347914, PRJNA1290416, PRJNA1070976 |
 
 Reference genomes and the PhiX control are listed with their RefSeq and GenBank
 accessions in [`examples/panel.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/panel.tsv).

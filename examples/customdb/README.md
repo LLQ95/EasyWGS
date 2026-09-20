@@ -2,11 +2,14 @@
 
 Module `06_typing/06.4.surface_toxin_loci.sh` screens assemblies with
 [abricate](https://github.com/tseemann/abricate) against a small curated
-database named `easywgs_markers`. It covers surface-antigen loci, toxin genes
-and virulence markers for pathogen groups that do not have a single maintained
-command-line serotyper: *Vibrio parahaemolyticus*, *Yersinia enterocolitica*,
-*Campylobacter jejuni/coli*, *Burkholderia gladioli* and *Clostridium
-botulinum*.
+database named `easywgs_markers`. It covers surface-antigen loci, toxin genes,
+virulence and resistance markers for pathogen groups that lack a single
+maintained command-line serotyper. The tier-4 groups are *Vibrio
+parahaemolyticus*, *Yersinia enterocolitica*, *Campylobacter jejuni/coli*,
+*Burkholderia gladioli* and *Clostridium botulinum*. The tier-5 groups are
+*Staphylococcus aureus*, *Cronobacter sakazakii*, *Shigella dysenteriae*,
+*Vibrio cholerae*, *Bacillus anthracis*, *Bacillus cereus*, *Burkholderia
+mallei*, *Mycobacterium tuberculosis* and *Brucella melitensis*.
 
 The marker sequences are not shipped in git and are not downloaded
 automatically. Surface-antigen and toxin alleles carry type-specific reference
@@ -58,3 +61,14 @@ guidebook page "Specialized pathogens". The bongkrekic-acid `bon` cluster is
 expected only in *B. gladioli* pv. *cocovenenans*; ordinary clinical
 *B. gladioli* isolates are usually negative, so an empty `bon` result on the
 demonstration isolates is the expected outcome rather than a pipeline failure.
+
+The same presence/absence limit applies to the tier-5 groups. The *S. aureus*
+`spa` repeat succession and SCCmec types need spaTyper and SCCmecFinder,
+*B. cereus* group panC and toxin typing needs BTyper3, and *M. tuberculosis*
+lineage and drug-resistance calls are obtained by mapping reads to H37Rv and
+running TB-Profiler or Mykrobe rather than from these generic markers. Classic
+virulent *B. anthracis* is interpreted from both pXO1 (`pagA/cya/lef/atxA`) and
+pXO2 (`capA/capB/capC`) markers, which also separates it from most *B. cereus*
+sensu lato. *M. tuberculosis* and *Brucella* have no classic seven-gene MLST
+scheme in the mlst database, so FastANI identity and the dedicated resources in
+the guidebook page "Specialized pathogens" are used instead.

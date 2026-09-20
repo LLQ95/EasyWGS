@@ -109,8 +109,8 @@ machine with a better connection and copy the directories into `DBROOT`.
 
 ### Custom toxin and surface-locus database (module 06.4)
 
-The five specialized pathogen groups use a small abricate database named `easywgs_markers`
-for surface-antigen, toxin and virulence loci. Its sequences are not downloaded
+The tier-4 and tier-5 specialized pathogen groups (14 groups) use a small abricate database named `easywgs_markers`
+for surface-antigen, toxin, virulence, resistance and plasmid loci. Its sequences are not downloaded
 automatically; build it once from the curated list in
 `examples/customdb/easywgs_markers.tsv`, which gives the gene symbols and authoritative
 sources. Concatenate the fetched sequences into one multi-FASTA whose headers start with
@@ -131,6 +131,13 @@ CheckM2 raise memory use, so 128 GB is preferable. Running NCBI FCS-GX locally r
 about 470 GB of reference data and, per the official recommendation, about 512 GB RAM.
 When this is not available, keep the CheckM2 and GUNC gates and run FCS-GX online on
 usegalaxy.org instead; this route is already anticipated by the workflow.
+
+A few pathogen-specific callers are optional and are not installed in the core
+environment: spaTyper and SCCmecFinder (with the open-source staphopia-sccmec as
+an alternative) for *S. aureus*, BTyper3 for the *B. cereus* group, and
+TB-Profiler, Mykrobe, fast-lineage-caller or MTBseq for *M. tuberculosis*.
+Install them only when working on those groups; module 06 records NA and the
+guidebook keeps the workflow runnable without them.
 
 ## 5. Verify the installation
 

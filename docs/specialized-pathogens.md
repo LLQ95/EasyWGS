@@ -2,21 +2,27 @@
 
 The first EasyWGS pathogen groups (Salmonella, Klebsiella pneumoniae,
 Escherichia/Shigella and Listeria monocytogenes) each have a maintained
-command-line serotyper. Several other common pathogens do not. For
+command-line serotyper. Many other common pathogens do not. For
 *Vibrio parahaemolyticus*, *Yersinia enterocolitica*, *Campylobacter jejuni*
-and *C. coli*, *Burkholderia gladioli* and *Clostridium botulinum*, serotype or
-toxin type is still reported from surface-polysaccharide loci, toxin genes and
-virulence markers rather than from a single unified caller. EasyWGS therefore
-combines three reproducible components for these groups: FastANI whole-genome
+and *C. coli*, *Burkholderia gladioli* and *Clostridium botulinum* (the tier-4
+groups), and for *Staphylococcus aureus*, *Cronobacter sakazakii*, *Shigella
+dysenteriae*, *Vibrio cholerae*, *Bacillus anthracis*, *Bacillus cereus*,
+*Burkholderia mallei*, *Mycobacterium tuberculosis* and *Brucella melitensis*
+(the tier-5 groups), serotype, lineage or toxin type is reported from
+surface-polysaccharide loci, toxin genes, virulence and resistance markers, or
+from a dedicated lineage caller, rather than from one unified serotyper.
+EasyWGS therefore combines three reproducible components for these groups:
+FastANI whole-genome
 identity confirmation (module 04.5), the seven-gene MLST sequence type from
 module 06.1, and a curated abricate screen of surface, toxin and virulence
 loci (module 06.4). The curated marker list with provenance is
 [`examples/customdb/easywgs_markers.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/customdb/easywgs_markers.tsv).
 
-Tier 4 of the demonstration panel adds three Illumina isolates from each of
-these five groups, taking the panel from 29 to 44 isolates across ten pathogen
-groups. All run accessions and reference genomes were verified against ENA and
-NCBI; the accession table is [`examples/panel.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/panel.tsv).
+Tier 4 adds three Illumina isolates from each of the five tier-4 groups and
+tier 5 adds three from each of the nine tier-5 groups, taking the panel from
+29 to 44 and then to 71 isolates across 19 pathogen groups. All run accessions
+and reference genomes were verified against ENA and NCBI; the accession table
+is [`examples/panel.tsv`](https://github.com/LLQ95/EasyWGS/blob/main/examples/panel.tsv).
 
 ## Species confirmation with FastANI (module 04.5)
 
@@ -147,11 +153,121 @@ reside on the chromosome or on a plasmid, module 07 already runs
 plasmid contigs; the marker result should be read together with that
 reconstruction.
 
+### Staphylococcus aureus
+
+The reference is N315 (GCF_000009645; taxid 1280), an MRSA strain, and `mlst`
+uses the *S. aureus* scheme. The thermostable nuclease gene `nuc` is the
+species-specific marker. Methicillin resistance is read from `mecA` and its
+`mecC` homologue, both carried on an SCCmec cassette; module 07 reports the
+gene, while the cassette and mec complex need SCCmecFinder or the open
+staphopia-sccmec alternative. Toxin markers cover the Panton-Valentine
+leukocidin (`lukS-PV` together with `lukF-PV`), toxic shock toxin `tst`, the
+exfoliative toxins `eta` and `etb`, and staphylococcal enterotoxin `sea`
+(extended with `seb/sec/see/seg` when needed). The `spa` type is defined by the
+Xr repeat succession, so a generic `spa` presence hit in module 06.4 does not
+assign a type; spaTyper performs the repeat-based call. spaTyper and
+SCCmecFinder are documented here rather than installed in the core environment.
+
+### Cronobacter sakazakii
+
+The reference is ATCC BAA-894 (GCF_000017665; taxid 28141). The `mlst` database
+provides a genus-level *Cronobacter* scheme that covers *C. sakazakii* and the
+other species in the genus. The outer-membrane protein `ompA`, the
+genus-specific zinc metalloprotease `zpx` and the Cronobacter plasminogen
+activator `cpa` are the standard identity and virulence markers in module
+06.4. There is no single maintained open-source serotyper; species-level
+assignment within the genus and O-antigen serogroup are best resolved by
+combining the genus MLST scheme, FastANI identity and the PubMLST Cronobacter
+O-antigen resources.
+
+### Shigella dysenteriae
+
+The reference is Sd197 (GCF_000012005), a serotype 1 strain. Shigella lies
+within *Escherichia coli*, so `mlst` uses the *E. coli* scheme and module 06.2
+routes these isolates through the E. coli branch, running ECTyper and
+ShigEiFinder. Module 06.4 adds the multicopy invasion-plasmid marker `ipaH`,
+the Shiga toxin gene `stxA` characteristic of serotype 1, the invasion
+regulator `virF` and the actin-spread factor `icsA` (`virG`). ShigEiFinder
+discriminates *S. dysenteriae* from the other Shigella species and EIEC. A
+positive `stxA` records genotype and does not by itself establish toxin
+production.
+
+### Vibrio cholerae
+
+The reference is the O1 El Tor strain N16961 (GCF_000006745; taxid 666), and
+`mlst` uses the *V. cholerae* scheme. The outer-membrane protein `ompW` is the
+species-specific marker. Cholera toxin genes `ctxA` and `ctxB`, the
+toxin-coregulated pilus `tcpA` with its biotype-specific alleles, the master
+regulator `toxR`, the El Tor hemolysin `hlyA` and the zonula occludens toxin
+`zot` are carried partly on the CTX prophage and its associated regions. The
+O1 Ogawa/Inaba determinant `wbeT` (`rfbT`) and the O139 `wbf` region are
+flagged as `surface_O`; assigning an O1 subtype or O139 needs type-specific
+locus references rather than one generic sequence, and no unified command-line
+caller exists. A `ctxA` genotype must be interpreted with the prophage and
+biotype context rather than read as proof of a toxigenic isolate.
+
+### Bacillus anthracis and the Bacillus cereus group
+
+The *B. anthracis* reference is Ames Ancestor (GCF_000008445; taxid 1392),
+which carries both virulence plasmids, and the *B. cereus* reference is ATCC
+14579 (GCF_000007825; taxid 1396). The `mlst` database uses a single *B.
+cereus* group scheme for both, with no separate *B. anthracis* scheme. Classic
+virulent *B. anthracis* is defined by the combination of the pXO1 toxin genes
+`pagA`, `cya` and `lef` with the regulator `atxA`, and the pXO2 capsule genes
+`capA`, `capB` and `capC`; requiring both plasmids separates it from most *B.
+cereus* sensu lato and from the plasmid-cured Ames strain. The *B. cereus*
+markers cover the non-haemolytic enterotoxin `nheA/nheC`, haemolysin BL
+`hblA`, cytotoxin `cytK`, the phosphatidylinositol phospholipase `piplc` and
+the cereulide peptide synthetase `cesA`, which is carried on the pCER270
+plasmid of emetic isolates. BTyper3 provides the panC phylogenetic group and
+virulence and secondary-metabolite calls as an optional external tool. The
+pXO1/pXO2 genotype is an in silico teaching result, not a select-agent
+determination.
+
+### Burkholderia mallei
+
+The reference is ATCC 23344 (GCF_000011705; taxid 13373). *B. mallei* is a
+clonal, host-adapted relative of *B. pseudomallei*, and the `mlst` database
+maps it to the *B. pseudomallei* scheme because no separate *B. mallei* scheme
+exists. Module 06.4 reports the actin-based motility factor `bimA` and the bsa
+type III secretion component `bsaU`. There is no single *B. mallei*-specific
+WGS marker; identity is established by FastANI against the reference together
+with the characteristic two-chromosome genome size and the *B. pseudomallei*
+ST. Separating *B. mallei* from *B. pseudomallei* and assigning isolates below
+the species level generally needs a curated SNP phylogeny rather than a
+presence screen.
+
+### Mycobacterium tuberculosis
+
+The reference is H37Rv (GCF_000195955.2; taxid 1773). The `mlst` database has
+no classic seven-gene scheme for the *M. tuberculosis* complex, so module 06.1
+records no ST and identity is confirmed by FastANI against H37Rv. The
+recommended route is the reference-mapping pipeline (module 12) against H37Rv
+followed by TB-Profiler or Mykrobe for lineage and drug-resistance calls;
+fast-lineage-caller and MTBseq are further command-line alternatives. The
+RD1 antigens `esxA` (ESAT-6) and `esxB` (CFP-10) in module 06.4 are auxiliary
+identity markers only. Resistance in this species is driven by SNPs and
+specific alleles, so a presence/absence gene screen is not sufficient and the
+SNP-aware callers should be used.
+
+### Brucella melitensis
+
+The reference is biovar 1 strain 16M (GCF_000250795), which has two
+chromosomes. The `mlst` database has no classic seven-gene scheme for
+*Brucella*, so identity is established with FastANI and the characteristic
+two-chromosome genome size rather than an ST. Module 06.4 reports the
+genus-specific 31-kDa protein `bcsp31`, the multicopy insertion sequence
+IS711 (IS6501) used in species and biovar PCR assays, the outer-membrane
+protein `omp2b`, the VirB type IV secretion component `virB5` and the smooth
+LPS O-antigen gene `wbkA`. Resolving *B. melitensis* biovars or separating the
+*Brucella* species is best done with published cgMLST or MLVA schemes and
+IS711 assays against curated references, not with a single generic marker.
+
 ## Running comparative modules on the panel
 
 Modules 08 (pangenome), 09 (core-SNP), 10 (TreeTime), 12 (reference mapping)
 and 13 (GWAS) assume one species with one shared reference. On the mixed
-44-isolate panel they must be run on a single-species subset rather than on all
+71-isolate panel they must be run on a single-species subset rather than on all
 isolates at once. The helper
 [`examples/scripts/subset_samplesheet.py`](https://github.com/LLQ95/EasyWGS/blob/main/examples/scripts/subset_samplesheet.py)
 filters the generated samplesheet, dates and traits for one tier by
@@ -185,3 +301,11 @@ with the phenotype, the plasmid or chromosome location and the relevant
 biosecurity rules. The demonstration isolates are public surveillance or
 clinical strains; they are not guaranteed toxin producers, and the workflow
 reports the genotype rather than asserting toxigenicity.
+
+Several tier-5 groups are high-consequence or select-agent pathogens, including
+*B. anthracis*, *B. mallei*, *Brucella*, *M. tuberculosis*, toxigenic *V.
+cholerae* and *S. dysenteriae* serotype 1. EasyWGS analyses public sequencing
+data in silico for teaching and surveillance bioinformatics only; it includes
+no wet-lab, culture or handling procedure, and a genotype is neither a risk
+classification nor an authorization determination. Any physical work with
+these organisms must follow national biosecurity and select-agent regulations.

@@ -100,8 +100,8 @@ checkm2 database --setdblocation "$PWD/CheckM2_database"
 
 ### 自定义毒素与表面位点数据库（模块 06.4）
 
-五类专化病原使用一个名为 `easywgs_markers` 的小型 abricate 数据库，覆盖表面抗原、
-毒素与毒力位点。其序列不自动下载，需依据 `examples/customdb/easywgs_markers.tsv`
+tier 4 与 tier 5 的 14 类专化病原使用一个名为 `easywgs_markers` 的小型 abricate 数据库，覆盖表面抗原、
+毒素、毒力、耐药与质粒位点。其序列不自动下载，需依据 `examples/customdb/easywgs_markers.tsv`
 中的 curated 清单（给出基因符号与权威来源）一次性构建：把获取到的序列拼接成一个
 多 FASTA 文件，文件头以 `marker_id` 开头，然后运行：
 
@@ -118,6 +118,11 @@ MARKER_FASTA=/path/to/easywgs_markers.fa bash 00_install/build_custom_db.sh
 内存占用上升，建议 128 GB。需要本地运行 NCBI FCS-GX 时要注意其参考库约 470 GB、
 官方建议 512 GB 内存；不具备条件时保留 CheckM2 与 GUNC 门控，把组装上传
 usegalaxy.org 在线运行 FCS-GX 即可，流程已预留这一路径。
+
+少数分病原专用的分型工具为可选项，不进入核心环境：金葡可用 spaTyper 与 SCCmecFinder
+（开源替代为 staphopia-sccmec），蜡样群可用 BTyper3，结核可用 TB-Profiler、Mykrobe、
+fast-lineage-caller 或 MTBseq。仅在处理相应病原时安装；模块 06 在缺少它们时记为 NA，
+指南保证流程在不安装这些工具时仍可运行。
 
 ## 5. 验证安装
 

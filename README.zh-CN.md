@@ -60,17 +60,19 @@ bash run_all.sh config/my_samples.csv 06          # 或从指定步骤恢复
 
 样本表 `platform` 取 illumina / nanopore / pacbio / hybrid，决定组装路线；`species` 取
 kpsc / ecoli / salm / listeria / vibrio / yersinia / campylobacter / burkholderia /
-clostridium / other，决定分型调度。最终组装统一为
+clostridium / saureus / cronobacter / cholerae / anthracis / cereus / mallei /
+mtuberculosis / brucella / other，决定分型调度。最终组装统一为
 `03_assembly/genomes/{id}.fasta`（已去除 200 nt 以下短片段），供后续所有模块读取。
 
 ## 多病原公共数据实战示例
 
 [`examples/`](examples/) 用真实、accession 已核实的公开分离株端到端跑通整个流程，覆盖
-十大类病原（沙门菌、肺克、大肠埃希菌、单增李斯特菌、志贺菌、副溶血性弧菌、小肠结肠炎
-耶尔森菌、空肠/结肠弯曲菌、唐菖蒲伯克霍尔德菌、肉毒梭菌），包含一个 12 株的沙门菌
-时间序列集合、5 株 Illumina/Nanopore 严格配对的 hybrid 样本，以及五类专化病原，并组织为
-10、20、29、44 四个嵌套 tier。tier 4 新增 FastANI 物种确认门控（模块 04.5）与自定义
-毒素/表面位点筛查（模块 06.4），比较类模块按单物种子集运行。读段按需从 ENA/NCBI 下载并下采样，普通服务器即可运行；预期结果检查器输出
+19 类病原（tier 1-4 的十类，加上金黄色葡萄球菌、阪崎克罗诺杆菌、痢疾志贺菌、霍乱弧菌、
+炭疽杆菌、蜡样芽胞杆菌、鼻疽伯克霍尔德菌、结核分枝杆菌、羊种布鲁菌），包含一个 12 株的沙门菌
+时间序列集合、5 株 Illumina/Nanopore 严格配对的 hybrid 样本，以及 14 类专化病原，并组织为
+10、20、29、44、71 五个嵌套 tier。tier 4 新增 FastANI 物种确认门控（模块 04.5）与自定义
+毒素/表面位点筛查（模块 06.4）；tier 5 把二者扩展到九类新病原，并为结核和蜡样群提供专门的谱系
+判定工具，比较类模块按单物种子集运行。读段按需从 ENA/NCBI 下载并下采样，普通服务器即可运行；预期结果检查器输出
 PASS/WARN/FAIL，受控的 PhiX 与近缘菌 spike-in 实验用于验证两层去污染。
 
 ```bash
@@ -95,6 +97,15 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 | 空弯/结弯 campylobacter | mlst(弯曲菌) | 06.4 cdt/cadF/flaA 与荚膜位点 | PubMLST jejuni-coli |
 | 唐菖蒲 burkholderia | 无；FastANI 确认 | 06.4 米酵菌酸 bon 与毒黄素 tox 簇 | PrepExternalSchema |
 | 肉毒 clostridium | mlst(肉毒梭菌) | 06.4 bont/ntnh；MOB-suite 判定位点 | PrepExternalSchema |
+| 金葡 saureus | mlst(金葡) | 06.4 nuc/mecA/PVL/tst；可选 spaTyper、SCCmecFinder | PubMLST 金葡 |
+| 阪崎克罗诺 cronobacter | mlst(克罗诺属) | 06.4 ompA/zpx/cpa；PubMLST O 抗原 | PrepExternalSchema |
+| 痢疾志贺 dysenteriae | mlst(大肠) | ECTyper+ShigEiFinder；06.4 ipaH/stxA/virF | EnteroBase 大肠/志贺 |
+| 霍乱 cholerae | mlst(霍乱弧菌) | 06.4 ompW/ctx/tcpA 与 O1/O139 位点 | PubMLST 弧菌 |
+| 炭疽 anthracis | mlst(蜡样群) | 06.4 pXO1 pag/cya/lef 与 pXO2 cap；可选 BTyper3 | PrepExternalSchema |
+| 蜡样 cereus | mlst(蜡样群) | 06.4 nhe/hbl/cytK/ces；可选 BTyper3 panC | PrepExternalSchema |
+| 鼻疽 mallei | mlst(类鼻疽群) | 06.4 bimA/bsa；物种区分靠 curated SNP 树 | PrepExternalSchema |
+| 结核 mtuberculosis | 无；FastANI 确认 | 比对 H37Rv 后 TB-Profiler/Mykrobe；06.4 esx 仅辅助 | 谱系判定工具 |
+| 羊种布鲁 brucella | 无；FastANI 确认 | 06.4 bcsp31/IS711/omp2b/wbkA；外部 cgMLST/MLVA | 布鲁菌 cgMLST |
 | other | mlst 自动识别 | 按需扩展 | PrepExternalSchema |
 
 ## WGS 工具清单
@@ -179,6 +190,10 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 | SeqSero2 | A | 读段或组装推沙门抗原公式 | [GitHub](https://github.com/denglab/SeqSero2) |
 | SISTR | A | 沙门血清变种，内含 cgMLST | [GitHub](https://github.com/phac-nml/sistr_cmd) |
 | chewBBACA | A | cgMLST 建库、等位调用与评估 | [GitHub](https://github.com/B-UMMI/chewBBACA) |
+| spaTyper / SCCmecFinder | A | 金葡 spa 重复型与 SCCmec 盒分型（可选） | [CGE 官网](https://www.genomicepidemiology.org/) |
+| BTyper3 | A | 蜡样群 panC 群与毒力分型（可选） | [GitHub](https://github.com/lmc297/BTyper3) |
+| TB-Profiler | A | 结核谱系与耐药判定（可选） | [GitHub](https://github.com/jodyphelan/TBProfiler) |
+| Mykrobe | A | 结核与金葡的快速 k-mer 耐药判定（可选） | [GitHub](https://github.com/Mykrobe-tools/mykrobe) |
 
 ### 耐药、毒力与可移动元件
 
