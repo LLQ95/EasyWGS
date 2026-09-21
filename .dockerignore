@@ -1,0 +1,34 @@
+# Keep the Docker build context small; data and generated files are mounted,
+# not copied into the image.
+.git
+.github
+site
+**/__pycache__/
+**/*.pyc
+00_rawdata/
+ref/
+results/
+examples/results/
+examples/generated/
+examples/spikein/work/
+examples/spikein/results/
+**/work/
+**/run/
+**/clean/
+**/trim/
+**/*.fastq
+**/*.fastq.gz
+**/*.fq
+**/*.fq.gz
+**/*.bam
+**/*.sam
+**/*.bcf
+**/*.vcf
+**/*.vcf.gz
+**/*.fasta
+**/*.fa
+**/*.fna
+**/*.db
+**/*.dmnd
+**/*.h3?
+install/locks/*.yml

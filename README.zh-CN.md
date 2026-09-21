@@ -10,6 +10,10 @@ SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、Eas
 
 完整图文教程：https://easywgs.readthedocs.io （英文为默认版本，可切换简体中文）。
 
+[![CI](https://github.com/LLQ95/EasyWGS/actions/workflows/ci.yml/badge.svg)](https://github.com/LLQ95/EasyWGS/actions/workflows/ci.yml)
+[![文档状态](https://readthedocs.org/projects/easywgs/badge/?version=latest)](https://easywgs.readthedocs.io/zh/latest/?badge=latest)
+[![容器镜像](https://github.com/LLQ95/EasyWGS/actions/workflows/container.yml/badge.svg)](https://github.com/LLQ95/EasyWGS/pkgs/container/easywgs)
+
 ![EasyWGS 端到端工作流程](figures/EasyWGS_workflow.png)
 
 上图展示质控与双层去污染之后的两条并行路线：组装路线（模块 03–09）与参考比对路线（模块 12），
@@ -63,6 +67,33 @@ kpsc / ecoli / salm / listeria / vibrio / yersinia / campylobacter / burkholderi
 clostridium / saureus / cronobacter / cholerae / anthracis / cereus / mallei /
 mtuberculosis / brucella / other，决定分型调度。最终组装统一为
 `03_assembly/genomes/{id}.fasta`（已去除 200 nt 以下短片段），供后续所有模块读取。
+
+## 可复现性、测试与容器
+
+每次推送与拉取请求都会运行持续集成（`.github/workflows/ci.yml`）。静态检查校验 shell/Python/R
+语法，强制脚本仅含 ASCII、默认页面为英文，核对工具百科表头、确认生成页面为最新，然后严格构建教程；
+功能冒烟测试在不下载数据库的情况下，用固定种子的小规模合成数据运行真实的 fastp、参考比对、变异检测
+与去污染模块。需要大型数据库的步骤（面板级 SPAdes 组装、CheckM2、GUNC、Bakta、eggNOG）改在真实
+公共面板上验证。
+
+```bash
+python tests/run_static_checks.py    # 静态检查，无需生物信息工具
+bash tests/run_smoke.sh              # 合成数据端到端功能测试
+SYNTHETIC=1 bash examples/02_run_spikein.sh   # 去污染 spike-in 及其门控
+```
+
+软件环境同时提供可移植清单（`install/environment.yml`）、逐机精确锁定（`00_install/export_locks.sh`）
+与容器镜像（在 Dockerfile 变更、每周及手动触发时构建）；数据库在运行时挂载，不内置进镜像。
+
+```bash
+docker build -t easywgs:latest -f Dockerfile .
+docker run --rm -it -v "$PWD":/EasyWGS -v "$HOME/easywgs_db":/opt/db:ro \
+  -w /EasyWGS -e DBROOT=/opt/db easywgs:latest bash
+```
+
+完整测试范围、Apptainer/Singularity 定义与真实面板的逐步集群运行，见指南页
+[可复现性与测试](https://easywgs.readthedocs.io/zh/latest/reproducibility/)与
+[集群运行清单](https://easywgs.readthedocs.io/zh/latest/cluster-checklist/)。
 
 ## 多病原公共数据实战示例
 
@@ -153,7 +184,7 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 | --- | --- | --- | --- |
 | SPAdes | S/混合 | 短读与混合 de Bruijn 组装器 | [GitHub](https://github.com/ablab/spades) |
 | Unicycler | S/混合 | 单菌组装器，bold 混合模式，利于成环 | [GitHub](https://github.com/rrwick/Unicycler) |
-| Flye | L | 长读组装器并标注环状 contig | [GitHub](https://github.com/mikolmogorov/Flye) |
+| Flye | L | 长读组装器并标注环状 contig | [GitHub](https://github.com/fenderglass/Flye) |
 | Canu | L | 保守型长读组装器 | [GitHub](https://github.com/marbl/canu) |
 | Dragonflye | L | 面向 Nanopore 的 SPAdes 式流水线 | [GitHub](https://github.com/rpetit3/dragonflye) |
 | Trycycler | L | 多组装一致，完成图金标准 | [GitHub](https://github.com/rrwick/Trycycler) |
@@ -317,7 +348,8 @@ longread conda 环境，避免依赖冲突。
 编号目录存放可执行脚本，其中 `run_assembly.sh` 与 `run_mapping.sh` 是两条并行主路线的
 驱动脚本（分别为 de novo 组装路线、参考 BAM/VCF 比对路线，后者再由模块 13 拓展微生物 GWAS），
 `11_visualization` 负责生成 R 静态图并打包 iTOL/Microreact/Phandango/GrapeTree 的上传文件；
-`docs/` 为中英双语 MkDocs Material 教程源，`.github/workflows/` 负责文档自动构建。本流程整合
+`docs/` 为中英双语 MkDocs Material 教程源，`.github/workflows/` 负责文档构建、运行静态与功能测试
+并发布容器镜像，`tests/` 存放确定性冒烟测试与静态检查脚本。本流程整合
 LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis 的实操经验，补入双层去污染门控、分物种
 血清型、完整三代打磨链、TreeTime 闭环、透明的参考比对与变异检测路线、带 post-GWAS 作图的微生物
 GWAS，以及统一的下游可视化层。

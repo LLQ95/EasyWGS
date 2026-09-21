@@ -2,6 +2,26 @@
 
 See the root CHANGELOG.md for the full history.
 
+## 0.7.0 (2026-09-21)
+
+This release makes the workflow testable and reproducible without a cluster or a
+database download. Continuous integration now runs two jobs on every push and pull
+request: static checks that validate shell, Python and R syntax, enforce English-only
+scripts and default pages, verify the tool-catalogue schema and confirm that generated
+pages are current, followed by a strict guidebook build; and a functional smoke test
+that runs the real fastp, reference-mapping, variant-calling and decontamination
+modules on a small, seeded synthetic dataset. The decontamination example gains a
+self-contained synthetic spike-in that uses the bwa/samtools engine when available and
+a built-in k-mer classifier otherwise, with expected-result rules that distinguish a
+step that has not run from a measured violation. The software stack is now described by
+a portable environment manifest, a minimal CI manifest, a script that exports exact
+per-machine locks, a Docker image in which databases are mounted rather than baked in,
+and an Apptainer/Singularity definition for HPC systems, with the image published to
+the GitHub Container Registry. A fixed-seed downsampling helper gives a fast real-data
+smoke run, and two bilingual guidebook pages document the test and container setup and
+the ordered cluster run on the public panel. The heavy database-backed steps remain
+validated on the real panel rather than in continuous integration.
+
 ## 0.6.0 (2026-09-20)
 
 Added a cross-domain extension assessment and a bilingual guidebook page,

@@ -6,12 +6,13 @@ residual contaminant fraction and target retention after read-level cleaning,
 and CheckM2 contamination/completeness of baseline, spiked-10% and cleaned-10%
 assemblies. Panels whose module has not run are marked rather than estimated.
 """
-import csv, os
+import csv, os, shutil
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RES = os.path.join(HERE, "results")
 MET = os.path.join(RES, "spikein_metrics.tsv")
 CONTAMS = ["phix", "klebsiella"]
@@ -102,6 +103,18 @@ def main():
         out = os.path.join(RES, f"Fig_spikein.{ext}")
         fig.savefig(out, dpi=300, bbox_inches="tight")
     print("wrote Fig_spikein.{png,pdf,svg} in", os.path.relpath(RES))
+
+    # Publish a version-controlled copy alongside the other manuscript figures
+    # only when real metrics exist, never the all-panels-empty placeholder.
+    if d:
+        for dest_dir in (os.path.join(ROOT, "figures"),
+                         os.path.join(ROOT, "docs", "assets")):
+            os.makedirs(dest_dir, exist_ok=True)
+            for ext in ("png", "pdf", "svg"):
+                src = os.path.join(RES, f"Fig_spikein.{ext}")
+                dst = os.path.join(dest_dir, f"EasyWGS_spikein.{ext}")
+                shutil.copyfile(src, dst)
+        print("copied EasyWGS_spikein.{png,pdf,svg} to figures/ and docs/assets/")
 
 if __name__ == "__main__":
     main()

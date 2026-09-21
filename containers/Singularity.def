@@ -1,0 +1,38 @@
+Bootstrap: docker
+From: ghcr.io/llq95/easywgs:latest
+
+# EasyWGS Apptainer / Singularity definition for HPC clusters where Docker is
+# unavailable. It wraps the same OCI image built from the repository Dockerfile.
+#
+# Build once (requires either a local Docker daemon or network access to GHCR):
+#   apptainer build easywgs.sif containers/Singularity.def
+#
+# To build from a locally built image instead, change "From:" above to
+#   From: easywgs:latest
+#
+# Run with the repository and databases bound in (Apptainer mounts $HOME and
+# the current directory by default; bind data and database paths explicitly):
+#   apptainer run --bind /db/student/metagenome:/opt/db:ro \
+#     --env DBROOT=/opt/db easywgs.sif bash
+#   apptainer exec --bind "$PWD":/EasyWGS easywgs.sif \
+#     bash /EasyWGS/tests/run_smoke.sh
+
+%labels
+    Maintainer EasyWGS contributors
+    Title EasyWGS
+    Description Reproducible whole-genome sequencing workflow for bacterial isolates
+    Version latest
+
+%environment
+    export EASYWGS_ENV=easywgs
+    export DBROOT=/opt/db
+    export PATH=/opt/conda/envs/easywgs/bin:$PATH
+
+%runscript
+    exec bash "$@"
+
+%help
+    EasyWGS Apptainer image. Mount the repository with --bind and the reference
+    databases (CheckM2, GUNC, Bakta, eggNOG) read-only under /opt/db, then set
+    DBROOT (and CHECKM2_DB / GUNC_DB / BAKTA_DB / EGGNOG_DB if they sit in
+    separate locations). See docs/cluster-checklist.md for the full HPC workflow.

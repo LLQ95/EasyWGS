@@ -2,6 +2,62 @@
 
 This project follows semantic versioning; dates use ISO format.
 
+## [0.7.0] - 2026-09-21
+
+### Added
+
+- Continuous integration in `.github/workflows/ci.yml` with two jobs on every
+  push and pull request: repository static checks plus a strict MkDocs build,
+  and a functional smoke test that creates `install/environment.ci.yml` with
+  micromamba and runs the real fastp, reference-mapping, variant-calling and
+  decontamination modules on deterministic synthetic data.
+- `tests/run_static_checks.py` (shell `bash -n`, Python compile, R parse,
+  ASCII-only scripts and English-only default pages, tool-catalog schema and
+  generated-page idempotence) and `tests/run_smoke.sh`, driven by the seeded
+  generator `tests/make_toy_data.py` (a 120 kb reference, a clean isolate and a
+  48-SNP mutant at about 35-fold coverage) with explicit breadth, depth,
+  mapped-fraction and SNP-recovery gates.
+- A self-contained synthetic decontamination spike-in
+  (`examples/spikein/synthetic_fixture.py`, `spikein_run.py --synthetic`) with
+  two interchangeable backends, bwa/samtools when present and a dependency-free
+  k-mer classifier otherwise; `examples/expected/expected_spikein.tsv` rules
+  S1 to S5 and `check_expected.py --mode panel|spikein|all`, where a missing
+  metric is WARN and a violated threshold is FAIL. The spike-in figure is now
+  published to `figures/` and `docs/assets/` whenever metrics exist.
+- Portable environment manifest `install/environment.yml`, the minimal
+  `install/environment.ci.yml`, `00_install/export_locks.sh` for exact
+  per-machine locks under `install/locks/`, a `Dockerfile` and
+  `.dockerignore` for the main environment with databases mounted at run time,
+  and `containers/Singularity.def` for Apptainer/Singularity on HPC systems.
+- `.github/workflows/container.yml`, which builds and publishes the image to
+  the GitHub Container Registry on Dockerfile/environment changes, weekly and
+  on manual dispatch, without blocking pull requests.
+- `examples/scripts/downsample_panel.sh`, which builds a reproducible fixed-seed
+  mini panel for a fast real-data assembly smoke run, and two bilingual
+  guidebook pages, `reproducibility.md` and `cluster-checklist.md`, covering the
+  test scope, containers, environment locks and the ordered real-panel run.
+- CI, documentation and container badges and a reproducibility/tests/containers
+  section in the English and Chinese README.
+
+### Changed
+
+- The root `CONTRIBUTING.md` is now a short English pointer to the bilingual
+  contributor pages in the guidebook.
+- The README Flye link now points at the current `fenderglass/Flye` repository.
+
+### Removed
+
+- The one-off `PUBLISH.md` release checklist, which was only needed to create the
+  repository and Read the Docs project.
+
+### Notes
+
+- Continuous integration deliberately excludes SPAdes/Unicycler panel assembly,
+  CheckM2, GUNC, Bakta, eggNOG-mapper and FCS-GX because they need multi-gigabyte
+  databases or long run times; they are validated on the real public panel under
+  `docs/cluster-checklist.md`. The synthetic spike-in covers the read layer only,
+  and assembly-level contamination panels come from the cluster-run spike-in.
+
 ## [0.6.0] - 2026-09-20
 
 ### Added

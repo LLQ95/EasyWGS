@@ -1,24 +1,46 @@
 # Contributing to EasyWGS
 
-感谢参与。本仓库由可执行脚本（编号目录）与 guidebook（docs/）两部分组成。
+Thanks for your interest in improving EasyWGS. The repository has two parts that
+should stay in sync: the executable, numbered-directory scripts and the MkDocs
+guidebook under `docs/`.
 
-## 提交规范
+The full contributor guide, including the coding conventions and the steps for
+adding a new tool or a new pathogen profile, is maintained in the guidebook:
 
-- 一个 PR 只解决一个问题，标题写清模块号，例如 `06: add Klebsiella oxytoca preset`。
-- 所有脚本须能在 Linux / WSL2 / HPC 的 bash 下运行，顶部保持与现有脚本一致的
-  `set -euo pipefail` 与 `PROJECT` 定位逻辑，不硬编码个人路径。
-- 新增外部工具时，同步更新三处：对应编号脚本、`00_install/install_env.sh`、
-  `docs/toolmap.md` 的工具对照行。
-- 不改动工具产生的数值结果口径；参数变更需在脚本注释与 `CHANGELOG.md` 写明理由。
+- English: <https://easywgs.readthedocs.io/en/latest/contributing/>
+- Chinese: <https://easywgs.readthedocs.io/zh/latest/contributing/>
 
-## 本地预览文档
+The source files are `docs/contributing.md` (English, default) and
+`docs/contributing.zh.md` (Chinese).
+
+## Short checklist
+
+- Keep one pull request focused on one problem and name the affected module in
+  the title, for example `06: add Klebsiella oxytoca preset`.
+- Scripts must run under bash on Linux, WSL2 or an HPC cluster. Keep the
+  `set -euo pipefail` header and the `PROJECT` resolution used by the existing
+  scripts, and do not hard-code personal paths.
+- Scripts are English-only (ASCII). User-facing prose for the guidebook is added
+  in English first, with a Chinese counterpart in a `.zh.md` page.
+- When adding an external tool, update the numbered script,
+  `00_install/install_env.sh` (or the matching environment file), and
+  `reference/tool_catalog.tsv`, then rerun
+  `python reference/render_alternative_tools.py`.
+- Do not change the numerical output conventions of a tool. When a parameter
+  changes, record the reason in the script comments and in `CHANGELOG.md`.
+- Before opening a pull request, run `python tests/run_static_checks.py` and,
+  where the lightweight bioinformatics tools are installed,
+  `bash tests/run_smoke.sh`. Continuous integration runs both.
+
+## Preview the guidebook locally
 
 ```bash
 pip install -r requirements-doc.txt
-mkdocs serve        # 浏览器打开 http://127.0.0.1:8000
+mkdocs serve        # then open http://127.0.0.1:8000
 ```
 
-## 报告问题
+## Reporting an issue
 
-提 issue 时请附上：平台（illumina/nanopore/pacbio/hybrid）、报错命令、完整日志、
-对应软件版本（`tool --version`）。
+Please include the platform (illumina, nanopore, pacbio or hybrid), the exact
+command that failed, the full log, and the tool versions reported by
+`tool --version`.

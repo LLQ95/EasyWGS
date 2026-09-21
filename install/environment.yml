@@ -1,0 +1,90 @@
+# Main EasyWGS conda environment ("easywgs").
+#
+# This is the portable, unpinned manifest used by the Docker image and by fresh
+# installs. It mirrors the package list of 00_install/install_env.sh. Exact,
+# reproducible builds are captured per Linux machine with
+# 00_install/export_locks.sh into install/locks/ (commit those files).
+#
+# Create with either:
+#   conda env create -f install/environment.yml
+#   micromamba create -y -f install/environment.yml
+#
+# Heavy database-backed tools live in dedicated environments created by
+# install_env.sh (checkm2, gunc, bakta, eggnog) and a long-read polishing
+# environment (longread); their databases are mounted at run time, not baked in.
+name: easywgs
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - pip
+  # read QC
+  - fastp
+  - fastqc
+  - multiqc
+  - seqkit
+  # long-read QC and assembly (medaka/trycycler stay in the longread env)
+  - porechop
+  - chopper
+  - nanoplot
+  - filtlong
+  - spades
+  - unicycler
+  - flye
+  - canu
+  - dragonflye
+  - racon
+  - circlator
+  - assembly-stats
+  # assembly QC, species confirmation and reference mapping
+  - quast
+  - mash
+  - mummer
+  - fastani
+  - minimap2
+  - bowtie2
+  - bwa
+  - samtools
+  - bcftools
+  - tabix
+  - htslib
+  - qualimap
+  - vcf2phylip
+  # annotation, pangenome, alignment and phylogeny
+  - prokka
+  - prodigal
+  - panaroo
+  - roary
+  - mafft
+  - iqtree
+  - fasttree
+  - snp-sites
+  - snp-dists
+  - snippy
+  - gubbins
+  - treetime
+  # typing, AMR / virulence / MGE and species-specific serotyping
+  - mlst
+  - abricate
+  - ncbi-amrfinderplus
+  - rgi
+  - mob-suite
+  - genomad
+  - kleborate
+  - ectyper
+  - shigeifinder
+  - seqsero2
+  - sistr
+  - chewbbaca
+  # microbial GWAS and post-GWAS
+  - scoary
+  - plink
+  - pyseer
+  # reporting, figures and the synthetic spike-in example
+  - grapetree
+  - csvtk
+  - r-base
+  - nextflow
+  - art
+  - matplotlib

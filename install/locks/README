@@ -1,0 +1,5 @@
+# Exact conda lock files are generated on a Linux/x86_64 machine with:
+#   bash 00_install/export_locks.sh
+# then committed here as <env>.linux-64.yml. This directory is intentionally
+# empty in the repository because locks are operating-system and architecture
+# specific; the portable manifests live in install/environment*.yml.

@@ -219,7 +219,25 @@ def phix_reads(n):
                     shutil.copyfileobj(fi, fo)
     return base + "1.fq.gz", base + "2.fq.gz"
 
+def write_metrics(rows):
+    out = os.path.join(RES, "spikein_metrics.tsv")
+    with open(out, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["contaminant", "spike_pct", "condition",
+                                          "metric", "value"], delimiter="\t")
+        w.writeheader(); w.writerows(rows)
+    log("wrote " + os.path.relpath(out, ROOT))
+
 def main():
+    # Self-contained mode: no downloaded reads, SPAdes or CheckM2/GUNC database.
+    # Uses seeded synthetic genomes and the bwa engine when present, otherwise a
+    # built-in k-mer classifier, so the read-layer logic is testable anywhere.
+    if "--synthetic" in sys.argv or os.environ.get("EASYWGS_SYNTHETIC") == "1":
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from synthetic_fixture import run_synthetic
+        os.makedirs(RES, exist_ok=True)
+        write_metrics(run_synthetic(int(os.environ.get("THREADS", "2"))))
+        return
+
     for d in (WORK, RES, REFS): os.makedirs(d, exist_ok=True)
     global T1, T2, TARGET_REF
     T1 = os.path.join(ROOT, "01_qc", "clean", f"{TARGET_ID}_R1.fq.gz")
@@ -260,12 +278,7 @@ def main():
     else:
         log(f"neighbour {NEIGHBOUR_ID} cleaned reads missing; skipping klebsiella layer")
 
-    out = os.path.join(RES, "spikein_metrics.tsv")
-    with open(out, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["contaminant", "spike_pct", "condition",
-                                          "metric", "value"], delimiter="\t")
-        w.writeheader(); w.writerows(ROWS)
-    log("wrote " + os.path.relpath(out, ROOT))
+    write_metrics(ROWS)
 
 if __name__ == "__main__":
     main()

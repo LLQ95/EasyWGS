@@ -14,6 +14,10 @@ run the stages in order.
 Full documentation: https://easywgs.readthedocs.io (English by default, switchable to
 Simplified Chinese).
 
+[![CI](https://github.com/LLQ95/EasyWGS/actions/workflows/ci.yml/badge.svg)](https://github.com/LLQ95/EasyWGS/actions/workflows/ci.yml)
+[![Documentation Status](https://readthedocs.org/projects/easywgs/badge/?version=latest)](https://easywgs.readthedocs.io/en/latest/?badge=latest)
+[![Container image](https://github.com/LLQ95/EasyWGS/actions/workflows/container.yml/badge.svg)](https://github.com/LLQ95/EasyWGS/pkgs/container/easywgs)
+
 ![EasyWGS end-to-end workflow](figures/EasyWGS_workflow.png)
 
 The workflow above runs two parallel routes after QC and two-layer
@@ -73,6 +77,36 @@ campylobacter / burkholderia / clostridium / saureus / cronobacter / cholerae /
 anthracis / cereus / mallei / mtuberculosis / brucella / other and selects the
 typing schedule. Final assemblies are standardized to `03_assembly/genomes/{id}.fasta`
 (fragments shorter than 200 nt removed), which every later module consumes.
+
+## Reproducibility, tests and containers
+
+Every push and pull request runs continuous integration (`.github/workflows/ci.yml`).
+Static checks validate shell/Python/R syntax, enforce ASCII-only scripts and English-only
+default pages, check the tool catalog and confirm the generated pages are current, then
+build the guidebook in strict mode. A functional smoke test runs the real fastp, mapping,
+variant-calling and decontamination modules on a small, seeded synthetic dataset with no
+downloaded databases. The heavy database-backed steps (SPAdes panel runs, CheckM2, GUNC,
+Bakta, eggNOG) are validated on the real public panel instead.
+
+```bash
+python tests/run_static_checks.py    # static checks, no bioinformatics tools needed
+bash tests/run_smoke.sh              # end-to-end functional test on synthetic data
+SYNTHETIC=1 bash examples/02_run_spikein.sh   # decontamination spike-in and its gates
+```
+
+The software environment is provided as a portable manifest (`install/environment.yml`),
+exact per-machine locks (`00_install/export_locks.sh`), and a container image that is built
+weekly and on Dockerfile changes. Databases are mounted at run time rather than baked in.
+
+```bash
+docker build -t easywgs:latest -f Dockerfile .
+docker run --rm -it -v "$PWD":/EasyWGS -v "$HOME/easywgs_db":/opt/db:ro \
+  -w /EasyWGS -e DBROOT=/opt/db easywgs:latest bash
+```
+
+See the guidebook pages [Reproducibility and tests](https://easywgs.readthedocs.io/en/latest/reproducibility/)
+and [Cluster checklist](https://easywgs.readthedocs.io/en/latest/cluster-checklist/) for the
+full test scope, the Apptainer/Singularity definition and the step-by-step real-panel run.
 
 ## Worked example on a multi-pathogen public panel
 
@@ -175,7 +209,7 @@ safety assessment (catalogue stages 26 to 31).
 | --- | --- | --- | --- |
 | SPAdes | S/Hybrid | short-read and hybrid de Bruijn assembler | [GitHub](https://github.com/ablab/spades) |
 | Unicycler | S/Hybrid | isolate assembler, bold hybrid mode, circularization-friendly | [GitHub](https://github.com/rrwick/Unicycler) |
-| Flye | L | long-read assembler with circular contig flags | [GitHub](https://github.com/mikolmogorov/Flye) |
+| Flye | L | long-read assembler with circular contig flags | [GitHub](https://github.com/fenderglass/Flye) |
 | Canu | L | conservative long-read assembler | [GitHub](https://github.com/marbl/canu) |
 | Dragonflye | L | SPAdes-style pipeline for Nanopore reads | [GitHub](https://github.com/rpetit3/dragonflye) |
 | Trycycler | L | multi-assembly consensus for finished-grade genomes | [GitHub](https://github.com/rrwick/Trycycler) |
@@ -347,7 +381,9 @@ are the two parallel route drivers (de novo assembly and reference BAM/VCF mappi
 the latter extended by module 13 microbial GWAS); module `11_visualization` renders
 the static R figures and assembles the iTOL/Microreact/Phandango/GrapeTree upload
 bundles; `docs/` holds the bilingual MkDocs Material guidebook;
-`.github/workflows/` builds the documentation. The workflow consolidates hands-on
+`.github/workflows/` builds the documentation, runs the static and functional tests, and
+publishes the container image; `tests/` holds the deterministic smoke test and static
+checks. The workflow consolidates hands-on
 practice from LLQ95/Practical-Encyclopedia-of-Whole-Genome-Analysis and adds a
 two-layer decontamination gate, pathogen-specific serotyping, a complete long-read
 polishing chain, a closed TreeTime loop, a transparent reference mapping/variant

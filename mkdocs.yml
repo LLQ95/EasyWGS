@@ -48,7 +48,9 @@ plugins:
             "Workflow overview (Figure 1)": 流程总览图
             Installation: 安装
             Quick start: 快速开始
+            Reproducibility and tests: 可复现性与测试
             "Worked example (public panel)": 实战示例(公共数据面板)
+            "Cluster checklist (real panel)": 集群运行清单(真实面板)
             Inputs and samplesheet: 输入与样本表
             Workflows: 分析流程
             Short-read (Illumina): 二代 Illumina 流程
@@ -77,7 +79,9 @@ nav:
   - "Workflow overview (Figure 1)": workflow-figure.md
   - Installation: installation.md
   - Quick start: quickstart.md
+  - Reproducibility and tests: reproducibility.md
   - "Worked example (public panel)": example-walkthrough.md
+  - Cluster checklist (real panel): cluster-checklist.md
   - Inputs and samplesheet: samplesheet.md
   - Workflows:
       - Two parallel strategies: pipelines-strategies.md

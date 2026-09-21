@@ -1,0 +1,23 @@
+# Expected-result rules for the controlled decontamination spike-in.
+# Source TSV: examples/spikein/results/spikein_metrics.tsv (long format).
+# mode       : any (synthetic and real-panel runs) or synthetic (fixture only)
+# contaminant: phix, klebsiella, all (both), or none (the unspiked baseline row)
+# spike_pct  : 0.01 / 0.05 / 0.10, or all, or 0 for the baseline
+# metric     : derived below from target_pairs / contaminant_pairs counts
+#                spiked_contam_fraction  = C_spiked / (T_spiked + C_spiked)
+#                cleaned_contam_fraction = C_cleaned / (T_cleaned + C_cleaned)
+#                target_retention        = T_cleaned / T_spiked
+#                baseline_target_pairs   = target_pairs at contaminant=none
+# operator   : exists | >= | <= | ==
+# Missing values are WARN (step not run yet); only real violations are FAIL.
+# Thresholds are deliberately loose so they hold for both the seeded fixture
+# and the real EC/KP panel, which carries genuine sequencing error and a small
+# amount of cross-mapping in conserved regions.
+check_id	mode	contaminant	spike_pct	metric	operator	threshold	note
+S1a	any	all	0.01	spiked_contam_fraction	>=	0.007	1% spike must be detectable before cleaning
+S1b	any	all	0.05	spiked_contam_fraction	>=	0.035	5% spike must be detectable before cleaning
+S1c	any	all	0.10	spiked_contam_fraction	>=	0.070	10% spike must be detectable before cleaning
+S2	any	all	all	cleaned_contam_fraction	<=	0.02	residual contaminant after map-and-filter removal
+S3	any	all	all	target_retention	>=	0.90	at least 90% of target read pairs retained
+S4	any	none	0	baseline_target_pairs	exists	-	baseline target read count must be present
+S5	synthetic	none	0	baseline_target_pairs	==	12000	seeded fixture uses 12000 target pairs

@@ -1,0 +1,29 @@
+# Minimal EasyWGS environment for continuous integration and the smoke test.
+#
+# It contains only the lightweight tools exercised by tests/run_smoke.sh on the
+# deterministic synthetic dataset: read QC, the reference-mapping/variant route,
+# and the bwa backend of the decontamination spike-in. Assembly, CheckM2, GUNC,
+# Bakta, eggNOG and FCS-GX are not installed here; they are mature third-party
+# tools that need large databases and are validated on the real cluster panel
+# (see docs/cluster-checklist.md).
+#
+# Create with:
+#   micromamba create -y -f install/environment.ci.yml -n easywgs-ci
+name: easywgs-ci
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - pip
+  - fastp
+  - fastqc
+  - multiqc
+  - seqkit
+  - bwa
+  - minimap2
+  - samtools
+  - bcftools
+  - tabix
+  - htslib
+  - matplotlib
