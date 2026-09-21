@@ -11,7 +11,7 @@ SNP 系统发育与 TreeTime 时间树。组织方式参考 EasyMicrobiome、Eas
 完整图文教程：https://easywgs.readthedocs.io （英文为默认版本，可切换简体中文）。
 
 [![CI](https://github.com/LLQ95/EasyWGS/actions/workflows/ci.yml/badge.svg)](https://github.com/LLQ95/EasyWGS/actions/workflows/ci.yml)
-[![文档状态](https://readthedocs.org/projects/easywgs/badge/?version=latest)](https://easywgs.readthedocs.io/zh/latest/?badge=latest)
+[![文档状态](https://readthedocs.org/projects/easywgs/badge/?version=latest)](https://easywgs.readthedocs.io/en/latest/zh/?badge=latest)
 [![容器镜像](https://github.com/LLQ95/EasyWGS/actions/workflows/container.yml/badge.svg)](https://github.com/LLQ95/EasyWGS/pkgs/container/easywgs)
 
 ![EasyWGS 端到端工作流程](figures/EasyWGS_workflow.png)
@@ -92,8 +92,8 @@ docker run --rm -it -v "$PWD":/EasyWGS -v "$HOME/easywgs_db":/opt/db:ro \
 ```
 
 完整测试范围、Apptainer/Singularity 定义与真实面板的逐步集群运行，见指南页
-[可复现性与测试](https://easywgs.readthedocs.io/zh/latest/reproducibility/)与
-[集群运行清单](https://easywgs.readthedocs.io/zh/latest/cluster-checklist/)。
+[可复现性与测试](https://easywgs.readthedocs.io/en/latest/zh/reproducibility/)与
+[集群运行清单](https://easywgs.readthedocs.io/en/latest/zh/cluster-checklist/)。
 
 ## 多病原公共数据实战示例
 
@@ -143,8 +143,8 @@ bash examples/02_run_spikein.sh                             # 去污染验证（
 
 平台列：S 以二代短读为主，L 以三代长读为主，A 对二者或组装结果通用。每条链接均已对照上游
 仓库或官方网站核验，按分析阶段分类，即本流程使用或推荐的工具。各工具当前上游版本与核验
-日期见 guidebook 的[软件版本](https://easywgs.readthedocs.io/zh/latest/versions/)页。
-除下列默认工具外，[工具百科](https://easywgs.readthedocs.io/zh/latest/alternative-tools/)按阶段补充仍在活跃维护的
+日期见 guidebook 的[软件版本](https://easywgs.readthedocs.io/en/latest/zh/versions/)页。
+除下列默认工具外，[工具百科](https://easywgs.readthedocs.io/en/latest/zh/alternative-tools/)按阶段补充仍在活跃维护的
 备选工具，以及出现较早、如今多有继任者但仍可运行的经典旧代工具，并标注被谁替代
 （如 Trimmomatic→fastp、CheckM→CheckM2、Prokka→Bakta、Roary→Panaroo、SEER→pyseer）；
 机读主数据表为 `reference/tool_catalog.tsv`。指南还在

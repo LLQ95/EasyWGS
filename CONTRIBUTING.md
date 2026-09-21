@@ -8,7 +8,7 @@ The full contributor guide, including the coding conventions and the steps for
 adding a new tool or a new pathogen profile, is maintained in the guidebook:
 
 - English: <https://easywgs.readthedocs.io/en/latest/contributing/>
-- Chinese: <https://easywgs.readthedocs.io/zh/latest/contributing/>
+- Chinese: <https://easywgs.readthedocs.io/en/latest/zh/contributing/>
 
 The source files are `docs/contributing.md` (English, default) and
 `docs/contributing.zh.md` (Chinese).
